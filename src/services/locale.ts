@@ -3,7 +3,7 @@
 import {cookies} from 'next/headers';
 
 const COOKIE_NAME = 'NEXT_LOCALE';
-const DEFAULT_LOCALE = 'en';
+const DEFAULT_LOCALE = 'zh';
 
 export async function getUserLocale() {
   const cookieStore = await cookies();
