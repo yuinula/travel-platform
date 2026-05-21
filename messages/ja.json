@@ -1,0 +1,176 @@
+{
+  "Navbar": {
+    "title": "道連れ",
+    "explore": "探索する",
+    "aiPlanner": "AIプランナー",
+    "login": "ログイン",
+    "signup": "始める",
+    "becomeGuide": "ガイドになる",
+    "dashboard": "ダッシュボード",
+    "profile": "プロフィール",
+    "logout": "ログアウト"
+  },
+  "AIPlanner": {
+    "badge": "AI旅行マッチング",
+    "title": "あなたの旅行について教えてください",
+    "description": "AIを使用して、あなたの特定のニーズにぴったりのガイドを見つけます。",
+    "continue": "次へ",
+    "previous": "前へ",
+    "questionCount": "質問 {current} / {total}",
+    "finding": "最適なガイドを探しています...",
+    "analyzing": "{destination}旅行のために {count} 個の好みを分析しています。",
+    "scanning": "500人以上の現地エキスパートをスキャン中",
+    "filtering": "アクセシビリティのニーズでフィルタリング中",
+    "matching": "旅程スタイルをマッチング中",
+    "questions": {
+      "destination": {
+        "text": "どこへ行きたいですか？",
+        "placeholder": "例：京都、台北、パリ..."
+      },
+      "pax": {
+        "text": "何名で参加されますか？",
+        "options": ["1-2名", "3-5名", "6-10名", "10名以上（多世代）"]
+      },
+      "needs": {
+        "text": "特別な配慮が必要な事項はありますか？",
+        "options": ["ベビーカー対応", "車椅子対応", "シニアペース", "子供向けアクティビティ", "特になし"],
+        "limitHint": "最大3つまで選択可能"
+      },
+      "interests": {
+        "text": "グループの主な興味は何ですか？",
+        "options": ["ローカルフード", "歴史と文化", "自然と公園", "ショッピング", "穴場スポット"],
+        "limitHint": "最大2つまで選択可能"
+      },
+      "pace": {
+        "text": "お好みのペースを教えてください",
+        "options": ["ゆったり・リラックス", "バランス", "アクティブ・充実"]
+      }
+    }
+  },
+  "Explore": {
+    "title": "ガイドを探す",
+    "description": "あなたの次の旅のために、厳選された専門ガイドをご覧ください。",
+    "searchPlaceholder": "名前や場所で検索...",
+    "reviews": "件のレビュー",
+    "hourlyRate": "時間",
+    "viewProfile": "プロフィールを見る",
+    "noGuides": "検索条件に一致するガイドが見つかりませんでした。"
+  },
+  "GuideDetail": {
+    "back": "探索に戻る",
+    "about": "自己紹介",
+    "expertise": "専門知識とサービス",
+    "languages": "対応言語",
+    "serviceAreas": "対応エリア",
+    "bookTitle": "このガイドを予約する",
+    "hourlyRate": "時給",
+    "contact": "問い合わせ・相談",
+    "contactHint": "相談は無料です。旅程に同意するまで支払いは発生しません。",
+    "availability": "今後3ヶ月間予約可能",
+    "currentlyAvailable": "現在予約可能",
+    "notFound": "ガイドが見つかりませんでした"
+  },
+  "Messages": {
+    "sidebarTitle": "メッセージ",
+    "statusOnline": "オンライン",
+    "sendQuote": "見積りを送る",
+    "inputPlaceholder": "メッセージを入力...",
+    "quoteTitle": "カスタム旅行見積り",
+    "totalPrice": "合計金額",
+    "depositDue": "お支払いデポジット",
+    "acceptButton": "承諾してデポジットを支払う",
+    "tripStatus": {
+      "Draft": "下書き",
+      "Negotiation": "交渉中",
+      "Booked": "予約済み"
+    }
+  },
+  "Auth": {
+    "login": {
+      "travelerTitle": "旅行者ログイン",
+      "travelerDesc": "ログインして次の冒険を始めましょう",
+      "guideTitle": "ガイドパートナーログイン",
+      "guideDesc": "専属プランを管理し、究極の旅行体験を創造しましょう。",
+      "googleButton": "Googleでログイン",
+      "emailSeparator": "またはメールアドレスで続行",
+      "emailLabel": "メールアドレス",
+      "passwordLabel": "パスワード",
+      "submitButton": "ログイン",
+      "loggingIn": "ログイン中...",
+      "noAccount": "アカウントをお持ちでないですか？",
+      "signupLink": "新規登録",
+      "guideEntry": {
+        "title": "ガイドですか？",
+        "desc": "ガイドポータルにログイン"
+      },
+      "backToTraveler": "旅行者ログインに戻る"
+    },
+    "signup": {
+      "title": "アカウント作成",
+      "travelerDesc": "完璧な旅行の計画を始めましょう",
+      "guideDesc": "ガイドパートナーとして参加する",
+      "registerAs": "登録種別",
+      "traveler": "旅行者",
+      "guide": "ガイド",
+      "googleButton": "Googleで続行",
+      "emailSeparator": "またはメールアドレスで続行",
+      "nameLabel": "氏名",
+      "emailLabel": "メールアドレス",
+      "passwordLabel": "パスワード",
+      "submitButton": "登録する",
+      "creating": "アカウント作成中...",
+      "hasAccount": "既にアカウントをお持ちですか？",
+      "loginLink": "ログイン"
+    }
+  },
+  "Footer": {
+    "description": "オーダーメイドの洗練された旅のための専門マッチングプラットフォーム。専門ガイド、安全なエスクロー、そして忘れられない思い出を。",
+    "about": "私たちについて",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー",
+    "contact": "お問い合わせ",
+    "sitemap": "サイトマップ",
+    "explore": "ガイドを探す",
+    "aiPlanner": "AIプランナー",
+    "becomeGuide": "ガイドになる",
+    "support": "サポート",
+    "legal": "利用規約とポリシー",
+    "copyright": "© 2026 {title}. All rights reserved."
+  },
+  "Profile": {
+    "title": "プロフィール設定",
+    "description": "アカウント情報と連絡先を管理します",
+    "avatarLabel": "アバター",
+    "uploadButton": "写真を変更する",
+    "nameLabel": "表示名",
+    "emailLabel": "メールアドレス",
+    "phoneLabel": "電話番号",
+    "phoneVerified": "認証済み",
+    "phoneUnverified": "未認証",
+    "verifyButton": "認証する",
+    "saveButton": "変更を保存",
+    "saving": "保存中...",
+    "otpTitle": "電話番号の認証",
+    "otpDescription": "{phone} に送信された6桁のコードを入力してください",
+    "otpPlaceholder": "000000",
+    "otpVerify": "確認",
+    "otpCancel": "キャンセル",
+    "otpError": "コードが正しくないか、期限切れです",
+    "successMessage": "プロフィールを更新しました",
+    "errorMessage": "更新に失敗しました"
+  },
+  "Home": {
+    "badge": "AI 智能旅行マッチング",
+    "title": "ディープなカスタム旅行を、",
+    "subtitle": "最高の精度でマッチング。",
+    "description": "オーダーメイドの洗練された旅を求める家族や友人のためのプラットフォーム。厳選された専門ガイドを見つけて、真にユニークな旅行体験を。",
+    "findGuide": "ガイドを探す",
+    "becomeGuide": "ガイドになる",
+    "escrowTitle": "安全なエスクロー",
+    "escrowDesc": "資金はエスクローで安全に保管され、旅行に満足した後にのみリリースされます。",
+    "commTitle": "直接コミュニケーション",
+    "commDesc": "予約前にガイドと直接チャットして、旅程のあらゆる詳細を計画できます。",
+    "expertTitle": "厳選された専門知識",
+    "expertDesc": "地元の文化、食、家族のニーズに特化した専門知識を持つ認定ガイドを閲覧できます。"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "Navbar": {
+    "title": "旅伴",
+    "explore": "探索",
+    "aiPlanner": "AI 規劃",
+    "login": "登入",
+    "signup": "開始使用",
+    "becomeGuide": "成為導遊",
+    "dashboard": "控制台",
+    "profile": "個人資料",
+    "logout": "登出"
+  },
+  "AIPlanner": {
+    "badge": "AI 旅遊媒合器",
+    "title": "告訴我們您的旅行計劃",
+    "description": "我們將使用 AI 根據您的特定需求尋找最合適的導遊。",
+    "continue": "繼續",
+    "previous": "上一步",
+    "questionCount": "第 {current} 題，共 {total} 題",
+    "finding": "正在尋找您的理想導遊...",
+    "analyzing": "正在為您的 {destination} 之旅分析 {count} 個偏好。",
+    "scanning": "正在掃描 500+ 位當地專家",
+    "filtering": "正在篩選無障礙需求",
+    "matching": "正在媒合行程風格",
+    "questions": {
+      "destination": {
+        "text": "您夢想去哪裡旅行？",
+        "placeholder": "例如：京都、台北、巴黎..."
+      },
+      "pax": {
+        "text": "有多少位旅客參與？",
+        "options": ["1-2 人", "3-5 人", "6-10 人", "10 人以上 (多代同堂)"]
+      },
+      "needs": {
+        "text": "團體有任何特殊需求嗎？",
+        "options": ["嬰兒車友善", "輪椅友善", "適合長者節奏", "兒童活動", "無"],
+        "limitHint": "最多可選擇 3 項"
+      },
+      "interests": {
+        "text": "您的團體最感興趣的是什麼？",
+        "options": ["在地美食", "歷史與文化", "自然與公園", "購物", "私房景點"],
+        "limitHint": "最多可選擇 2 項"
+      },
+      "pace": {
+        "text": "您會如何描述您偏好的節奏？",
+        "options": ["緩慢與放鬆", "平衡", "積極與充實"]
+      }
+    }
+  },
+  "Explore": {
+    "title": "尋找您的導遊",
+    "description": "為您的下一次旅程瀏覽我們經過驗證的專家。",
+    "searchPlaceholder": "搜尋姓名或地點...",
+    "reviews": "則評論",
+    "hourlyRate": "小時",
+    "viewProfile": "查看個人資料",
+    "noGuides": "找不到符合您搜尋條件的導遊。"
+  },
+  "GuideDetail": {
+    "back": "返回探索",
+    "about": "關於我",
+    "expertise": "專業知識與服務",
+    "languages": "語言",
+    "serviceAreas": "服務區域",
+    "bookTitle": "預訂這位導遊",
+    "hourlyRate": "每小時費用",
+    "contact": "聯繫與討論",
+    "contactHint": "免費諮詢。在您同意行程之前無需支付任何費用。",
+    "availability": "未來 3 個月內可預約",
+    "currentlyAvailable": "目前可預約",
+    "notFound": "找不到該導遊資料"
+  },
+  "Messages": {
+    "sidebarTitle": "對話列表",
+    "statusOnline": "在線",
+    "sendQuote": "發送報價",
+    "inputPlaceholder": "輸入訊息...",
+    "quoteTitle": "專屬行程報價",
+    "totalPrice": "總金額",
+    "depositDue": "應付訂金",
+    "acceptButton": "接受並支付訂金",
+    "tripStatus": {
+      "Draft": "草稿",
+      "Negotiation": "洽談中",
+      "Booked": "已預訂"
+    }
+  },
+  "Auth": {
+    "login": {
+      "travelerTitle": "旅客登入",
+      "travelerDesc": "登入以開始您的下一次冒險",
+      "guideTitle": "導遊夥伴登入",
+      "guideDesc": "管理您的專屬行程，打造極致旅遊體驗。",
+      "googleButton": "使用 Google 登入",
+      "emailSeparator": "或使用電子郵件繼續",
+      "emailLabel": "電子郵件",
+      "passwordLabel": "密碼",
+      "submitButton": "登入",
+      "loggingIn": "正在登入...",
+      "noAccount": "還沒有帳號嗎？",
+      "signupLink": "註冊",
+      "guideEntry": {
+        "title": "您是導遊嗎？",
+        "desc": "登入您的導遊控制台"
+      },
+      "backToTraveler": "返回旅客登入"
+    },
+    "signup": {
+      "title": "建立帳號",
+      "travelerDesc": "開始規劃您的完美旅程",
+      "guideDesc": "加入成為我們的導遊夥伴",
+      "registerAs": "註冊身份",
+      "traveler": "旅客",
+      "guide": "導遊",
+      "googleButton": "使用 Google 繼續",
+      "emailSeparator": "或使用電子郵件繼續",
+      "nameLabel": "全名",
+      "emailLabel": "電子郵件",
+      "passwordLabel": "密碼",
+      "submitButton": "註冊",
+      "creating": "正在建立帳號...",
+      "hasAccount": "已經有帳號了嗎？",
+      "loginLink": "登入"
+    }
+  },
+  "Footer": {
+    "description": "專業的客製化精緻旅遊媒合平台。專家導遊、安全託管、打造難忘的回憶。",
+    "about": "關於我們",
+    "terms": "服務條款",
+    "privacy": "隱私權政策",
+    "contact": "聯絡我們",
+    "sitemap": "網站地圖",
+    "explore": "探索導遊",
+    "aiPlanner": "AI 規劃器",
+    "becomeGuide": "成為導遊夥伴",
+    "support": "客戶支援",
+    "legal": "條款和政策",
+    "copyright": "© 2026 {title}. 版權所有。"
+  },
+  "Profile": {
+    "title": "個人資料設定",
+    "description": "管理您的帳號資訊與聯絡方式",
+    "avatarLabel": "個人頭像",
+    "uploadButton": "更換大頭照",
+    "nameLabel": "顯示名稱",
+    "emailLabel": "電子郵件",
+    "phoneLabel": "手機號碼",
+    "phoneVerified": "已驗證",
+    "phoneUnverified": "未驗證",
+    "verifyButton": "驗證號碼",
+    "saveButton": "儲存變更",
+    "saving": "正在儲存...",
+    "otpTitle": "驗證手機號碼",
+    "otpDescription": "請輸入發送至 {phone} 的 6 位數驗證碼",
+    "otpPlaceholder": "000000",
+    "otpVerify": "確認驗證",
+    "otpCancel": "取消",
+    "otpError": "驗證碼錯誤或已過期",
+    "successMessage": "個人資料已成功更新",
+    "errorMessage": "更新失敗，請稍後再試"
+  },
+  "Home": {
+    "badge": "AI 智能旅遊媒合",
+    "title": "深度客製化旅遊，",
+    "subtitle": "精準媒合。",
+    "description": "專為需要客製化精緻旅遊的家庭、朋友們打造的平台，尋找經過驗證的專家導遊，體驗真正獨特的旅行。",
+    "findGuide": "尋找導遊",
+    "becomeGuide": "成為導遊",
+    "escrowTitle": "安全託管",
+    "escrowDesc": "您的資金安全地存放在託管池中，只有在您對行程滿意時才會撥款。",
+    "commTitle": "直接溝通",
+    "commDesc": "在預訂前與您的導遊直接聊天，規劃行程的每一個細節。",
+    "expertTitle": "精選專家",
+    "expertDesc": "瀏覽具有當地文化、美食和家庭需求專業知識的認證導遊。"
+  }
+}

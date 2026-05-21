@@ -1,0 +1,176 @@
+{
+  "Navbar": {
+    "title": "Trip Buddy",
+    "explore": "Explore",
+    "aiPlanner": "AI Planner",
+    "login": "Log in",
+    "signup": "Get Started",
+    "becomeGuide": "Become a Guide",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Log out"
+  },
+  "AIPlanner": {
+    "badge": "AI Travel Matcher",
+    "title": "Tell us about your trip",
+    "description": "We'll use AI to find the perfect guide for your specific needs.",
+    "continue": "Continue",
+    "previous": "Previous",
+    "questionCount": "Question {current} of {total}",
+    "finding": "Finding your perfect guides...",
+    "analyzing": "Analysing {count} preferences for your {destination} trip.",
+    "scanning": "Scanning 500+ local experts",
+    "filtering": "Filtering for accessibility needs",
+    "matching": "Matching itinerary styles",
+    "questions": {
+      "destination": {
+        "text": "Where are you dreaming of going?",
+        "placeholder": "e.g. Kyoto, Taipei, Paris..."
+      },
+      "pax": {
+        "text": "How many travelers are joining?",
+        "options": ["1-2", "3-5", "6-10", "10+ (Multi-gen)"]
+      },
+      "needs": {
+        "text": "Any special needs for the group?",
+        "options": ["Stroller friendly", "Wheelchair accessible", "Senior-paced", "Kid activities", "None"],
+        "limitHint": "Select up to 3 options"
+      },
+      "interests": {
+        "text": "What interests your group the most?",
+        "options": ["Local Food", "History & Culture", "Nature & Parks", "Shopping", "Hidden Gems"],
+        "limitHint": "Select up to 2 options"
+      },
+      "pace": {
+        "text": "How would you describe your preferred pace?",
+        "options": ["Slow & Relaxed", "Balanced", "Active & Full Day"]
+      }
+    }
+  },
+  "Explore": {
+    "title": "Find Your Guide",
+    "description": "Browse our vetted experts for your next journey.",
+    "searchPlaceholder": "Search by name or location...",
+    "reviews": "reviews",
+    "hourlyRate": "hr",
+    "viewProfile": "View Profile",
+    "noGuides": "No guides found matching your search."
+  },
+  "GuideDetail": {
+    "back": "Back to Explore",
+    "about": "About Me",
+    "expertise": "Expertise & Services",
+    "languages": "Languages",
+    "serviceAreas": "Service Areas",
+    "bookTitle": "Book this Guide",
+    "hourlyRate": "Hourly Rate",
+    "contact": "Contact & Discuss",
+    "contactHint": "Free to chat. No payment required until you agree on an itinerary.",
+    "availability": "Available for next 3 months",
+    "currentlyAvailable": "Currently Available",
+    "notFound": "Guide not found"
+  },
+  "Messages": {
+    "sidebarTitle": "Conversations",
+    "statusOnline": "Online",
+    "sendQuote": "Send Quote",
+    "inputPlaceholder": "Type your message...",
+    "quoteTitle": "Custom Travel Quote",
+    "totalPrice": "Total Price",
+    "depositDue": "Deposit Due",
+    "acceptButton": "Accept & Pay Deposit",
+    "tripStatus": {
+      "Draft": "Draft",
+      "Negotiation": "Negotiation",
+      "Booked": "Booked"
+    }
+  },
+  "Auth": {
+    "login": {
+      "travelerTitle": "Traveler Login",
+      "travelerDesc": "Log in to start your next adventure",
+      "guideTitle": "Guide Partner Login",
+      "guideDesc": "Manage your exclusive itineraries and create ultimate travel experiences.",
+      "googleButton": "Log in with Google",
+      "emailSeparator": "Or continue with email",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submitButton": "Log In",
+      "loggingIn": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up",
+      "guideEntry": {
+        "title": "Are you a Guide?",
+        "desc": "Login to your guide portal"
+      },
+      "backToTraveler": "Back to Traveler Login"
+    },
+    "signup": {
+      "title": "Create an account",
+      "travelerDesc": "Start planning your perfect trip",
+      "guideDesc": "Join as our guide partner",
+      "registerAs": "Register as",
+      "traveler": "Traveler",
+      "guide": "Guide",
+      "googleButton": "Continue with Google",
+      "emailSeparator": "Or continue with email",
+      "nameLabel": "Full Name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submitButton": "Sign Up",
+      "creating": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in"
+    }
+  },
+  "Footer": {
+    "description": "Professional matching platform for customized fine travel. Expert guides, secure escrow, and unforgettable memories.",
+    "about": "About Us",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "contact": "Contact",
+    "sitemap": "Sitemap",
+    "explore": "Explore Guides",
+    "aiPlanner": "AI Matcher",
+    "becomeGuide": "Become a Guide",
+    "support": "Support",
+    "legal": "Legal",
+    "copyright": "© 2026 {title}. All rights reserved."
+  },
+  "Profile": {
+    "title": "Profile Settings",
+    "description": "Manage your account information and contact details",
+    "avatarLabel": "Avatar",
+    "uploadButton": "Upload New Photo",
+    "nameLabel": "Display Name",
+    "emailLabel": "Email Address",
+    "phoneLabel": "Phone Number",
+    "phoneVerified": "Verified",
+    "phoneUnverified": "Unverified",
+    "verifyButton": "Verify",
+    "saveButton": "Save Changes",
+    "saving": "Saving...",
+    "otpTitle": "Verify Phone Number",
+    "otpDescription": "Please enter the 6-digit code sent to {phone}",
+    "otpPlaceholder": "000000",
+    "otpVerify": "Confirm",
+    "otpCancel": "Cancel",
+    "otpError": "Invalid or expired code",
+    "successMessage": "Profile updated successfully",
+    "errorMessage": "Failed to update profile"
+  },
+  "Home": {
+    "badge": "AI Travel Matching",
+    "title": "Deep Customized Travel,",
+    "subtitle": "Matched with Precision.",
+    "description": "The platform built for families and friends seeking customized fine travel, finding vetted expert guides for truly unique experiences.",
+    "findGuide": "Find Your Guide",
+    "becomeGuide": "Become a Guide",
+    "escrowTitle": "Secure Escrow",
+    "escrowDesc": "Your funds are held safely in escrow and only released when you are satisfied with your trip.",
+    "commTitle": "Direct Communication",
+    "commDesc": "Chat directly with your guide to plan every detail of your itinerary before booking.",
+    "expertTitle": "Curated Expertise",
+    "expertDesc": "Browse through vetted guides with specialized expertise in local culture, food, and family needs."
+  }
+}
