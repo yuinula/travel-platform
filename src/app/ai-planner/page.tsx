@@ -64,8 +64,8 @@ export default function AIPlannerPage() {
       id: "dates", 
       text: t('questions.dates.text'), 
       icon: <Calendar className="h-5 w-5 md:h-6 md:w-6 text-purple-500" />,
-      placeholder: t('questions.dates.placeholder'),
-      type: 'text'
+      options: t.raw('questions.dates.options'),
+      type: 'choice'
     },
     { 
       id: "pax", 

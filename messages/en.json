@@ -29,7 +29,7 @@
       },
       "dates": {
         "text": "When are you planning to go?",
-        "placeholder": "e.g. June 10 - June 15, 2026"
+        "options": ["Within 1 month", "In 1-3 months", "In 3-6 months", "After 6 months / Undecided"]
       },
       "pax": {
         "text": "How many travelers are joining?",
