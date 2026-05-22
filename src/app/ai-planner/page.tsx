@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from 'next-intl'
 import { format } from "date-fns"
@@ -63,6 +63,16 @@ export default function AIPlannerPage() {
   const [isFinishing, setIsFinishing] = useState(false)
   const [dateRange, setDateRange] = useState<DateRange | undefined>()
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const [numberOfMonths, setNumberOfMonths] = useState(2)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setNumberOfMonths(window.innerWidth < 768 ? 1 : 2)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const questions: Question[] = [
     { 
@@ -231,31 +241,33 @@ export default function AIPlannerPage() {
                             </Button>
                           }
                         />
-                        <SheetContent side="bottom" className="h-[85vh] rounded-t-[3rem] p-0 overflow-hidden">
-                          <SheetHeader className="p-8 pb-4">
-                            <SheetTitle className="text-2xl font-bold">選擇您的旅行日期</SheetTitle>
+                        <SheetContent side="bottom" className="h-[90vh] md:h-[85vh] rounded-t-[3rem] p-0 overflow-hidden bg-white">
+                          <SheetHeader className="p-8 pb-4 text-center">
+                            <SheetTitle className="text-2xl md:text-3xl font-black">選擇您的旅行日期</SheetTitle>
                           </SheetHeader>
-                          <div className="flex-1 overflow-y-auto px-4 pb-24 flex justify-center">
-                            <div className="scale-90 md:scale-100 origin-top">
+                          <div className="flex-1 overflow-y-auto px-4 pb-32 flex justify-center items-start pt-4">
+                            <div className="bg-white">
                               <CalendarComponent
                                 initialFocus
                                 mode="range"
                                 defaultMonth={dateRange?.from || new Date()}
                                 selected={dateRange}
                                 onSelect={setDateRange}
-                                numberOfMonths={2}
-                                className="rounded-3xl"
+                                numberOfMonths={numberOfMonths}
+                                className="rounded-3xl border-none shadow-none"
                               />
                             </div>
                           </div>
-                          <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-zinc-100 z-10">
-                            <Button 
-                              className="w-full h-16 rounded-2xl text-xl font-bold shadow-xl shadow-primary/20"
-                              onClick={() => setIsCalendarOpen(false)}
-                              disabled={!dateRange?.from || !dateRange?.to}
-                            >
-                              確認日期
-                            </Button>
+                          <div className="absolute bottom-0 left-0 right-0 p-8 bg-white/80 backdrop-blur-md border-t border-zinc-100 z-50">
+                            <div className="max-w-md mx-auto">
+                              <Button 
+                                className="w-full h-16 md:h-18 rounded-2xl text-xl font-bold shadow-2xl shadow-primary/30"
+                                onClick={() => setIsCalendarOpen(false)}
+                                disabled={!dateRange?.from || !dateRange?.to}
+                              >
+                                {dateRange?.from && dateRange?.to ? "確認日期" : "請選擇起始與結束日期"}
+                              </Button>
+                            </div>
                           </div>
                         </SheetContent>
                       </Sheet>
