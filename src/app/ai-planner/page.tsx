@@ -205,30 +205,32 @@ export default function AIPlannerPage() {
                   {currentQuestion.type === 'date-range' ? (
                     <div className="flex flex-col items-center space-y-6">
                       <Sheet open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-                        <SheetTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            className="w-full h-20 md:h-24 text-lg md:text-2xl rounded-3xl border-2 border-zinc-100 flex items-center justify-between px-8 bg-zinc-50/50 hover:bg-zinc-100 transition-all"
-                          >
-                            <div className="flex items-center gap-4">
-                              <Calendar className="h-6 w-6 text-purple-500" />
-                              <span className={cn(!dateRange?.from && "text-zinc-400")}>
-                                {dateRange?.from ? (
-                                  dateRange.to ? (
-                                    <>
-                                      {format(dateRange.from, "yyyy/MM/dd")} - {format(dateRange.to, "yyyy/MM/dd")}
-                                    </>
+                        <SheetTrigger 
+                          render={
+                            <Button 
+                              variant="outline" 
+                              className="w-full h-20 md:h-24 text-lg md:text-2xl rounded-3xl border-2 border-zinc-100 flex items-center justify-between px-8 bg-zinc-50/50 hover:bg-zinc-100 transition-all"
+                            >
+                              <div className="flex items-center gap-4">
+                                <Calendar className="h-6 w-6 text-purple-500" />
+                                <span className={cn(!dateRange?.from && "text-zinc-400")}>
+                                  {dateRange?.from ? (
+                                    dateRange.to ? (
+                                      <>
+                                        {format(dateRange.from, "yyyy/MM/dd")} - {format(dateRange.to, "yyyy/MM/dd")}
+                                      </>
+                                    ) : (
+                                      format(dateRange.from, "yyyy/MM/dd")
+                                    )
                                   ) : (
-                                    format(dateRange.from, "yyyy/MM/dd")
-                                  )
-                                ) : (
-                                  "點擊選擇日期範圍"
-                                )}
-                              </span>
-                            </div>
-                            <ChevronRight className="h-6 w-6 text-zinc-300" />
-                          </Button>
-                        </SheetTrigger>
+                                    "點擊選擇日期範圍"
+                                  )}
+                                </span>
+                              </div>
+                              <ChevronRight className="h-6 w-6 text-zinc-300" />
+                            </Button>
+                          }
+                        />
                         <SheetContent side="bottom" className="h-[85vh] rounded-t-[3rem] p-0 overflow-hidden">
                           <SheetHeader className="p-8 pb-4">
                             <SheetTitle className="text-2xl font-bold">選擇您的旅行日期</SheetTitle>
