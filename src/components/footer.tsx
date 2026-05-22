@@ -18,7 +18,7 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2 flex flex-col gap-4">
             <Link href="/" className="flex items-center space-x-2 group">
               <Image src="/logo.svg" alt="Logo" width={24} height={24} className="dark:invert transition-transform group-hover:scale-110" />
-              <span className="font-bold text-xl tracking-tighter uppercase font-rounded">
+              <span className="font-bold text-xl tracking-tighter uppercase font-rounded ai-text-gradient">
                 {title}
               </span>
             </Link>
