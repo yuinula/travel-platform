@@ -23,6 +23,13 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 // Simple Progress bar replacement
 function CustomProgress({ value }: { value: number }) {
@@ -55,6 +62,7 @@ export default function AIPlannerPage() {
   const [answers, setAnswers] = useState<Answers>({})
   const [isFinishing, setIsFinishing] = useState(false)
   const [dateRange, setDateRange] = useState<DateRange | undefined>()
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   const questions: Question[] = [
     { 
@@ -196,17 +204,60 @@ export default function AIPlannerPage() {
                 <CardContent className="pt-8 space-y-6 p-8 md:p-10">
                   {currentQuestion.type === 'date-range' ? (
                     <div className="flex flex-col items-center space-y-6">
-                      <div className="border-2 border-zinc-100 rounded-[2rem] p-4 bg-zinc-50/30 overflow-x-auto w-full flex justify-center">
-                        <CalendarComponent
-                          initialFocus
-                          mode="range"
-                          defaultMonth={dateRange?.from || new Date()}
-                          selected={dateRange}
-                          onSelect={setDateRange}
-                          numberOfMonths={2}
-                          className="rounded-3xl"
-                        />
-                      </div>
+                      <Sheet open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                        <SheetTrigger asChild>
+                          <Button 
+                            variant="outline" 
+                            className="w-full h-20 md:h-24 text-lg md:text-2xl rounded-3xl border-2 border-zinc-100 flex items-center justify-between px-8 bg-zinc-50/50 hover:bg-zinc-100 transition-all"
+                          >
+                            <div className="flex items-center gap-4">
+                              <Calendar className="h-6 w-6 text-purple-500" />
+                              <span className={cn(!dateRange?.from && "text-zinc-400")}>
+                                {dateRange?.from ? (
+                                  dateRange.to ? (
+                                    <>
+                                      {format(dateRange.from, "yyyy/MM/dd")} - {format(dateRange.to, "yyyy/MM/dd")}
+                                    </>
+                                  ) : (
+                                    format(dateRange.from, "yyyy/MM/dd")
+                                  )
+                                ) : (
+                                  "點擊選擇日期範圍"
+                                )}
+                              </span>
+                            </div>
+                            <ChevronRight className="h-6 w-6 text-zinc-300" />
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent side="bottom" className="h-[85vh] rounded-t-[3rem] p-0 overflow-hidden">
+                          <SheetHeader className="p-8 pb-4">
+                            <SheetTitle className="text-2xl font-bold">選擇您的旅行日期</SheetTitle>
+                          </SheetHeader>
+                          <div className="flex-1 overflow-y-auto px-4 pb-24 flex justify-center">
+                            <div className="scale-90 md:scale-100 origin-top">
+                              <CalendarComponent
+                                initialFocus
+                                mode="range"
+                                defaultMonth={dateRange?.from || new Date()}
+                                selected={dateRange}
+                                onSelect={setDateRange}
+                                numberOfMonths={2}
+                                className="rounded-3xl"
+                              />
+                            </div>
+                          </div>
+                          <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-zinc-100 z-10">
+                            <Button 
+                              className="w-full h-16 rounded-2xl text-xl font-bold shadow-xl shadow-primary/20"
+                              onClick={() => setIsCalendarOpen(false)}
+                              disabled={!dateRange?.from || !dateRange?.to}
+                            >
+                              確認日期
+                            </Button>
+                          </div>
+                        </SheetContent>
+                      </Sheet>
+
                       <Button 
                         className="w-full h-16 md:h-20 text-lg md:text-2xl rounded-3xl font-bold shadow-xl shadow-primary/20" 
                         onClick={handleNext}
