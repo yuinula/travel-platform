@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from 'next-intl'
+import { format } from "date-fns"
+import { DateRange } from "react-day-picker"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -20,6 +22,7 @@ import {
   Calendar
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Calendar as CalendarComponent } from "@/components/ui/calendar"
 
 // Simple Progress bar replacement
 function CustomProgress({ value }: { value: number }) {
@@ -39,7 +42,7 @@ interface Question {
   icon: React.ReactNode;
   options?: string[];
   placeholder?: string;
-  type: 'choice' | 'text' | 'number' | 'multi-choice';
+  type: 'choice' | 'text' | 'number' | 'multi-choice' | 'date-range';
   limit?: number;
 }
 
@@ -51,6 +54,7 @@ export default function AIPlannerPage() {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [isFinishing, setIsFinishing] = useState(false)
+  const [dateRange, setDateRange] = useState<DateRange | undefined>()
 
   const questions: Question[] = [
     { 
@@ -64,8 +68,7 @@ export default function AIPlannerPage() {
       id: "dates", 
       text: t('questions.dates.text'), 
       icon: <Calendar className="h-5 w-5 md:h-6 md:w-6 text-purple-500" />,
-      options: t.raw('questions.dates.options'),
-      type: 'choice'
+      type: 'date-range'
     },
     { 
       id: "pax", 
@@ -103,6 +106,11 @@ export default function AIPlannerPage() {
   const progress = ((step + 1) / questions.length) * 100
 
   const handleNext = () => {
+    if (currentQuestion.type === 'date-range' && dateRange?.from && dateRange?.to) {
+      const formattedRange = `${format(dateRange.from, "yyyy/MM/dd")} - ${format(dateRange.to, "yyyy/MM/dd")}`
+      setAnswers({ ...answers, [currentQuestion.id]: formattedRange })
+    }
+
     if (step < questions.length - 1) {
       setStep(step + 1)
     } else {
@@ -146,6 +154,9 @@ export default function AIPlannerPage() {
 
   const isContinueDisabled = () => {
     const val = answers[currentQuestion.id]
+    if (currentQuestion.type === 'date-range') {
+      return !dateRange?.from || !dateRange?.to
+    }
     if (currentQuestion.type === 'multi-choice') {
       return !val || (val as string[]).length === 0
     }
@@ -183,7 +194,29 @@ export default function AIPlannerPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="pt-8 space-y-6 p-8 md:p-10">
-                  {currentQuestion.type === 'choice' || currentQuestion.type === 'multi-choice' ? (
+                  {currentQuestion.type === 'date-range' ? (
+                    <div className="flex flex-col items-center space-y-6">
+                      <div className="border-2 border-zinc-100 rounded-[2rem] p-4 bg-zinc-50/30 overflow-x-auto w-full flex justify-center">
+                        <CalendarComponent
+                          initialFocus
+                          mode="range"
+                          defaultMonth={dateRange?.from || new Date()}
+                          selected={dateRange}
+                          onSelect={setDateRange}
+                          numberOfMonths={2}
+                          className="rounded-3xl"
+                        />
+                      </div>
+                      <Button 
+                        className="w-full h-16 md:h-20 text-lg md:text-2xl rounded-3xl font-bold shadow-xl shadow-primary/20" 
+                        onClick={handleNext}
+                        disabled={isContinueDisabled()}
+                      >
+                        {t('continue')}
+                        <ChevronRight className="ml-2 h-6 w-6" />
+                      </Button>
+                    </div>
+                  ) : currentQuestion.type === 'choice' || currentQuestion.type === 'multi-choice' ? (
                     <div className="grid grid-cols-1 gap-3 md:gap-4">
                       {currentQuestion.options?.map((option) => (
                         <Button 

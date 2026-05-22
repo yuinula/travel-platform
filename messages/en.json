@@ -28,8 +28,7 @@
         "placeholder": "e.g. Kyoto, Taipei, Paris..."
       },
       "dates": {
-        "text": "When are you planning to go?",
-        "options": ["Within 1 month", "In 1-3 months", "In 3-6 months", "After 6 months / Undecided"]
+        "text": "When are you planning to go?"
       },
       "pax": {
         "text": "How many travelers are joining?",
