@@ -111,7 +111,7 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] p-0 overflow-y-auto">
               <SheetHeader className="p-6 text-left border-b bg-zinc-50/50">
-                <SheetTitle className="font-bold text-xl tracking-tighter flex items-center gap-2">
+                <SheetTitle className="font-bold text-xl tracking-tighter flex items-center gap-2 font-rounded">
                   <Image src="/logo.svg" alt="Logo" width={24} height={24} className="dark:invert" />
                   {t('title')}
                 </SheetTitle>
@@ -158,7 +158,7 @@ export default function Navbar() {
 
           <Link href="/" className="flex items-center space-x-2 group">
             <Image src="/logo.svg" alt="Logo" width={28} height={28} className="dark:invert transition-transform group-hover:scale-110" />
-            <span className="inline-block font-bold text-xl tracking-tighter">
+            <span className="inline-block font-bold text-xl tracking-tighter font-rounded">
               {t('title')}
             </span>
           </Link>

@@ -66,7 +66,7 @@ function SignupForm() {
   return (
     <Card className="w-full max-w-md border-white/20 shadow-2xl bg-white/80 backdrop-blur-xl">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">{t('title')}</CardTitle>
+        <CardTitle className="text-2xl font-bold font-rounded">{t('title')}</CardTitle>
         <CardDescription>
           {role === 'guide' ? t('guideDesc') : t('travelerDesc')}
         </CardDescription>

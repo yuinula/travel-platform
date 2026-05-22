@@ -67,7 +67,7 @@ function LoginForm() {
             </div>
           )}
         </div>
-        <CardTitle className="text-2xl font-bold">
+        <CardTitle className="text-2xl font-bold font-rounded">
           {role === 'guide' ? t('guideTitle') : t('travelerTitle')}
         </CardTitle>
         <CardDescription className={role === 'guide' ? 'text-zinc-400' : ''}>
