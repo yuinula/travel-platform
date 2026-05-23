@@ -248,7 +248,6 @@ export default function AIPlannerPage() {
                           <div className="flex-1 overflow-y-auto px-4 pb-32 flex justify-center items-start pt-4">
                             <div className="bg-white">
                               <CalendarComponent
-                                initialFocus
                                 mode="range"
                                 defaultMonth={dateRange?.from || new Date()}
                                 selected={dateRange}
