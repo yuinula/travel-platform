@@ -9,20 +9,24 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen selection:bg-primary/10">
-      <section className="w-full py-16 md:py-24 lg:py-32 xl:py-48 bg-background relative overflow-hidden">
-        {/* Subtle Background Glow */}
-        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <section className="w-full py-16 md:py-24 lg:py-32 xl:py-48 relative overflow-hidden flex items-center justify-center">
+        {/* Travel Background Image */}
+        <div 
+          className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073')] bg-cover bg-center bg-no-repeat bg-fixed"
+        />
+        {/* Soft Dark/Glass Overlay */}
+        <div className="absolute inset-0 z-1 bg-white/40 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 z-1 bg-gradient-to-b from-white/20 via-transparent to-white" />
 
         <div className="container px-4 md:px-6 mx-auto relative z-10">
           <div className="flex flex-col items-center space-y-8 text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100/80 border border-zinc-200 text-zinc-600 text-xs md:text-sm font-medium backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-white/50 text-zinc-800 text-xs md:text-sm font-bold backdrop-blur-md shadow-lg">
               <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
               <span>{t('badge')}</span>
             </div>
             
             <div className="space-y-4 w-full">
-              <h1 className="font-bold tracking-tight leading-[1.1] text-[clamp(1.5rem,8vw,5rem)] max-w-5xl mx-auto flex flex-col items-center">
+              <h1 className="font-black tracking-tight leading-[1.1] text-[clamp(1.75rem,8vw,5.5rem)] max-w-5xl mx-auto flex flex-col items-center text-zinc-900 drop-shadow-sm">
                 <span className="block whitespace-nowrap w-full">
                   {t('title')}
                 </span>
@@ -30,20 +34,20 @@ export default function Home() {
                   {t('subtitle')}
                 </span>
               </h1>
-              <p className="mx-auto max-w-[750px] text-zinc-500 text-sm md:text-xl px-4 leading-relaxed">
+              <p className="mx-auto max-w-[750px] text-zinc-800 text-sm md:text-xl px-4 leading-relaxed font-semibold drop-shadow-sm">
                 {t('description')}
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto px-6">
+            <div className="flex flex-col sm:flex-row gap-5 pt-6 w-full sm:w-auto px-6">
               <Link href="/ai-planner" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:px-10 h-14 md:h-16 text-lg rounded-2xl shadow-xl shadow-primary/10 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                <Button size="lg" className="w-full sm:px-12 h-14 md:h-18 text-xl rounded-[1.25rem] shadow-2xl shadow-primary/30 transition-all hover:scale-[1.05] active:scale-[0.95] font-black">
                   {t('findGuide')}
-                  <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
+                  <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6" />
                 </Button>
               </Link>
               <Link href="/signup?role=guide" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:px-10 h-14 md:h-16 text-lg rounded-2xl bg-white/50 backdrop-blur-sm border-2 transition-all hover:bg-white">
+                <Button variant="outline" size="lg" className="w-full sm:px-12 h-14 md:h-18 text-xl rounded-[1.25rem] bg-white/80 backdrop-blur-md border-2 border-white transition-all hover:bg-white hover:border-zinc-900 shadow-xl font-bold">
                   {t('becomeGuide')}
                 </Button>
               </Link>
