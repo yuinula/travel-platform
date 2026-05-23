@@ -170,6 +170,28 @@ function SignupForm() {
   )
 }
 
+function SimpleFooter() {
+  const nt = useTranslations("Navbar")
+  const ft = useTranslations("Footer")
+  const title = nt("title")
+  
+  return (
+    <footer className="w-full py-8 mt-auto bg-white/10 backdrop-blur-sm border-t border-white/10">
+      <div className="container mx-auto px-4 flex flex-col items-center gap-4">
+        <div className="flex items-center gap-2">
+          <Image src="/logo.svg" alt="Logo" width={24} height={24} className="dark:invert" />
+          <span className="font-bold text-lg tracking-widest font-rounded ai-text-gradient uppercase">
+            {title}
+          </span>
+        </div>
+        <p className="text-xs text-white/60 font-medium">
+          {ft("copyright", { title })}
+        </p>
+      </div>
+    </footer>
+  )
+}
+
 export default function SignupPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1600')] bg-cover bg-center bg-no-repeat bg-fixed">
@@ -178,7 +200,7 @@ export default function SignupPage() {
           <SignupForm />
         </Suspense>
       </div>
-      <Footer />
+      <SimpleFooter />
     </div>
   )
 }
