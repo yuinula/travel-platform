@@ -153,7 +153,7 @@ export default function Home() {
                   { id: 'kyoto', img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800' },
                   { id: 'paris', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800' },
                   { id: 'bali', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=800' },
-                  { id: 'taipei', img: 'https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=800' } 
+                  { id: 'taipei', img: 'https://images.unsplash.com/photo-1552912019-7103ba9e1031?q=80&w=800' } 
                 ].map((dest) => (
                   <Dialog key={dest.id}>
                     <DialogTrigger asChild>
