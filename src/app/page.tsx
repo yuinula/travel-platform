@@ -127,8 +127,8 @@ export default function Home() {
                         </DialogDescription>
                       </div>
                     </DialogHeader>
-                    <div className="mt-6 py-6 border-t border-zinc-100">
-                      <p className="text-zinc-700 leading-loose text-lg font-medium">
+                    <div className="mt-6 py-6 border-t border-zinc-100/50">
+                      <p className="text-zinc-700 leading-relaxed text-base font-medium">
                         {feature.detail}
                       </p>
                     </div>
