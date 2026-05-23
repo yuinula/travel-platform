@@ -189,8 +189,8 @@ export default function Home() {
                         </div>
 
                         {/* Right Side: Content */}
-                        <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center space-y-8 overflow-y-auto">
-                          <div className="space-y-4">
+                        <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center space-y-6 md:space-y-8 overflow-y-auto">
+                          <div className="space-y-3 md:space-y-4">
                             <div className="flex items-center gap-3">
                               <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider">
                                 {t(`destinations.${dest.id}.name`).split('，')[1]}
