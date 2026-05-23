@@ -202,14 +202,14 @@ export default function Home() {
                             </p>
                           </div>
 
-                          <div className="p-6 md:p-8 bg-zinc-50 rounded-[2rem] border border-zinc-100 space-y-3 relative group/tip">
-                            <div className="absolute -top-3 left-6 px-4 py-1 bg-white border border-zinc-100 rounded-full shadow-sm">
-                              <h4 className="text-xs uppercase font-black tracking-widest text-primary flex items-center gap-2">
+                          <div className="p-6 md:p-8 bg-blue-50/50 rounded-[2rem] border border-blue-100/50 space-y-3 relative group/tip">
+                            <div className="absolute -top-3 left-6 px-4 py-1 bg-white border border-blue-100 rounded-full shadow-sm">
+                              <h4 className="text-xs uppercase font-black tracking-widest text-blue-500 flex items-center gap-2">
                                 <Sparkles className="h-3 w-3" />
                                 Butler Tips
                               </h4>
                             </div>
-                            <p className="text-zinc-600 font-medium leading-relaxed italic">
+                            <p className="text-zinc-700 font-medium leading-relaxed italic">
                               "{t(`destinations.${dest.id}.tips`)}"
                             </p>
                           </div>
