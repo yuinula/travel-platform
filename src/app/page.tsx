@@ -7,6 +7,14 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, MapPin, ShieldCheck, MessageSquare, Sparkles } from "lucide-react";
 import Footer from "@/components/footer";
 import { cn } from "@/lib/utils";
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 function FadeInScroll({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -41,6 +49,13 @@ function FadeInScroll({ children, delay = 0 }: { children: React.ReactNode, dela
 
 export default function Home() {
   const t = useTranslations('Home');
+
+  const features = [
+    { id: 'escrow', icon: <ShieldCheck className="h-10 w-10" />, title: t('escrowTitle'), desc: t('escrowDesc'), detail: t('escrowDetail') },
+    { id: 'smart', icon: <Sparkles className="h-10 w-10" />, title: t('smartTitle'), desc: t('smartDesc'), detail: t('smartDetail') },
+    { id: 'comm', icon: <MessageSquare className="h-10 w-10" />, title: t('commTitle'), desc: t('commDesc'), detail: t('commDetail') },
+    { id: 'expert', icon: <MapPin className="h-10 w-10" />, title: t('expertTitle'), desc: t('expertDesc'), detail: t('expertDetail') },
+  ];
 
   return (
     <div className="flex flex-col min-h-screen selection:bg-primary/10">
@@ -96,18 +111,31 @@ export default function Home() {
       <section className="w-full py-20 md:py-32 bg-white relative">
         <div className="container px-4 md:px-6 mx-auto">
           <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:grid-cols-4">
-            <FadeInScroll delay={100}>
-              <Card variant="feature" icon={<ShieldCheck className="h-10 w-10" />} title={t('escrowTitle')} desc={t('escrowDesc')} />
-            </FadeInScroll>
-            <FadeInScroll delay={200}>
-              <Card variant="feature" icon={<Sparkles className="h-10 w-10" />} title={t('smartTitle')} desc={t('smartDesc')} />
-            </FadeInScroll>
-            <FadeInScroll delay={300}>
-              <Card variant="feature" icon={<MessageSquare className="h-10 w-10" />} title={t('commTitle')} desc={t('commDesc')} />
-            </FadeInScroll>
-            <FadeInScroll delay={400}>
-              <Card variant="feature" icon={<MapPin className="h-10 w-10" />} title={t('expertTitle')} desc={t('expertDesc')} />
-            </FadeInScroll>
+            {features.map((feature, index) => (
+              <FadeInScroll key={feature.id} delay={(index + 1) * 100}>
+                <Dialog>
+                  <DialogTrigger render={<Card variant="feature" icon={feature.icon} title={feature.title} desc={feature.desc} />} />
+                  <DialogContent className="sm:max-w-md p-10">
+                    <DialogHeader className="space-y-6">
+                      <div className="p-5 bg-zinc-50 rounded-2xl w-fit mx-auto sm:mx-0 shadow-sm border border-zinc-100 ai-gradient text-white">
+                        {feature.icon}
+                      </div>
+                      <div className="space-y-2">
+                        <DialogTitle className="text-3xl font-black text-zinc-900">{feature.title}</DialogTitle>
+                        <DialogDescription className="text-lg text-zinc-500 font-bold leading-relaxed">
+                          {feature.desc}
+                        </DialogDescription>
+                      </div>
+                    </DialogHeader>
+                    <div className="mt-6 py-6 border-t border-zinc-100">
+                      <p className="text-zinc-700 leading-loose text-lg font-medium">
+                        {feature.detail}
+                      </p>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </FadeInScroll>
+            ))}
           </div>
         </div>
       </section>
@@ -116,9 +144,15 @@ export default function Home() {
   );
 }
 
-function Card({ variant, icon, title, desc }: { variant: string, icon: React.ReactNode, title: string, desc: string }) {
+function Card({ variant, icon, title, desc, ...props }: { variant: string, icon: React.ReactNode, title: string, desc: string } & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="flex flex-col items-center md:items-start space-y-5 text-center md:text-left group p-8 rounded-[2.5rem] hover:bg-zinc-50/80 transition-all duration-500 border border-transparent hover:border-zinc-100 hover:shadow-2xl hover:shadow-zinc-200/50">
+    <div 
+      {...props}
+      className={cn(
+        "flex flex-col items-center md:items-start space-y-5 text-center md:text-left group p-8 rounded-[2.5rem] hover:bg-zinc-50/80 transition-all duration-500 border border-transparent hover:border-zinc-100 hover:shadow-2xl hover:shadow-zinc-200/50 cursor-pointer",
+        props.className
+      )}
+    >
       <div className="p-5 bg-zinc-50 rounded-2xl shadow-sm border border-zinc-100 group-hover:ai-gradient group-hover:text-white group-hover:shadow-xl group-hover:shadow-primary/20 group-hover:-translate-y-2 transition-all duration-500">
         {icon}
       </div>

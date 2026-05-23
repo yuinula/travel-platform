@@ -171,11 +171,15 @@
     "becomeGuide": "Become a Guide",
     "escrowTitle": "Secure Escrow",
     "escrowDesc": "Your funds are held safely in escrow and only released when you are satisfied with your trip.",
+    "escrowDetail": "We utilize industry-leading third-party fund management technology. After you confirm your itinerary with a guide, the funds are held in a protected escrow account. The system only releases payment once the guide has completed the service and you provide satisfaction confirmation. This fully eliminates the risk of paying in advance and not receiving service.",
     "commTitle": "Direct Communication",
     "commDesc": "Chat directly with your guide to plan every detail of your itinerary before booking.",
+    "commDetail": "You can talk directly with guides through our encrypted messaging system. Discuss everything from dietary requirements and luggage count to hidden local spots before confirming your booking. A transparent communication environment helps you understand your guide's style and ensures a perfect match from the start.",
     "expertTitle": "Curated Expertise",
     "expertDesc": "Browse through vetted guides with specialized expertise in local culture, food, and family needs.",
+    "expertDetail": "Every guide joining Trip Butler undergoes rigorous background checks and professional competency tests. We don't just verify licenses; we look deep into their knowledge of historic sites, local cuisine, and niche interests like photography or hiking. Find the perfect professional butler based on specialized tags.",
     "smartTitle": "Smart Itinerary",
-    "smartDesc": "Leverage AI to craft personalized itineraries that dynamically adjust based on your preferences."
+    "smartDesc": "Leverage AI to craft personalized itineraries that dynamically adjust based on your preferences.",
+    "smartDetail": "Trip Butler's Smart Itinerary system combines powerful LLM models with the real-world experience of local guides. Simply input your preferences, and the system generates a draft considering transit routes, opening hours, and weather forecasts within seconds, which is then refined by experts for a perfect plan."
   }
 }
