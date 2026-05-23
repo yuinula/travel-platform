@@ -172,30 +172,57 @@ export default function Home() {
                         </div>
                       </div>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-none shadow-2xl">
-                      <div className="h-64 md:h-80 relative">
-                        <img src={dest.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-                      </div>
-                      <div className="p-8 md:p-12 space-y-6 -mt-12 relative z-10 bg-white/80 backdrop-blur-xl rounded-t-[3.5rem]">
-                        <div className="space-y-3">
-                          <h3 className="text-3xl md:text-4xl font-black text-zinc-900 font-rounded ai-text-gradient tracking-widest">{t(`destinations.${dest.id}.name`)}</h3>
-                          <p className="text-lg md:text-xl text-zinc-700 font-bold leading-relaxed">
-                            {t(`destinations.${dest.id}.desc`)}
-                          </p>
+                    <DialogContent className="sm:max-w-4xl p-0 overflow-hidden border-none shadow-2xl bg-white/95 backdrop-blur-2xl rounded-[3rem]">
+                      <div className="flex flex-col md:flex-row h-full max-h-[90vh] md:max-h-[600px]">
+                        {/* Left Side: Large Image (Desktop) / Top Image (Mobile) */}
+                        <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+                          <img 
+                            src={dest.img} 
+                            alt={t(`destinations.${dest.id}.name`)} 
+                            className="absolute inset-0 w-full h-full object-cover" 
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+                          <div className="absolute bottom-6 left-8 md:bottom-12 md:left-12 text-white">
+                            <p className="text-sm font-black uppercase tracking-[0.3em] opacity-80 mb-2">Featured Destination</p>
+                            <h3 className="text-4xl md:text-5xl font-black font-rounded tracking-widest leading-none">{t(`destinations.${dest.id}.name`).split('，')[0]}</h3>
+                          </div>
                         </div>
-                        <div className="p-6 bg-zinc-50 rounded-3xl border border-zinc-100 space-y-2">
-                          <h4 className="text-sm uppercase font-black tracking-widest text-zinc-400 flex items-center gap-2">
-                            <Sparkles className="h-4 w-4 text-primary" />
-                            Butler Tips
-                          </h4>
-                          <p className="text-zinc-600 font-medium leading-relaxed">
-                            {t(`destinations.${dest.id}.tips`)}
-                          </p>
+
+                        {/* Right Side: Content */}
+                        <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center space-y-8 overflow-y-auto">
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-3">
+                              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider">
+                                {t(`destinations.${dest.id}.name`).split('，')[1]}
+                              </span>
+                              <div className="h-px flex-1 bg-zinc-100" />
+                            </div>
+                            <p className="text-xl md:text-2xl text-zinc-800 font-bold leading-relaxed">
+                              {t(`destinations.${dest.id}.desc`)}
+                            </p>
+                          </div>
+
+                          <div className="p-6 md:p-8 bg-zinc-50 rounded-[2rem] border border-zinc-100 space-y-3 relative group/tip">
+                            <div className="absolute -top-3 left-6 px-4 py-1 bg-white border border-zinc-100 rounded-full shadow-sm">
+                              <h4 className="text-xs uppercase font-black tracking-widest text-primary flex items-center gap-2">
+                                <Sparkles className="h-3 w-3" />
+                                Butler Tips
+                              </h4>
+                            </div>
+                            <p className="text-zinc-600 font-medium leading-relaxed italic">
+                              "{t(`destinations.${dest.id}.tips`)}"
+                            </p>
+                          </div>
+
+                          <div className="pt-4">
+                            <Button className="w-full h-16 md:h-18 rounded-2xl text-xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-[1.02] active:scale-[0.98]" asChild>
+                              <Link href="/ai-planner">
+                                {t('findGuide')}
+                                <ArrowRight className="ml-2 h-6 w-6" />
+                              </Link>
+                            </Button>
+                          </div>
                         </div>
-                        <Button className="w-full h-16 rounded-2xl text-xl font-bold shadow-xl shadow-primary/20" asChild>
-                          <Link href="/ai-planner">{t('findGuide')}</Link>
-                        </Button>
                       </div>
                     </DialogContent>
                   </Dialog>
