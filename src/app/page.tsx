@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MapPin, ShieldCheck, MessageSquare, Sparkles } from "lucide-react";
+import { ArrowRight, MapPin, ShieldCheck, MessageSquare, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import Footer from "@/components/footer";
 import { cn } from "@/lib/utils";
 import { 
