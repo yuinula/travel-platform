@@ -174,6 +174,8 @@
     "commTitle": "Direct Communication",
     "commDesc": "Chat directly with your guide to plan every detail of your itinerary before booking.",
     "expertTitle": "Curated Expertise",
-    "expertDesc": "Browse through vetted guides with specialized expertise in local culture, food, and family needs."
+    "expertDesc": "Browse through vetted guides with specialized expertise in local culture, food, and family needs.",
+    "smartTitle": "Smart Itinerary",
+    "smartDesc": "Leverage AI to craft personalized itineraries that dynamically adjust based on your preferences."
   }
 }

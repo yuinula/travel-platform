@@ -58,8 +58,9 @@ export default function Home() {
 
       <section className="w-full py-20 md:py-32 bg-white">
         <div className="container px-4 md:px-6 mx-auto">
-          <div className="grid gap-12 lg:grid-cols-3">
+          <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
             <Card variant="feature" icon={<ShieldCheck className="h-10 w-10" />} title={t('escrowTitle')} desc={t('escrowDesc')} />
+            <Card variant="feature" icon={<Sparkles className="h-10 w-10" />} title={t('smartTitle')} desc={t('smartDesc')} />
             <Card variant="feature" icon={<MessageSquare className="h-10 w-10" />} title={t('commTitle')} desc={t('commDesc')} />
             <Card variant="feature" icon={<MapPin className="h-10 w-10" />} title={t('expertTitle')} desc={t('expertDesc')} />
           </div>
