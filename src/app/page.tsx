@@ -108,6 +108,104 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Destination Gallery Section */}
+      <section className="w-full py-20 bg-zinc-50/50">
+        <div className="container px-4 md:px-6 mx-auto">
+          <FadeInScroll>
+            <div className="flex flex-col space-y-10">
+              <div className="flex items-end justify-between px-2">
+                <div className="space-y-2">
+                  <h2 className="text-3xl md:text-4xl font-black tracking-tight text-zinc-900">{t('destinations.title')}</h2>
+                  <div className="h-1.5 w-20 ai-gradient rounded-full" />
+                </div>
+                <div className="hidden md:flex gap-3">
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="rounded-full h-12 w-12 border-2"
+                    onClick={() => {
+                      const el = document.getElementById('dest-scroll');
+                      if (el) el.scrollBy({ left: -400, behavior: 'smooth' });
+                    }}
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="rounded-full h-12 w-12 border-2"
+                    onClick={() => {
+                      const el = document.getElementById('dest-scroll');
+                      if (el) el.scrollBy({ left: 400, behavior: 'smooth' });
+                    }}
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </Button>
+                </div>
+              </div>
+
+              <div 
+                id="dest-scroll"
+                className="flex gap-6 overflow-x-auto pb-8 pt-2 no-scrollbar snap-x snap-mandatory"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {[
+                  { id: 'kyoto', img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800' },
+                  { id: 'paris', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800' },
+                  { id: 'bali', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=800' },
+                  { id: 'taipei', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800' } // Using a placeholder for Taipei if specific one not found
+                ].map((dest) => (
+                  <Dialog key={dest.id}>
+                    <DialogTrigger asChild>
+                      <div className="flex-none w-[280px] md:w-[350px] aspect-[3/4] rounded-[2.5rem] overflow-hidden relative group cursor-pointer snap-center shadow-xl shadow-zinc-200/50 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                        <img 
+                          src={dest.img} 
+                          alt={t(`destinations.${dest.id}.name`)}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+                        <div className="absolute bottom-0 left-0 right-0 p-8 text-white space-y-2">
+                          <h3 className="text-2xl font-black tracking-tight font-rounded">{t(`destinations.${dest.id}.name`)}</h3>
+                          <p className="text-sm text-zinc-200 font-medium line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                            {t(`destinations.${dest.id}.desc`)}
+                          </p>
+                        </div>
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-none shadow-2xl">
+                      <div className="h-64 md:h-80 relative">
+                        <img src={dest.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                      </div>
+                      <div className="p-8 md:p-12 space-y-6 -mt-12 relative z-10 bg-white/80 backdrop-blur-xl rounded-t-[3.5rem]">
+                        <div className="space-y-3">
+                          <h3 className="text-3xl md:text-4xl font-black text-zinc-900 font-rounded ai-text-gradient tracking-widest">{t(`destinations.${dest.id}.name`)}</h3>
+                          <p className="text-lg md:text-xl text-zinc-700 font-bold leading-relaxed">
+                            {t(`destinations.${dest.id}.desc`)}
+                          </p>
+                        </div>
+                        <div className="p-6 bg-zinc-50 rounded-3xl border border-zinc-100 space-y-2">
+                          <h4 className="text-sm uppercase font-black tracking-widest text-zinc-400 flex items-center gap-2">
+                            <Sparkles className="h-4 w-4 text-primary" />
+                            Butler Tips
+                          </h4>
+                          <p className="text-zinc-600 font-medium leading-relaxed">
+                            {t(`destinations.${dest.id}.tips`)}
+                          </p>
+                        </div>
+                        <Button className="w-full h-16 rounded-2xl text-xl font-bold shadow-xl shadow-primary/20" asChild>
+                          <Link href="/ai-planner">{t('findGuide')}</Link>
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                ))}
+              </div>
+            </div>
+          </FadeInScroll>
+        </div>
+      </section>
+
       <section className="w-full py-20 md:py-32 bg-white relative">
         <div className="container px-4 md:px-6 mx-auto">
           <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:grid-cols-4">

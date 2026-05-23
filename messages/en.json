@@ -180,6 +180,29 @@
     "expertDetail": "Every guide joining Trip Butler undergoes rigorous background checks and professional competency tests. We don't just verify licenses; we look deep into their knowledge of historic sites, local cuisine, and niche interests like photography or hiking. Find the perfect professional butler based on specialized tags.",
     "smartTitle": "Smart Itinerary",
     "smartDesc": "Leverage AI to craft personalized itineraries that dynamically adjust based on your preferences.",
-    "smartDetail": "Trip Butler's Smart Itinerary system combines powerful LLM models with the real-world experience of local guides. Simply input your preferences, and the system generates a draft considering transit routes, opening hours, and weather forecasts within seconds, which is then refined by experts for a perfect plan."
+    "smartDetail": "Trip Butler's Smart Itinerary system combines powerful LLM models with the real-world experience of local guides. Simply input your preferences, and the system generates a draft considering transit routes, opening hours, and weather forecasts within seconds, which is then refined by experts for a perfect plan.",
+    "destinations": {
+      "title": "Explore Destinations",
+      "kyoto": {
+        "name": "Kyoto, Japan",
+        "desc": "Wander through ancient streets and thousand-year-old temples, experiencing the pinnacle of Japanese aesthetics.",
+        "tips": "Best Seasons: Spring Cherry Blossoms & Autumn Leaves. Must-try: Local tea ceremonies and Kaiseki cuisine."
+      },
+      "paris": {
+        "name": "Paris, France",
+        "desc": "Find artistic inspiration in the city of romance, from the Eiffel Tower to hidden alley cafes.",
+        "tips": "Best Season: Early Summer. Must-try: Seine River strolls and guided Louvre tours."
+      },
+      "bali": {
+        "name": "Bali, Indonesia",
+        "desc": "Find peace in a tropical paradise, enjoying stunning beaches and Ubud's terraced rice fields.",
+        "tips": "Best Season: April to October (Dry Season). Must-try: Jungle swings and traditional fire dances."
+      },
+      "taipei": {
+        "name": "Taipei, Taiwan",
+        "desc": "Feel the blend of a bustling metropolis and traditional markets, tasting world-renowned local cuisine.",
+        "tips": "Best Season: Autumn. Must-try: Taipei 101 views and Raohe Night Market."
+      }
+    }
   }
 }
