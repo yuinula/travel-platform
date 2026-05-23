@@ -148,7 +148,7 @@ function LoginForm() {
         </form>
       </CardContent>
 
-      <CardFooter className="flex flex-col space-y-4 bg-white/60 backdrop-blur-xl border-t border-white/30 py-6 mt-4">
+      <CardFooter className="flex flex-col space-y-4 bg-white/85 backdrop-blur-xl border-t border-white/30 py-6 mt-4">
         {role === 'traveler' ? (
           <button 
             onClick={() => setRole('guide')}
