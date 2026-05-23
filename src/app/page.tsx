@@ -144,24 +144,25 @@ export default function Home() {
   );
 }
 
-function Card({ variant, icon, title, desc, ...props }: { variant: string, icon: React.ReactNode, title: string, desc: string } & React.HTMLAttributes<HTMLDivElement>) {
+function Card({ variant, icon, title, desc, ...props }: { variant: string, icon: React.ReactNode, title: string, desc: string } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <div 
+    <button 
+      type="button"
       {...props}
       className={cn(
-        "flex flex-col items-center md:items-start space-y-5 text-center md:text-left group p-8 rounded-[2.5rem] hover:bg-zinc-50/80 transition-all duration-500 border border-transparent hover:border-zinc-100 hover:shadow-2xl hover:shadow-zinc-200/50 cursor-pointer",
+        "flex flex-col items-center md:items-start space-y-5 text-center md:text-left group p-8 rounded-[2.5rem] hover:bg-zinc-50/80 transition-all duration-500 border border-transparent hover:border-zinc-100 hover:shadow-2xl hover:shadow-zinc-200/50 cursor-pointer w-full appearance-none",
         props.className
       )}
     >
       <div className="p-5 bg-zinc-50 rounded-2xl shadow-sm border border-zinc-100 group-hover:ai-gradient group-hover:text-white group-hover:shadow-xl group-hover:shadow-primary/20 group-hover:-translate-y-2 transition-all duration-500">
         {icon}
       </div>
-      <div className="space-y-2 transition-transform duration-500 group-hover:translate-x-1">
+      <div className="space-y-2 transition-transform duration-500 group-hover:translate-x-1 text-left">
         <h3 className="text-2xl font-black tracking-tight text-zinc-800">{title}</h3>
         <p className="text-zinc-500 leading-relaxed font-medium">
           {desc}
         </p>
       </div>
-    </div>
+    </button>
   )
 }
