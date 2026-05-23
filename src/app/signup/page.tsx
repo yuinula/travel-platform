@@ -158,7 +158,7 @@ function SignupForm() {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-4 !bg-white border-t border-zinc-200 py-8 rounded-b-[3rem]">
+      <CardFooter className="flex flex-col space-y-4 !bg-white border-t border-zinc-200 py-8 rounded-b-[2.5rem]">
         <div className="text-sm text-center text-black font-bold">
           {t('hasAccount')}{" "}
           <Link href="/login" className="font-black ai-text-gradient underline underline-offset-4 decoration-primary/30 hover:decoration-primary">
