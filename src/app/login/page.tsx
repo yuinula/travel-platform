@@ -148,35 +148,35 @@ function LoginForm() {
         </form>
       </CardContent>
 
-      <CardFooter className="flex flex-col space-y-4 !bg-white/90 backdrop-blur-2xl border-t border-white/30 py-6 mt-4">
+      <CardFooter className="flex flex-col space-y-4 !bg-white border-t border-zinc-200 py-8 mt-4 rounded-b-[2.5rem]">
         {role === 'traveler' ? (
           <button 
             onClick={() => setRole('guide')}
-            className="flex items-center justify-between w-full p-4 rounded-xl border-2 border-white/40 bg-white/70 hover:bg-white/90 hover:border-zinc-900/40 transition-all group shadow-sm"
+            className="flex items-center justify-between w-full p-4 rounded-xl border-2 border-zinc-200 bg-zinc-50 hover:bg-zinc-100 hover:border-zinc-900 transition-all group shadow-sm"
           >
             <div className="flex items-center gap-3">
               <div className="p-2 bg-zinc-900 text-white rounded-lg transition-colors">
                 <Briefcase className="h-4 w-4" />
               </div>
               <div className="text-left">
-                <p className="font-bold text-sm text-zinc-900">{t('guideEntry.title')}</p>
-                <p className="text-xs text-zinc-700 font-medium">{t('guideEntry.desc')}</p>
+                <p className="font-bold text-sm text-black">{t('guideEntry.title')}</p>
+                <p className="text-xs text-zinc-600 font-bold">{t('guideEntry.desc')}</p>
               </div>
             </div>
-            <ArrowRight className="h-4 w-4 text-zinc-900 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="h-4 w-4 text-black group-hover:translate-x-1 transition-transform" />
           </button>
         ) : (
           <button 
             onClick={() => setRole('traveler')}
-            className="text-sm font-bold text-zinc-800 hover:text-zinc-900 flex items-center gap-1"
+            className="text-sm font-black text-black hover:text-primary flex items-center gap-1"
           >
             ← {t('backToTraveler')}
           </button>
         )}
 
-        <div className="text-sm text-center text-zinc-800 font-medium pt-2">
+        <div className="text-sm text-center text-black font-bold pt-2">
           {t('noAccount')}{" "}
-          <Link href={`/signup?role=${role}`} className="font-extrabold text-zinc-950 underline underline-offset-4 hover:text-black decoration-zinc-400">
+          <Link href={`/signup?role=${role}`} className="font-black ai-text-gradient underline underline-offset-4 decoration-primary/30 hover:decoration-primary">
             {t('signupLink')}
           </Link>
         </div>
