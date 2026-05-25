@@ -191,12 +191,6 @@ export default function Home() {
                         {/* Right Side: Content */}
                         <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center space-y-5 md:space-y-6 overflow-y-auto">
                           <div className="space-y-2 md:space-y-3">
-                            <div className="flex items-center gap-3">
-                              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider">
-                                {t(`destinations.${dest.id}.name`).split('，')[1]}
-                              </span>
-                              <div className="h-px flex-1 bg-zinc-100" />
-                            </div>
                             <p className="text-lg md:text-xl text-zinc-800 font-bold leading-relaxed">
                               {t(`destinations.${dest.id}.desc`)}
                             </p>
