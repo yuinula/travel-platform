@@ -285,7 +285,7 @@ export default function AIPlannerPage() {
           </div>
 
           <Card className="border-none shadow-2xl shadow-zinc-200/50 rounded-[3rem] overflow-hidden bg-white">
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion className="w-full">
               {itinerary.map((item) => (
                 <AccordionItem key={item.day} value={`day-${item.day}`} className="border-b border-zinc-50">
                   <AccordionTrigger className="hover:no-underline">
