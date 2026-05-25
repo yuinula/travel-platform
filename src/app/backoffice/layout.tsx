@@ -31,6 +31,9 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     } else {
       setIsAuth(true)
     }
+
+    // Set page title for backoffice
+    document.title = "Trip Butler | 後台系統"
   }, [pathname, router])
 
   if (pathname === "/backoffice/login") {
