@@ -347,16 +347,21 @@ export default function AIPlannerPage() {
             </div>
             
             <div className="max-w-2xl mx-auto space-y-4">
-               <div className="space-y-2">
-                 <Label className="text-xs uppercase font-black tracking-widest text-zinc-400">{t('result.tripNameLabel')}</Label>
-                 <Input 
-                   value={tripName}
-                   onChange={(e) => setTripName(e.target.value)}
-                   className="text-2xl md:text-4xl h-auto py-4 text-center font-black border-none bg-transparent focus-visible:ring-0 focus-visible:bg-white/50 rounded-3xl"
-                   placeholder={t('result.tripNamePlaceholder')}
-                 />
+               <div className="space-y-2 relative group max-w-lg mx-auto">
+                 <Label className="text-[10px] uppercase font-black tracking-widest text-zinc-400 ml-1">{t('result.tripNameLabel')}</Label>
+                 <div className="relative">
+                   <Input 
+                     value={tripName}
+                     onChange={(e) => setTripName(e.target.value)}
+                     className="text-xl md:text-2xl h-auto py-6 px-12 text-center font-black border-2 border-zinc-200 bg-white focus-visible:ring-primary/20 rounded-[2rem] shadow-sm transition-all focus:border-primary hover:border-zinc-300"
+                     placeholder={t('result.tripNamePlaceholder')}
+                   />
+                   <div className="absolute right-5 top-1/2 -translate-y-1/2 p-2 bg-zinc-50 rounded-xl text-zinc-300 group-hover:text-primary transition-colors pointer-events-none">
+                     <Edit3 className="h-5 w-5" />
+                   </div>
+                 </div>
                </div>
-               <div className="flex items-center justify-center gap-2 text-zinc-500 font-bold">
+               <div className="flex items-center justify-center gap-2 text-zinc-500 font-bold text-sm">
                  <Calendar className="h-4 w-4" />
                  {format(dateRange!.from!, "yyyy/MM/dd")} - {format(dateRange!.to!, "yyyy/MM/dd")}
                </div>
