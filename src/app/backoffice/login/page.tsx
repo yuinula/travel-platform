@@ -11,7 +11,7 @@ import { toast } from "sonner"
 import Image from "next/image"
 
 import { createClient } from "@/lib/supabase"
-...
+
 export default function BackofficeLoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
