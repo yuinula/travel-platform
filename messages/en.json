@@ -86,10 +86,10 @@
       "pace": {
         "text": "How would you describe your preferred pace?",
         "options": ["Slow & Relaxed", "Balanced", "Active & Full Day"]
-      },
-      "back": "Back",
-      "continue": "Continue"
-    }
+      }
+    },
+    "back": "Back",
+    "continue": "Continue"
   },
   "Explore": {
     "title": "Explore Landmarks",
