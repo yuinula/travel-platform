@@ -177,6 +177,7 @@
     "title": "プロフィール設定",
     "description": "アカウント情報と連絡先を管理します",
     "avatarLabel": "プロフィール写真",
+    "contactInfo": "連絡先情報",
     "uploadButton": "写真を変更",
     "nameLabel": "表示名",
     "emailLabel": "メールアドレス",

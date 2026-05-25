@@ -252,7 +252,7 @@ export default function ProfilePage() {
 
         <Card className="border-2 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-lg">Contact Information</CardTitle>
+            <CardTitle className="text-lg">{t("contactInfo")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">

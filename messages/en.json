@@ -176,8 +176,9 @@
   "Profile": {
     "title": "Profile Settings",
     "description": "Manage your account information and contact details",
-    "avatarLabel": "Avatar",
-    "uploadButton": "Upload New Photo",
+    "avatarLabel": "Profile Photo",
+    "contactInfo": "Contact Information",
+    "uploadButton": "Change Photo",
     "nameLabel": "Display Name",
     "emailLabel": "Email Address",
     "phoneLabel": "Phone Number",
