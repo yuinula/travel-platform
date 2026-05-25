@@ -430,6 +430,7 @@ export default function AIPlannerPage() {
                                 selected={dateRange}
                                 onSelect={setDateRange}
                                 numberOfMonths={numberOfMonths}
+                                disabled={{ before: new Date() }}
                                 className="rounded-3xl border-none shadow-none"
                               />
                             </div>
