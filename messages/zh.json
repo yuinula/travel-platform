@@ -22,6 +22,16 @@
     "scanning": "正在掃描 500+ 位當地專家",
     "filtering": "正在篩選無障礙需求",
     "matching": "正在媒合行程風格",
+    "result": {
+      "title": "為您量身打造的行程",
+      "subtitle": "根據您的需求，AI Butler 為您規劃了以下行程：",
+      "dayTitle": "第 {day} 天",
+      "regenerate": "重新生成",
+      "editManually": "自行修改",
+      "morning": "上午",
+      "afternoon": "下午",
+      "evening": "晚上"
+    },
     "questions": {
       "destination": {
         "text": "您夢想去哪裡旅行？",

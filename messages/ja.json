@@ -22,6 +22,16 @@
     "scanning": "500人以上の現地専門家をスキャン中",
     "filtering": "アクセシビリティ要件をフィルタリング中",
     "matching": "ツアースタイルをマッチング中",
+    "result": {
+      "title": "あなた専用の行程",
+      "subtitle": "ご要望に基づいて、AI Butler が以下の行程を作成しました：",
+      "dayTitle": "{day} 日目",
+      "regenerate": "再生成する",
+      "editManually": "自分で修正する",
+      "morning": "午前",
+      "afternoon": "午後",
+      "evening": "夜"
+    },
     "questions": {
       "destination": {
         "text": "どこへ行きたいですか？",

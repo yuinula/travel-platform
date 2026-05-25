@@ -19,7 +19,12 @@ import {
   Plane,
   Check,
   Search,
-  Calendar
+  Calendar,
+  RotateCcw,
+  Edit3,
+  Sun,
+  Sunset,
+  Moon
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
@@ -30,6 +35,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { 
+  Accordion, 
+  AccordionContent, 
+  AccordionItem, 
+  AccordionTrigger 
+} from "@/components/ui/accordion"
 
 // Simple Progress bar replacement
 function CustomProgress({ value }: { value: number }) {
@@ -55,12 +66,24 @@ interface Question {
 
 type Answers = Record<string, string | string[]>;
 
+interface ItineraryDay {
+  day: number;
+  morning: string;
+  afternoon: string;
+  evening: string;
+}
+
 export default function AIPlannerPage() {
   const t = useTranslations('AIPlanner')
+  const th = useTranslations('Home')
   const router = useRouter()
+  
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [isFinishing, setIsFinishing] = useState(false)
+  const [showResult, setShowResult] = useState(false)
+  const [itinerary, setItinerary] = useState<ItineraryDay[]>([])
+  
   const [dateRange, setDateRange] = useState<DateRange | undefined>()
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const [numberOfMonths, setNumberOfMonths] = useState(2)
@@ -136,11 +159,38 @@ export default function AIPlannerPage() {
     }
   }
 
+  const generateItinerary = () => {
+    // Mock itinerary generation based on interests and pace
+    const dest = (answers.destination as string) || "Japan"
+    const interests = (answers.interests as string[]) || []
+    const pace = (answers.pace as string) || "Balanced"
+    
+    const days = 3 // Standard mock for 3 days
+    const mockPlan: ItineraryDay[] = Array.from({ length: days }, (_, i) => ({
+      day: i + 1,
+      morning: `${dest} Landmark Visit & ${interests[0] || 'Local Tour'}`,
+      afternoon: `${dest} City Exploration: Focus on ${interests[1] || 'Culture'}`,
+      evening: `${dest} Evening Special: ${pace} style dining and walk`
+    }))
+    
+    setItinerary(mockPlan)
+  }
+
   const finishPlanning = () => {
     setIsFinishing(true)
+    generateItinerary()
     setTimeout(() => {
-      router.push("/explore?matched=true")
-    }, 2500)
+      setIsFinishing(false)
+      setShowResult(true)
+    }, 3000)
+  }
+
+  const resetPlanner = () => {
+    setStep(0)
+    setAnswers({})
+    setShowResult(false)
+    setItinerary([])
+    setDateRange(undefined)
   }
 
   const handleSelect = (option: string) => {
@@ -179,6 +229,93 @@ export default function AIPlannerPage() {
       return !val || (val as string[]).length === 0
     }
     return !val
+  }
+
+  if (showResult) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] bg-zinc-50/50 py-12 md:py-20">
+        <div className="container max-w-4xl mx-auto px-4 space-y-12">
+          <div className="text-center space-y-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-zinc-200 shadow-sm text-zinc-600 text-xs md:text-sm font-medium">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="ai-text-gradient font-bold">{t('badge')}</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900">{th('result.title')}</h1>
+            <p className="text-zinc-500 font-medium md:text-lg">{th('result.subtitle')}</p>
+          </div>
+
+          <Card className="border-none shadow-2xl shadow-zinc-200/50 rounded-[3rem] overflow-hidden bg-white">
+            <Accordion type="single" collapsible className="w-full">
+              {itinerary.map((item) => (
+                <AccordionItem key={item.day} value={`day-${item.day}`} className="border-b border-zinc-50">
+                  <AccordionTrigger className="hover:no-underline">
+                    <div className="flex items-center gap-4">
+                      <div className="h-10 w-10 rounded-2xl ai-gradient flex items-center justify-center text-white font-black text-sm">
+                        {item.day}
+                      </div>
+                      <span className="font-black text-xl">{th('result.dayTitle', { day: item.day })}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid gap-6 md:grid-cols-3 pt-2">
+                      <div className="p-6 rounded-[2rem] bg-amber-50/50 border border-amber-100/50 space-y-3">
+                        <div className="flex items-center gap-2 text-amber-600 font-black text-xs uppercase tracking-widest">
+                          <Sun className="h-4 w-4" />
+                          {th('result.morning')}
+                        </div>
+                        <p className="text-zinc-800 font-bold leading-relaxed">{item.morning}</p>
+                      </div>
+                      <div className="p-6 rounded-[2rem] bg-blue-50/50 border border-blue-100/50 space-y-3">
+                        <div className="flex items-center gap-2 text-blue-600 font-black text-xs uppercase tracking-widest">
+                          <Sunset className="h-4 w-4" />
+                          {th('result.afternoon')}
+                        </div>
+                        <p className="text-zinc-800 font-bold leading-relaxed">{item.afternoon}</p>
+                      </div>
+                      <div className="p-6 rounded-[2rem] bg-indigo-50/50 border border-indigo-100/50 space-y-3">
+                        <div className="flex items-center gap-2 text-indigo-600 font-black text-xs uppercase tracking-widest">
+                          <Moon className="h-4 w-4" />
+                          {th('result.evening')}
+                        </div>
+                        <p className="text-zinc-800 font-bold leading-relaxed">{item.evening}</p>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+
+            <CardContent className="p-8 md:p-12 bg-zinc-50/30 border-t border-zinc-100 flex flex-col sm:flex-row gap-4">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg md:text-xl gap-2 hover:bg-white"
+                onClick={() => {
+                  setIsFinishing(true);
+                  setShowResult(false);
+                  generateItinerary();
+                  setTimeout(() => {
+                    setIsFinishing(false);
+                    setShowResult(true);
+                  }, 2000);
+                }}
+              >
+                <RotateCcw className="h-5 w-5" />
+                {th('result.regenerate')}
+              </Button>
+              <Button 
+                size="lg" 
+                className="flex-1 h-16 rounded-2xl font-black text-lg md:text-xl gap-2 shadow-xl shadow-primary/20"
+                onClick={() => router.push("/explore?matched=true")}
+              >
+                <Edit3 className="h-5 w-5" />
+                {th('result.editManually')}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
   }
 
   return (
