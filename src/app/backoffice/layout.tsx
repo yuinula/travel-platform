@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell } from "lucide-react"
+import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -53,6 +53,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
   const sidebarLinks = [
     { name: "Dashboard", href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
     { name: "Admin Portal", href: "/backoffice/admin", icon: <ShieldAlert className="h-5 w-5" /> },
+    { name: "Manage Admins", href: "/backoffice/admins", icon: <ShieldCheck className="h-5 w-5" /> },
   ]
 
   return (
