@@ -33,7 +33,14 @@ export default function BackofficeLoginPage() {
         .single()
 
       if (admin) {
-        // Store session with the actual authenticated admin profile
+        // Record successful login log
+        await supabase.from('system_log').insert([{
+          admin_username: admin.username,
+          action_type: 'LOGIN',
+          description: `Administrator ${admin.username} logged in successfully.`
+        }])
+
+        // Store session
         localStorage.setItem("trip-butler-admin", "true")
         localStorage.setItem("trip-butler-admin-user", JSON.stringify({
           id: admin.id,

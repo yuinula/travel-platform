@@ -66,7 +66,14 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     return <div className="min-h-screen bg-zinc-950 flex items-center justify-center text-zinc-500 font-bold tracking-widest uppercase text-xs animate-pulse">Initializing Security...</div>
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (adminUser) {
+      await supabase.from('system_log').insert([{
+        admin_username: adminUser.username,
+        action_type: 'LOGOUT',
+        description: `Administrator ${adminUser.username} logged out.`
+      }])
+    }
     localStorage.removeItem("trip-butler-admin")
     localStorage.removeItem("trip-butler-admin-user")
     router.push("/backoffice/login")
@@ -87,6 +94,13 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     if (error) {
       toast.error("Failed to update password")
     } else {
+      // Record log
+      await supabase.from('system_log').insert([{
+        admin_username: adminUser.username,
+        action_type: 'CHANGE_PASSWORD',
+        description: `Administrator ${adminUser.username} changed their own password.`
+      }])
+
       toast.success("Password updated. Please log in again with your new credentials.")
       setIsPasswordOpen(false)
       setNewPassword("")
@@ -103,6 +117,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     { name: "Dashboard", href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-5 w-5" />, permId: 'dashboard' },
     { name: "Admin Portal", href: "/backoffice/admin", icon: <ShieldAlert className="h-5 w-5" />, permId: 'admin-portal' },
     { name: "Manage Admins", href: "/backoffice/admins", icon: <ShieldCheck className="h-5 w-5" />, permId: 'manage-admins' },
+    { name: "System Logs", href: "/backoffice/logs", icon: <Settings className="h-5 w-5" />, permId: 'manage-admins' },
   ]
 
   // Filter links based on current admin permissions

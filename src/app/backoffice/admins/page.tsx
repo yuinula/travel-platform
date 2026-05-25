@@ -93,6 +93,15 @@ export default function AdminManagementPage() {
     if (error) {
       toast.error("Error creating account")
     } else {
+      // Record Log
+      const currentUser = JSON.parse(localStorage.getItem('trip-butler-admin-user') || '{}');
+      await supabase.from('system_log').insert([{
+        admin_username: currentUser.username || 'System',
+        action_type: 'CREATE_ADMIN',
+        description: `Created new admin account: ${newUsername}`,
+        details: { target: newUsername, permissions: selectedPerms }
+      }]);
+
       toast.success(`Admin ${newUsername} added and synced`)
       setIsAddOpen(false)
       setNewUsername("")
@@ -116,6 +125,15 @@ export default function AdminManagementPage() {
     if (error) {
       toast.error("Error updating account")
     } else {
+      // Record Log
+      const currentUser = JSON.parse(localStorage.getItem('trip-butler-admin-user') || '{}');
+      await supabase.from('system_log').insert([{
+        admin_username: currentUser.username || 'System',
+        action_type: 'EDIT_ADMIN',
+        description: `Updated admin account: ${editingAdmin.username}`,
+        details: { target: editingAdmin.username, new_permissions: selectedPerms, password_changed: !!newPassword }
+      }]);
+
       toast.success(`Admin ${editingAdmin.username} updated`)
       setIsEditOpen(false)
       setEditingAdmin(null)
@@ -125,6 +143,7 @@ export default function AdminManagementPage() {
   }
 
   const handleDelete = async (id: string, role: string) => {
+    const adminToDelete = admins.find(a => a.id === id);
     if (role === 'Super Admin') {
       toast.error("Cannot delete Super Admin")
       return
@@ -138,6 +157,15 @@ export default function AdminManagementPage() {
     if (error) {
       toast.error("Error removing account")
     } else {
+      // Record Log
+      const currentUser = JSON.parse(localStorage.getItem('trip-butler-admin-user') || '{}');
+      await supabase.from('system_log').insert([{
+        admin_username: currentUser.username || 'System',
+        action_type: 'DELETE_ADMIN',
+        description: `Deleted admin account: ${adminToDelete?.username}`,
+        details: { target: adminToDelete?.username }
+      }]);
+
       toast.success("Account removed and synced")
       fetchAdmins()
     }
