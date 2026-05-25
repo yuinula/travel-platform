@@ -156,8 +156,8 @@ export default function Home() {
                   { id: 'taipei', img: 'https://images.unsplash.com/photo-1598935900064-5ee8670ade64?q=80&w=800' } 
                 ].map((dest) => (
                   <Dialog key={dest.id}>
-                    <DialogTrigger asChild>
-                      <div className="flex-none w-[280px] md:w-[350px] aspect-[3/4] rounded-[2.5rem] overflow-hidden relative group cursor-pointer snap-center shadow-xl shadow-zinc-200/50 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                    <DialogTrigger render={
+                      <button className="flex-none w-[280px] md:w-[350px] aspect-[3/4] rounded-[2.5rem] overflow-hidden relative group cursor-pointer snap-center shadow-xl shadow-zinc-200/50 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 appearance-none text-left p-0 border-none bg-transparent">
                         <img 
                           src={dest.img} 
                           alt={t(`destinations.${dest.id}.name`)}
@@ -170,8 +170,8 @@ export default function Home() {
                             {t(`destinations.${dest.id}.desc`)}
                           </p>
                         </div>
-                      </div>
-                    </DialogTrigger>
+                      </button>
+                    } />
                     <DialogContent className="sm:max-w-4xl p-0 overflow-hidden border-none shadow-2xl bg-white/95 backdrop-blur-2xl rounded-[3rem]">
                       <div className="flex flex-col md:flex-row h-full max-h-[90vh] md:max-h-[600px]">
                         {/* Left Side: Large Image (Desktop) / Top Image (Mobile) */}
