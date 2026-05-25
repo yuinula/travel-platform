@@ -160,17 +160,57 @@ export default function AIPlannerPage() {
   }
 
   const generateItinerary = () => {
-    // Mock itinerary generation based on interests and pace
     const dest = (answers.destination as string) || "Japan"
-    const interests = (answers.interests as string[]) || []
+    const interests = (answers.interests as string[]) || ["Local Culture", "Food"]
     const pace = (answers.pace as string) || "Balanced"
     
-    const days = 3 // Standard mock for 3 days
+    // Dynamic day calculation from dateRange
+    let days = 3;
+    if (dateRange?.from && dateRange?.to) {
+      const diffTime = Math.abs(dateRange.to.getTime() - dateRange.from.getTime());
+      days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    }
+
+    const activityPool = {
+      morning: [
+        "Historical Landmarks & Temples",
+        "Local Breakfast Market Exploration",
+        "Scenic Mountain Hike & Views",
+        "Museum of Art & Design",
+        "Traditional Craft Workshop",
+        "Botanical Garden Morning Walk",
+        "Old Town Guided Walking Tour"
+      ],
+      afternoon: [
+        "Hidden Gems & Backalley Discovery",
+        "Local Cooking Class & Lunch",
+        "Modern Architecture Sightseeing",
+        "Riverside Boat Cruise",
+        "Fashion & Boutique Shopping",
+        "Wellness Spa & Traditional Massage",
+        "Tea Ceremony or Coffee Roastery Visit"
+      ],
+      evening: [
+        "Night Market Gastronomy Tour",
+        "Skyline Rooftop Bar & Dinner",
+        "Cultural Dance or Music Performance",
+        "Illuminated Shrine or Tower Walk",
+        "Local Pub Crawl & Social Hour",
+        "Cozy Hidden Bistro Experience",
+        "Night Photography Workshop"
+      ]
+    }
+
+    const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
+    const morns = shuffle(activityPool.morning);
+    const afts = shuffle(activityPool.afternoon);
+    const eves = shuffle(activityPool.evening);
+
     const mockPlan: ItineraryDay[] = Array.from({ length: days }, (_, i) => ({
       day: i + 1,
-      morning: `${dest} Landmark Visit & ${interests[0] || 'Local Tour'}`,
-      afternoon: `${dest} City Exploration: Focus on ${interests[1] || 'Culture'}`,
-      evening: `${dest} Evening Special: ${pace} style dining and walk`
+      morning: `${dest}: ${morns[i % morns.length]} (Focus on ${interests[0]})`,
+      afternoon: `${dest}: ${afts[i % afts.length]} (Interests: ${interests.join(', ')})`,
+      evening: `${dest}: ${eves[i % eves.length]} (${pace} Pace Experience)`
     }))
     
     setItinerary(mockPlan)
