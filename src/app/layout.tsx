@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Quicksand } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/navbar";
+import HeaderShell from "@/components/header-shell";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -52,8 +52,8 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="relative flex min-h-screen flex-col">
-              <Navbar />
+            <div className="relative min-h-screen flex flex-col">
+              <HeaderShell />
               <main className="flex-1">{children}</main>
               <Toaster />
             </div>
