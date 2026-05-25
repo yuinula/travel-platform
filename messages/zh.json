@@ -90,7 +90,11 @@
       }
     },
     "back": "返回",
-    "continue": "繼續"
+    "continue": "繼續",
+    "loading": {
+      "title": "正在為您規劃完美旅程",
+      "subtitle": "AI Butler 正在根據您的喜好挑選最合適的景點與活動..."
+    }
   },
   "Explore": {
     "title": "探索景點",

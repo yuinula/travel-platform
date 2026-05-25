@@ -90,7 +90,11 @@
       }
     },
     "back": "戻る",
-    "continue": "次へ"
+    "continue": "次へ",
+    "loading": {
+      "title": "完璧な旅を計画中",
+      "subtitle": "AI Butler があなたの好みに合わせて、最適な景點やアクティビティを選んでいます..."
+    }
   },
   "Explore": {
     "title": "景點を探す",

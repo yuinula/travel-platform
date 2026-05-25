@@ -90,7 +90,11 @@
       }
     },
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "loading": {
+      "title": "Crafting Your Perfect Journey",
+      "subtitle": "AI Butler is selecting the best landmarks and activities based on your preferences..."
+    }
   },
   "Explore": {
     "title": "Explore Landmarks",
