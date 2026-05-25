@@ -209,12 +209,15 @@ export default function Home() {
                           </div>
 
                           <div className="pt-2 md:pt-4">
-                            <Button className="w-full h-14 md:h-16 rounded-xl md:rounded-2xl text-lg md:text-xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap" asChild>
-                              <Link href="/ai-planner" className="flex items-center justify-center">
-                                {t('findGuide')}
-                                <ArrowRight className="ml-2 h-5 w-5 shrink-0" />
-                              </Link>
-                            </Button>
+                            <Button 
+                              render={
+                                <Link href="/ai-planner" className="flex items-center justify-center">
+                                  {t('findGuide')}
+                                  <ArrowRight className="ml-2 h-5 w-5 shrink-0" />
+                                </Link>
+                              }
+                              className="w-full h-14 md:h-16 rounded-xl md:rounded-2xl text-lg md:text-xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap" 
+                            />
                           </div>
                         </div>
                       </div>
