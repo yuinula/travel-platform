@@ -321,7 +321,7 @@ function TripCard({
         <AccordionItem value={trip.id} className="border-none">
           <div className="flex flex-col md:flex-row md:items-center p-6 md:p-10 gap-8">
             <AccordionTrigger render={
-              <div className="flex-1 text-left flex flex-col md:flex-row md:items-center gap-6 cursor-pointer">
+              <button className="flex-1 text-left flex flex-col md:flex-row md:items-center gap-6 cursor-pointer">
                 <div className="h-20 w-20 md:h-24 md:w-24 rounded-[2.5rem] bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100 group-hover:ai-gradient group-hover:border-transparent transition-all duration-500 shadow-inner">
                   <MapPin className="h-10 w-10 text-primary group-hover:text-white transition-colors duration-500" />
                 </div>
@@ -342,7 +342,7 @@ function TripCard({
                     <span>{format(new Date(trip.start_date), "yyyy/MM/dd")} — {format(new Date(trip.end_date), "yyyy/MM/dd")}</span>
                   </div>
                 </div>
-              </div>
+              </button>
             } />
             
             <div className="flex items-center gap-3 self-end md:self-center pr-4">
