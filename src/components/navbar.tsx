@@ -6,7 +6,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useTranslations } from 'next-intl';
 import { Button, buttonVariants } from "@/components/ui/button"
-import { MessageSquare, User, LogOut, Briefcase, Sparkles, ShieldAlert, Menu, LogIn, UserPlus, Compass } from "lucide-react"
+import { MessageSquare, User, LogOut, Briefcase, Sparkles, ShieldAlert, Menu, LogIn, UserPlus, Compass, Calendar } from "lucide-react"
 import { createClient } from "@/lib/supabase"
 import {
   DropdownMenu,
@@ -127,6 +127,14 @@ export default function Navbar() {
                 {user ? (
                   <>
                     <Link
+                      href="/itineraries"
+                      className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <Calendar className="h-4 w-4 mr-3 text-zinc-500" />
+                      {t('myItineraries')}
+                    </Link>
+                    <Link
                       href="/profile"
                       className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -228,16 +236,6 @@ export default function Navbar() {
                 <Button size="sm" className="px-2 md:px-4">
                   <UserPlus className="h-5 w-5 md:hidden" />
                   <span className="hidden md:inline">{t('signup')}</span>
-                </Button>
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-    </header>
-  )
-}
-         <span className="hidden md:inline">{t('signup')}</span>
                 </Button>
               </Link>
             </div>
