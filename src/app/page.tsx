@@ -189,36 +189,36 @@ export default function Home() {
                         </div>
 
                         {/* Right Side: Content */}
-                        <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center space-y-6 md:space-y-8 overflow-y-auto">
-                          <div className="space-y-3 md:space-y-4">
+                        <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center space-y-5 md:space-y-6 overflow-y-auto">
+                          <div className="space-y-2 md:space-y-3">
                             <div className="flex items-center gap-3">
-                              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider">
+                              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider">
                                 {t(`destinations.${dest.id}.name`).split('，')[1]}
                               </span>
                               <div className="h-px flex-1 bg-zinc-100" />
                             </div>
-                            <p className="text-xl md:text-2xl text-zinc-800 font-bold leading-relaxed">
+                            <p className="text-lg md:text-xl text-zinc-800 font-bold leading-relaxed">
                               {t(`destinations.${dest.id}.desc`)}
                             </p>
                           </div>
 
-                          <div className="p-6 md:p-8 bg-blue-50/50 rounded-[2rem] border border-blue-100/50 space-y-3 relative group/tip">
-                            <div className="absolute -top-3 left-6 px-4 py-1 bg-white border border-blue-100 rounded-full shadow-sm">
-                              <h4 className="text-xs uppercase font-black tracking-widest text-blue-500 flex items-center gap-2">
-                                <Sparkles className="h-3 w-3" />
+                          <div className="p-5 md:p-6 bg-blue-50/50 rounded-[1.5rem] md:rounded-[2rem] border border-blue-100/50 space-y-2 md:space-y-3 relative group/tip">
+                            <div className="absolute -top-3 left-6 px-3 py-0.5 bg-white border border-blue-100 rounded-full shadow-sm">
+                              <h4 className="text-[10px] uppercase font-black tracking-widest text-blue-500 flex items-center gap-1.5">
+                                <Sparkles className="h-2.5 w-2.5" />
                                 Butler Tips
                               </h4>
                             </div>
-                            <p className="text-zinc-700 font-medium leading-relaxed italic">
+                            <p className="text-zinc-700 text-sm md:text-base font-medium leading-relaxed italic">
                               "{t(`destinations.${dest.id}.tips`)}"
                             </p>
                           </div>
 
-                          <div className="pt-4">
-                            <Button className="w-full h-16 md:h-18 rounded-2xl text-xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap" asChild>
+                          <div className="pt-2 md:pt-4">
+                            <Button className="w-full h-14 md:h-16 rounded-xl md:rounded-2xl text-lg md:text-xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap" asChild>
                               <Link href="/ai-planner" className="flex items-center justify-center">
                                 {t('findGuide')}
-                                <ArrowRight className="ml-2 h-6 w-6 shrink-0" />
+                                <ArrowRight className="ml-2 h-5 w-5 shrink-0" />
                               </Link>
                             </Button>
                           </div>
