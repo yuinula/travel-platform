@@ -49,7 +49,11 @@
       "pastMemories": "過去の思い出",
       "daysCount": "{count} 日間",
       "hireGuide": "この行程でガイドを予約する",
-      "removed": "行程を削除しました"
+      "removed": "行程を削除しました",
+      "deleteConfirmTitle": "行程の削除",
+      "deleteConfirmDesc": "「{name}」を削除してもよろしいですか？この操作は取り消せません。",
+      "deleteConfirmAction": "削除する",
+      "deleteConfirmCancel": "キャンセル"
     },
     "questions": {
       "destination": {

@@ -49,7 +49,11 @@
       "pastMemories": "過去的旅行回憶",
       "daysCount": "{count} 天",
       "hireGuide": "為此行程預約導遊",
-      "removed": "行程已移除"
+      "removed": "行程已移除",
+      "deleteConfirmTitle": "刪除行程",
+      "deleteConfirmDesc": "您確定要刪除「{name}」嗎？此動作將無法復原。",
+      "deleteConfirmAction": "確認刪除",
+      "deleteConfirmCancel": "取消"
     },
     "questions": {
       "destination": {

@@ -49,7 +49,11 @@
       "pastMemories": "Past Memories",
       "daysCount": "{count} Days",
       "hireGuide": "Hire a Guide for this Trip",
-      "removed": "Itinerary removed"
+      "removed": "Itinerary removed",
+      "deleteConfirmTitle": "Delete Itinerary",
+      "deleteConfirmDesc": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+      "deleteConfirmAction": "Confirm Delete",
+      "deleteConfirmCancel": "Cancel"
     },
     "questions": {
       "destination": {

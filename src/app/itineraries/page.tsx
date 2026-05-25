@@ -28,6 +28,15 @@ import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 import { createClient } from "@/lib/supabase"
 import Link from "next/link"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 interface ItineraryDay {
   day_number: number;
@@ -278,17 +287,44 @@ function TripCard({
                 </div>
               </div>
             </AccordionTrigger>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-zinc-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(trip.id);
-              }}
-            >
-              <Trash2 className="h-5 w-5" />
-            </Button>
+            
+            <Dialog>
+              <DialogTrigger render={
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="text-zinc-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Trash2 className="h-5 w-5" />
+                </Button>
+              } />
+              <DialogContent className="bg-white/90 backdrop-blur-xl border-white/40 max-w-md p-10 rounded-[3rem] shadow-2xl">
+                <DialogHeader className="space-y-4">
+                  <div className="h-14 w-14 rounded-2xl bg-red-50 flex items-center justify-center mb-2">
+                    <Trash2 className="h-7 w-7 text-red-500" />
+                  </div>
+                  <DialogTitle className="text-2xl font-black text-zinc-900 font-rounded tracking-widest">{t('result.deleteConfirmTitle')}</DialogTitle>
+                  <DialogDescription className="text-zinc-500 font-medium text-lg leading-relaxed">
+                    {t('result.deleteConfirmDesc', { name: trip.name })}
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="mt-8 flex flex-col sm:flex-row gap-3">
+                  <DialogTrigger render={
+                    <Button variant="outline" className="flex-1 h-14 rounded-xl border-2 font-bold hover:bg-zinc-50">
+                      {t('result.deleteConfirmCancel')}
+                    </Button>
+                  } />
+                  <Button 
+                    variant="destructive" 
+                    className="flex-1 h-14 rounded-xl font-black text-lg shadow-xl shadow-red-500/20"
+                    onClick={() => onDelete(trip.id)}
+                  >
+                    {t('result.deleteConfirmAction')}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <AccordionContent className="bg-zinc-50/30">
