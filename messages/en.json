@@ -66,7 +66,8 @@
         "placeholder": "e.g. Kyoto, Taipei, Paris..."
       },
       "dates": {
-        "text": "When are you planning to go?"
+        "text": "When are you planning to go?",
+        "placeholder": "Click to select date range"
       },
       "pax": {
         "text": "How many travelers are joining?",
@@ -85,17 +86,34 @@
       "pace": {
         "text": "How would you describe your preferred pace?",
         "options": ["Slow & Relaxed", "Balanced", "Active & Full Day"]
-      }
+      },
+      "back": "Back",
+      "continue": "Continue"
     }
   },
   "Explore": {
-    "title": "Find Your Guide",
-    "description": "Browse our vetted experts for your next journey.",
-    "searchPlaceholder": "Search by name or location...",
-    "reviews": "reviews",
-    "hourlyRate": "hr",
-    "viewProfile": "View Profile",
-    "noGuides": "No guides found matching your search."
+    "title": "Explore Landmarks",
+    "description": "Discover iconic sites, local markets, and featured restaurants around the world.",
+    "searchPlaceholder": "Search landmarks, cities...",
+    "filterCountry": "Country",
+    "filterType": "Type",
+    "addToItinerary": "Add to Trip",
+    "noLandmarks": "No landmarks found matching your criteria.",
+    "types": {
+      "Sightseeing": "Sightseeing",
+      "Market": "Market & Mall",
+      "Restaurant": "Restaurant",
+      "Accommodation": "Accommodation"
+    },
+    "tags": {
+      "accessible": "Accessible",
+      "child": "Child Friendly",
+      "elder": "Elder Friendly"
+    },
+    "selectTrip": "Select Itinerary",
+    "selectDay": "Select Day",
+    "selectSlot": "Select Slot",
+    "addSuccess": "Landmark added to your itinerary!"
   },
   "GuideDetail": {
     "back": "Back to Explore",

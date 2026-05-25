@@ -66,7 +66,8 @@
         "placeholder": "例：京都、台北、パリ..."
       },
       "dates": {
-        "text": "いつ行かれる予定ですか？"
+        "text": "いつ頃行かれる予定ですか？",
+        "placeholder": "クリックして日付範囲を選択"
       },
       "pax": {
         "text": "何名で参加されますか？",
@@ -85,17 +86,34 @@
       "pace": {
         "text": "旅行のペースはどのくらいがよいですか？",
         "options": ["ゆっくりとリラックス", "バランス重視", "アクティブで充実"]
-      }
+      },
+      "back": "戻る",
+      "continue": "次へ"
     }
   },
   "Explore": {
-    "title": "ガイドを探す",
-    "description": "次回の旅行に向けて、認証済みの専門家を閲覧しましょう。",
-    "searchPlaceholder": "名前や場所で検索...",
-    "reviews": "件のレビュー",
-    "hourlyRate": "時間",
-    "viewProfile": "プロフィールを見る",
-    "noGuides": "検索条件に一致するガイドが見つかりませんでした。"
+    "title": "景點を探す",
+    "description": "世界中の人気観光スポット、地元の市場、レストランを見つけましょう。",
+    "searchPlaceholder": "景點名、都市で検索...",
+    "filterCountry": "国",
+    "filterType": "カテゴリー",
+    "addToItinerary": "行程に追加",
+    "noLandmarks": "条件に合う景點が見つかりませんでした。",
+    "types": {
+      "Sightseeing": "観光スポット",
+      "Market": "市場・デパート",
+      "Restaurant": "レストラン",
+      "Accommodation": "宿泊施設"
+    },
+    "tags": {
+      "accessible": "バリアフリー",
+      "child": "子供連れ歓迎",
+      "elder": "シニア向け"
+    },
+    "selectTrip": "行程を選択",
+    "selectDay": "日付を選択",
+    "selectSlot": "時間帯を選択",
+    "addSuccess": "景點を行程に追加しました！"
   },
   "GuideDetail": {
     "back": "探索に戻る",

@@ -66,7 +66,8 @@
         "placeholder": "例如：京都、台北、巴黎..."
       },
       "dates": {
-        "text": "您預計何時前往？"
+        "text": "您預計何時前往？",
+        "placeholder": "點擊選擇日期範圍"
       },
       "pax": {
         "text": "有多少位旅客參與？",
@@ -85,17 +86,34 @@
       "pace": {
         "text": "您會如何描述您偏好的節奏？",
         "options": ["緩慢與放鬆", "平衡", "積極與充實"]
-      }
+      },
+      "back": "返回",
+      "continue": "繼續"
     }
   },
   "Explore": {
-    "title": "尋找您的導遊",
-    "description": "為您的下一次旅程瀏覽我們經過驗證的專家。",
-    "searchPlaceholder": "搜尋姓名或地點...",
-    "reviews": "則評論",
-    "hourlyRate": "小時",
-    "viewProfile": "查看個人資料",
-    "noGuides": "找不到符合您搜尋條件的導遊。"
+    "title": "探索景點",
+    "description": "瀏覽世界各地的熱門景點、在地市集與特色美食。",
+    "searchPlaceholder": "搜尋景點名稱、城市...",
+    "filterCountry": "國家",
+    "filterType": "類型",
+    "addToItinerary": "加入行程",
+    "noLandmarks": "找不到符合條件的景點。",
+    "types": {
+      "Sightseeing": "觀光景點",
+      "Market": "市集百貨",
+      "Restaurant": "美食餐廳",
+      "Accommodation": "住宿地點"
+    },
+    "tags": {
+      "accessible": "無障礙友善",
+      "child": "兒童友善",
+      "elder": "長者友善"
+    },
+    "selectTrip": "選擇行程",
+    "selectDay": "選擇天數",
+    "selectSlot": "選擇時段",
+    "addSuccess": "景點已成功加入您的行程！"
   },
   "GuideDetail": {
     "back": "返回探索",
