@@ -67,7 +67,8 @@
       },
       "dates": {
         "text": "When are you planning to go?",
-        "placeholder": "Click to select date range"
+        "placeholder": "Click to select date range",
+        "selectedPeriod": "Selected Period"
       },
       "pax": {
         "text": "How many travelers are joining?",

@@ -521,7 +521,9 @@ export default function AIPlannerPage() {
                               className="w-full h-24 md:h-32 rounded-3xl border-2 border-zinc-100 hover:border-primary hover:bg-primary/5 transition-all group px-8"
                             >
                               <div className="flex flex-col items-start gap-1 flex-1">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-primary transition-colors">Selected Period</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-primary transition-colors">
+                                  {t('questions.dates.selectedPeriod')}
+                                </span>
                                 <span className="text-lg md:text-2xl font-black text-zinc-900">
                                   {dateRange?.from ? (
                                     dateRange.to ? (

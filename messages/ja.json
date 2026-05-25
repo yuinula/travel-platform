@@ -67,7 +67,8 @@
       },
       "dates": {
         "text": "いつ頃行かれる予定ですか？",
-        "placeholder": "クリックして日付範囲を選択"
+        "placeholder": "クリックして日付範圍を選択",
+        "selectedPeriod": "選択された期間"
       },
       "pax": {
         "text": "何名で参加されますか？",

@@ -67,7 +67,8 @@
       },
       "dates": {
         "text": "您預計何時前往？",
-        "placeholder": "點擊選擇日期範圍"
+        "placeholder": "點擊選擇日期範圍",
+        "selectedPeriod": "已選區間"
       },
       "pax": {
         "text": "有多少位旅客參與？",
