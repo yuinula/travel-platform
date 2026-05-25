@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation"
 import { useTranslations } from 'next-intl'
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { 
   Calendar, 
   MapPin, 
-  ChevronRight, 
   Trash2, 
   Clock, 
   Sparkles,
@@ -45,7 +44,6 @@ interface SavedTrip {
 
 export default function MyItinerariesPage() {
   const t = useTranslations('AIPlanner')
-  const th = useTranslations('Home')
   const router = useRouter()
   
   const [trips, setTrips] = useState<SavedTrip[]>([])
@@ -63,7 +61,7 @@ export default function MyItinerariesPage() {
     const updated = trips.filter(t => t.id !== id)
     setTrips(updated)
     localStorage.setItem('trip-butler-itineraries', JSON.stringify(updated))
-    toast.success("Itinerary removed")
+    toast.success(t('result.removed'))
   }
 
   const futureTrips = trips.filter(trip => new Date(trip.dateRange.from) >= new Date().setHours(0,0,0,0))
@@ -79,18 +77,18 @@ export default function MyItinerariesPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2">
             <h1 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">{t('result.myItineraries')}</h1>
-            <p className="text-zinc-500 font-medium text-lg">Manage your AI-crafted travel plans.</p>
+            <p className="text-zinc-500 font-medium text-lg">{t('result.subtitleManage')}</p>
           </div>
           <div className="flex items-center gap-4 bg-white p-3 rounded-2xl border border-zinc-100 shadow-sm">
              <div className="px-4 border-r border-zinc-100 text-center">
-               <p className="text-[10px] uppercase font-black text-zinc-400 tracking-widest">Active Plans</p>
+               <p className="text-[10px] uppercase font-black text-zinc-400 tracking-widest">{t('result.activePlans')}</p>
                <p className={cn("text-2xl font-black", futureTrips.length >= 5 ? "text-red-500" : "text-primary")}>
                  {futureTrips.length} <span className="text-sm text-zinc-300">/ 5</span>
                </p>
              </div>
              <Button onClick={() => router.push("/ai-planner")} className="rounded-xl font-bold ai-gradient shadow-lg shadow-primary/20">
                <Sparkles className="h-4 w-4 mr-2" />
-               New Plan
+               {t('result.newPlan')}
              </Button>
           </div>
         </div>
@@ -102,11 +100,11 @@ export default function MyItinerariesPage() {
                 <Calendar className="h-10 w-10 text-zinc-300" />
               </div>
               <div className="text-center space-y-2">
-                <h3 className="text-xl font-bold text-zinc-800">No itineraries yet</h3>
-                <p className="text-zinc-500 max-w-xs">Start your first AI journey planning to see your custom itineraries here.</p>
+                <h3 className="text-xl font-bold text-zinc-800">{t('result.noItineraries')}</h3>
+                <p className="text-zinc-500 max-w-xs">{t('result.noItinerariesDesc')}</p>
               </div>
               <Button onClick={() => router.push("/ai-planner")} size="lg" className="rounded-2xl px-10 h-14 text-lg font-bold">
-                Start Planning
+                {t('result.startPlanning')}
               </Button>
             </CardContent>
           </Card>
@@ -116,7 +114,7 @@ export default function MyItinerariesPage() {
               <section className="space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="h-8 w-1.5 bg-primary rounded-full" />
-                  <h2 className="text-2xl font-black text-zinc-800 tracking-tight uppercase">Upcoming Journeys</h2>
+                  <h2 className="text-2xl font-black text-zinc-800 tracking-tight uppercase">{t('result.upcomingJourneys')}</h2>
                 </div>
                 <div className="grid gap-6">
                   {futureTrips.map(trip => (
@@ -130,7 +128,7 @@ export default function MyItinerariesPage() {
               <section className="space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="h-8 w-1.5 bg-zinc-300 rounded-full" />
-                  <h2 className="text-2xl font-black text-zinc-400 tracking-tight uppercase">Past Memories</h2>
+                  <h2 className="text-2xl font-black text-zinc-400 tracking-tight uppercase">{t('result.pastMemories')}</h2>
                 </div>
                 <div className="grid gap-6 opacity-60">
                   {pastTrips.map(trip => (
@@ -166,7 +164,7 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
                     </span>
                     <span className="flex items-center gap-1.5">
                       <Clock className="h-3.5 w-3.5" />
-                      {trip.itinerary.length} Days
+                      {t('result.daysCount', { count: trip.itinerary.length })}
                     </span>
                   </div>
                 </div>
@@ -191,7 +189,7 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
                 <div key={day.day} className="space-y-4">
                    <div className="flex items-center gap-3 px-4">
                      <span className="h-px flex-1 bg-zinc-200" />
-                     <span className="font-black text-zinc-400 text-xs uppercase tracking-widest">Day {day.day}</span>
+                     <span className="font-black text-zinc-400 text-xs uppercase tracking-widest">{t('result.dayTitle', { day: day.day })}</span>
                      <span className="h-px flex-1 bg-zinc-200" />
                    </div>
                    <div className="grid gap-4 md:grid-cols-3">
@@ -204,7 +202,7 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
               <div className="pt-6 border-t border-zinc-100">
                 <Button className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-lg shadow-primary/20" asChild>
                   <a href={`/explore?matched=true&dest=${trip.destination}`}>
-                    Hire a Guide for this Trip
+                    {t('result.hireGuide')}
                     <ArrowRight className="h-5 w-5" />
                   </a>
                 </Button>

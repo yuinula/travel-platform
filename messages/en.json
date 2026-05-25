@@ -38,7 +38,18 @@
       "saveItinerary": "Save Itinerary",
       "limitExceeded": "Itinerary list is full. Cannot generate new itineraries. Please organize your itinerary list.",
       "saveSuccess": "Itinerary saved successfully!",
-      "myItineraries": "My Itineraries"
+      "myItineraries": "My Itineraries",
+      "subtitleManage": "Manage your AI-crafted travel plans.",
+      "activePlans": "Active Plans",
+      "newPlan": "New Plan",
+      "noItineraries": "No itineraries yet",
+      "noItinerariesDesc": "Start your first AI journey planning to see your custom itineraries here.",
+      "startPlanning": "Start Planning",
+      "upcomingJourneys": "Upcoming Journeys",
+      "pastMemories": "Past Memories",
+      "daysCount": "{count} Days",
+      "hireGuide": "Hire a Guide for this Trip",
+      "removed": "Itinerary removed"
     },
     "questions": {
       "destination": {

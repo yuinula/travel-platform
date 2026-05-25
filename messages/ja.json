@@ -38,7 +38,18 @@
       "saveItinerary": "行程を保存",
       "limitExceeded": "行程リストがいっぱいです。新しい行程を生成できません。行程リストを整理してください。",
       "saveSuccess": "行程を保存しました！",
-      "myItineraries": "マイトラベル"
+      "myItineraries": "マイトラベル",
+      "subtitleManage": "AIが作成した旅行プランを管理します。",
+      "activePlans": "進行中のプラン",
+      "newPlan": "新規作成",
+      "noItineraries": "行程がまだありません",
+      "noItinerariesDesc": "最初のAIプランニングを開始して、カスタム行程をここに表示しましょう。",
+      "startPlanning": "プランニングを開始",
+      "upcomingJourneys": "これからの旅",
+      "pastMemories": "過去の思い出",
+      "daysCount": "{count} 日間",
+      "hireGuide": "この行程でガイドを予約する",
+      "removed": "行程を削除しました"
     },
     "questions": {
       "destination": {
