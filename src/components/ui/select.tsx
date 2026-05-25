@@ -25,7 +25,7 @@ const SelectTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <SelectPrimitive.Icon className="h-4 w-4 opacity-50 flex items-center justify-center">
+    <SelectPrimitive.Icon className="h-4 w-4 opacity-50 flex items-center justify-center shrink-0 ml-2">
       <ChevronDown />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
@@ -83,7 +83,10 @@ const SelectItem = React.forwardRef<
       </SelectPrimitive.ItemIndicator>
     </span>
 
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+    {/* Use ItemText for correct label mapping in SelectValue */}
+    <SelectPrimitive.ItemText className="truncate">
+      {children}
+    </SelectPrimitive.ItemText>
   </SelectPrimitive.Item>
 ))
 SelectItem.displayName = "SelectItem"
