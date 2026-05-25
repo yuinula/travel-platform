@@ -32,6 +32,7 @@ import {
 interface AdminUser {
   id: string;
   username: string;
+  password?: string;
   role: string;
   permissions: string[];
   createdAt: string;
@@ -247,6 +248,11 @@ export default function AdminManagementPage() {
               </table>
            </div>
         </CardContent>
+      </Card>
+    </div>
+  )
+}
+tent>
       </Card>
     </div>
   )

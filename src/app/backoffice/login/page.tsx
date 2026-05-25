@@ -20,11 +20,29 @@ export default function BackofficeLoginPage() {
     e.preventDefault()
     setLoading(true)
 
-    // Check credentials provided by user
-    if (username === "admin01" && password === "qwer1234") {
-      // Use localStorage to simulate admin session for this prototype
+    // Load dynamic admin list from simulated DB
+    const saved = localStorage.getItem('trip-butler-sub-admins')
+    let admins = [
+      { username: "admin01", password: "qwer1234", role: "Super Admin" }
+    ]
+    
+    if (saved) {
+      const savedAdmins = JSON.parse(saved)
+      // If the super admin is already in the saved list, use that instead of the default
+      admins = savedAdmins.map((a: any) => ({ 
+        username: a.username, 
+        password: a.password || "qwer1234", // Default password if not stored for existing ones
+        role: a.role 
+      }))
+    }
+
+    const foundAdmin = admins.find(a => a.username === username && (a.password === password || (a.username === 'admin01' && password === 'qwer1234')))
+
+    if (foundAdmin) {
+      // Store session with permissions if available
       localStorage.setItem("trip-butler-admin", "true")
-      toast.success("Administrator login successful")
+      localStorage.setItem("trip-butler-admin-user", JSON.stringify(foundAdmin))
+      toast.success(`Welcome back, ${foundAdmin.username}`)
       router.push("/backoffice/dashboard")
     } else {
       toast.error("Invalid credentials. Access denied.")
