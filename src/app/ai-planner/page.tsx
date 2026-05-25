@@ -158,6 +158,7 @@ export default function AIPlannerPage() {
     { 
       id: "dates", 
       text: t('questions.dates.text'), 
+      placeholder: t('questions.dates.placeholder'),
       icon: <Calendar className="h-5 w-5 md:h-6 md:w-6 text-emerald-500" />,
       type: 'date-range'
     },
@@ -533,7 +534,7 @@ export default function AIPlannerPage() {
                                       format(dateRange.from, "yyyy/MM/dd")
                                     )
                                   ) : (
-                                    "點擊選擇日期範圍"
+                                    currentQuestion.placeholder
                                   )}
                                 </span>
                               </div>
@@ -543,7 +544,7 @@ export default function AIPlannerPage() {
                         />
                         <SheetContent side="bottom" className="h-[90vh] md:h-[85vh] rounded-t-[3rem] p-0 overflow-hidden bg-white">
                           <SheetHeader className="p-8 pb-4 text-center">
-                            <SheetTitle className="text-2xl md:text-3xl font-black">選擇您的旅行日期</SheetTitle>
+                            <SheetTitle className="text-2xl md:text-3xl font-black">{currentQuestion.text}</SheetTitle>
                           </SheetHeader>
                           <div className="flex-1 overflow-y-auto px-4 pb-32 flex justify-center items-start pt-4">
                             <div className="bg-white">
@@ -565,7 +566,7 @@ export default function AIPlannerPage() {
                                 onClick={() => setIsCalendarOpen(false)}
                                 disabled={!dateRange?.from || !dateRange?.to}
                               >
-                                {dateRange?.from && dateRange?.to ? "確認日期" : "請選擇起始與結束日期"}
+                                {dateRange?.from && dateRange?.to ? t('continue') : currentQuestion.placeholder}
                               </Button>
                             </div>
                           </div>
