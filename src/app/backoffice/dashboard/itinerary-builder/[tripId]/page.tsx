@@ -87,7 +87,7 @@ export default function ItineraryBuilderPage() {
     <div className="flex flex-col h-[calc(100vh-4rem)]">
       <div className="border-b bg-white p-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard">
+          <Link href="/backoffice/dashboard">
             <Button variant="ghost" size="icon">
               <ChevronLeft className="h-5 w-5" />
             </Button>

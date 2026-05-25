@@ -185,45 +185,13 @@ export default function Navbar() {
           </Link>
 
           {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="relative h-8 w-8 rounded-full border border-zinc-100 flex items-center justify-center hover:bg-zinc-100 transition-colors focus:outline-none">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user.user_metadata?.avatar_url} alt={user.user_metadata?.name} />
-                  <AvatarFallback>{user.user_metadata?.name?.[0] ?? "U"}</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user.user_metadata?.name}</p>
-                      <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                    </div>
-                  </DropdownMenuLabel>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/itineraries")}>
-                  <Calendar className="mr-2 h-4 w-4" />
-                  <span>{t('myItineraries')}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/dashboard")}>
-                  <Briefcase className="mr-2 h-4 w-4" />
-                  <span>{t('dashboard')}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/admin")}>
-                  <ShieldAlert className="mr-2 h-4 w-4" />
-                  <span>Admin</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/profile")}>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>{t('profile')}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>{t('logout')}</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Link href="/profile" className="relative h-9 w-9 rounded-full border-2 border-zinc-100 flex items-center justify-center hover:border-primary transition-all focus:outline-none overflow-hidden group">
+              <Avatar className="h-full w-full">
+                <AvatarImage src={user.user_metadata?.avatar_url} alt={user.user_metadata?.name} />
+                <AvatarFallback className="bg-zinc-50 text-zinc-400 font-bold">{user.user_metadata?.name?.[0] ?? "U"}</AvatarFallback>
+              </Avatar>
+              <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </Link>
           ) : (
             <div className="flex items-center gap-1 md:gap-2">
               <Link href="/login">
