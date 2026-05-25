@@ -17,7 +17,10 @@ import {
   Clock,
   Accessibility,
   Baby,
-  UserRound
+  UserRound,
+  Sun,
+  Sunset,
+  Moon
 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -135,7 +138,6 @@ export default function ExplorePage() {
     const day = trip?.itinerary_details.find(d => d.day_number === parseInt(selectedDay))
     
     if (day) {
-      // Update existing day record
       const updateData: any = {}
       updateData[selectedSlot] = selectedLandmark.name
       
@@ -183,7 +185,7 @@ export default function ExplorePage() {
               />
             </div>
             
-            <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+            <Select value={selectedCountry} onValueChange={(val) => setSelectedCountry(val || "all")}>
               <SelectTrigger className="h-14 rounded-2xl border-zinc-100 bg-white font-bold">
                 <SelectValue placeholder={t('filterCountry')} />
               </SelectTrigger>
@@ -195,7 +197,7 @@ export default function ExplorePage() {
               </SelectContent>
             </Select>
 
-            <Select value={selectedType} onValueChange={setSelectedType}>
+            <Select value={selectedType} onValueChange={(val) => setSelectedType(val || "all")}>
               <SelectTrigger className="h-14 rounded-2xl border-zinc-100 bg-white font-bold">
                 <SelectValue placeholder={t('filterType')} />
               </SelectTrigger>
@@ -306,7 +308,7 @@ export default function ExplorePage() {
             <div className="space-y-6 mt-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 ml-1">{t('selectTrip')}</label>
-                <Select value={selectedTrip} onValueChange={setSelectedTrip}>
+                <Select value={selectedTrip} onValueChange={(val) => setSelectedTrip(val || "")}>
                   <SelectTrigger className="h-14 rounded-2xl border-zinc-100 bg-white font-bold text-zinc-800">
                     <SelectValue placeholder="Select itinerary..." />
                   </SelectTrigger>
@@ -321,7 +323,7 @@ export default function ExplorePage() {
               {selectedTrip && (
                 <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 ml-1">{t('selectDay')}</label>
-                  <Select value={selectedDay} onValueChange={setSelectedDay}>
+                  <Select value={selectedDay} onValueChange={(val) => setSelectedDay(val || "")}>
                     <SelectTrigger className="h-14 rounded-2xl border-zinc-100 bg-white font-bold text-zinc-800">
                       <SelectValue placeholder="Which day?" />
                     </SelectTrigger>
