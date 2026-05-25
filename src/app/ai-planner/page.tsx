@@ -310,7 +310,6 @@ export default function AIPlannerPage() {
       setAnswers({ ...answers, [currentQuestion.id]: newAnswers })
     } else {
       setAnswers({ ...answers, [currentQuestion.id]: option })
-      setTimeout(handleNext, 300) 
     }
   }
 
