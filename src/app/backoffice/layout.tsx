@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell, ShieldCheck } from "lucide-react"
+import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell, ShieldCheck, KeyRound, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -17,12 +17,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { createClient } from "@/lib/supabase"
+import { toast } from "sonner"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function BackofficeLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
   const [isAuth, setIsAuth] = useState<boolean | null>(null)
   const [adminUser, setAdminUser] = useState<any>(null)
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false)
+  const [newPassword, setNewPassword] = useState("")
+  const [isUpdating, setIsUpdating] = useState(false)
+  const supabase = createClient()
 
   useEffect(() => {
     // Basic check for demo
@@ -55,6 +70,28 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     localStorage.removeItem("trip-butler-admin")
     localStorage.removeItem("trip-butler-admin-user")
     router.push("/backoffice/login")
+  }
+
+  const handleUpdatePassword = async () => {
+    if (!newPassword || newPassword.length < 4) {
+      toast.error("Password must be at least 4 characters")
+      return
+    }
+
+    setIsUpdating(true)
+    const { error } = await supabase
+      .from('admins')
+      .update({ password: newPassword })
+      .eq('id', adminUser.id)
+
+    if (error) {
+      toast.error("Failed to update password")
+    } else {
+      toast.success("Password updated successfully")
+      setIsPasswordOpen(false)
+      setNewPassword("")
+    }
+    setIsUpdating(false)
   }
 
   const sidebarLinks = [
@@ -115,11 +152,16 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
                 </DropdownMenuLabel>
               </DropdownMenuGroup>
               <DropdownMenuSeparator className="bg-zinc-800" />
-              <DropdownMenuItem onClick={() => router.push("/backoffice/dashboard")} className="rounded-xl p-3 focus:bg-zinc-800 focus:text-white cursor-pointer font-bold">
+              <DropdownMenuItem onClick={() => router.push("/backoffice/dashboard")} className="rounded-xl p-3 focus:bg-zinc-800 focus:text-white cursor-pointer font-bold text-sm">
                 <LayoutDashboard className="mr-3 h-4 w-4" />
                 Control Center
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout} className="rounded-xl p-3 focus:bg-red-500/10 focus:text-red-500 text-red-400 cursor-pointer font-bold mt-1">
+              <DropdownMenuItem onClick={() => setIsPasswordOpen(true)} className="rounded-xl p-3 focus:bg-zinc-800 focus:text-white cursor-pointer font-bold text-sm">
+                <KeyRound className="mr-3 h-4 w-4" />
+                Change Password
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-zinc-800" />
+              <DropdownMenuItem onClick={handleLogout} className="rounded-xl p-3 focus:bg-red-500/10 focus:text-red-500 text-red-400 cursor-pointer font-bold mt-1 text-sm">
                 <LogOut className="mr-3 h-4 w-4" />
                 Sign Out
               </DropdownMenuItem>
@@ -168,6 +210,40 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
           </div>
         </main>
       </div>
+
+      {/* Change Password Dialog */}
+      <Dialog open={isPasswordOpen} onOpenChange={setIsPasswordOpen}>
+        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md p-10 rounded-[3rem] shadow-2xl backdrop-blur-xl">
+          <DialogHeader className="space-y-4">
+            <div className="h-14 w-14 rounded-2xl bg-zinc-800 flex items-center justify-center mb-2">
+              <KeyRound className="h-7 w-7 text-primary" />
+            </div>
+            <DialogTitle className="text-2xl font-black uppercase text-white font-rounded tracking-widest">Update Credentials</DialogTitle>
+            <DialogDescription className="text-zinc-500 font-medium">Set a new secure password for <span className="text-white font-bold">{adminUser?.username}</span></DialogDescription>
+          </DialogHeader>
+          
+          <div className="mt-8 space-y-6">
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">New Password</Label>
+              <Input 
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="bg-zinc-800 border-zinc-700 text-white h-14 px-6 rounded-2xl focus-visible:ring-primary/20"
+                placeholder="••••••••"
+              />
+            </div>
+            <Button 
+              onClick={handleUpdatePassword} 
+              disabled={isUpdating}
+              className="w-full h-16 rounded-2xl font-black text-xl shadow-xl shadow-primary/20 scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
+              {isUpdating ? "Updating..." : "Update Password"}
+              <ArrowRight className="ml-2 h-6 w-6" />
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
