@@ -178,7 +178,7 @@ export default function AIPlannerPage() {
     const saved = localStorage.getItem('trip-butler-itineraries')
     if (saved) {
       const trips: SavedTrip[] = JSON.parse(saved)
-      const futureTrips = trips.filter(trip => new Date(trip.dateRange.from) >= new Date().setHours(0,0,0,0))
+      const futureTrips = trips.filter(trip => new Date(trip.dateRange.from).getTime() >= new Date().setHours(0,0,0,0))
       if (futureTrips.length >= 5) {
         toast.error(t('result.limitExceeded'), {
           icon: <AlertCircle className="h-5 w-5 text-red-500" />,

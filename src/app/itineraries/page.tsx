@@ -64,8 +64,8 @@ export default function MyItinerariesPage() {
     toast.success(t('result.removed'))
   }
 
-  const futureTrips = trips.filter(trip => new Date(trip.dateRange.from) >= new Date().setHours(0,0,0,0))
-  const pastTrips = trips.filter(trip => new Date(trip.dateRange.from) < new Date().setHours(0,0,0,0))
+  const futureTrips = trips.filter(trip => new Date(trip.dateRange.from).getTime() >= new Date().setHours(0,0,0,0))
+  const pastTrips = trips.filter(trip => new Date(trip.dateRange.from).getTime() < new Date().setHours(0,0,0,0))
 
   if (loading) {
     return <div className="container py-20 text-center font-bold text-zinc-400 animate-pulse">Loading journeys...</div>
