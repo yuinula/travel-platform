@@ -147,7 +147,7 @@ export default function MyItinerariesPage() {
 function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: string) => void, t: any }) {
   return (
     <Card className="border-none shadow-xl shadow-zinc-200/40 rounded-[2.5rem] overflow-hidden bg-white group">
-      <Accordion type="single" collapsible>
+      <Accordion>
         <AccordionItem value={trip.id} className="border-none">
           <div className="flex items-center p-4 pr-8">
             <AccordionTrigger className="flex-1 hover:no-underline text-left">
