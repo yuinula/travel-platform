@@ -573,7 +573,7 @@ export default function AIPlannerPage() {
                         </Button>
                       ))}
                       
-                      {currentQuestion.type === 'multi-choice' && (
+                      {(currentQuestion.type === 'choice' || currentQuestion.type === 'multi-choice') && (
                         <Button 
                           className="w-full h-16 md:h-20 text-lg md:text-2xl rounded-3xl mt-6 font-bold shadow-xl shadow-primary/20" 
                           onClick={handleNext}
