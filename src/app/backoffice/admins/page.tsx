@@ -28,6 +28,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { createClient } from "@/lib/supabase"
 
 interface AdminUser {
   id: string;
@@ -52,55 +53,70 @@ export default function AdminManagementPage() {
   const [newUsername, setNewUsername] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [selectedPerms, setSelectedPerms] = useState<string[]>(['dashboard'])
+  const [isSyncing, setIsSyncing] = useState(true)
+  const supabase = createClient()
+
+  const fetchAdmins = async () => {
+    setIsSyncing(true)
+    const { data, error } = await supabase
+      .from('admins')
+      .select('*')
+      .order('created_at', { ascending: true })
+    
+    if (data) setAdmins(data)
+    setIsSyncing(false)
+  }
 
   useEffect(() => {
-    const saved = localStorage.getItem('trip-butler-sub-admins')
-    if (saved) {
-      setAdmins(JSON.parse(saved))
-    } else {
-      // Default initial state
-      const initial = [
-        { id: '1', username: 'admin01', role: 'Super Admin', permissions: MODULES.map(m => m.id), createdAt: new Date().toISOString() }
-      ]
-      setAdmins(initial)
-      localStorage.setItem('trip-butler-sub-admins', JSON.stringify(initial))
-    }
+    fetchAdmins()
   }, [])
 
-  const handleAddAdmin = () => {
+  const handleAddAdmin = async () => {
     if (!newUsername || !newPassword) {
       toast.error("Please fill in all fields")
       return
     }
 
-    const newUser: AdminUser = {
-      id: Math.random().toString(36).substr(2, 9),
-      username: newUsername,
-      role: 'Sub Admin',
-      permissions: selectedPerms,
-      createdAt: new Date().toISOString()
-    }
+    const { error } = await supabase
+      .from('admins')
+      .insert([
+        { 
+          username: newUsername, 
+          password: newPassword, 
+          role: 'Sub Admin', 
+          permissions: selectedPerms 
+        }
+      ])
 
-    const updated = [...admins, newUser]
-    setAdmins(updated)
-    localStorage.setItem('trip-butler-sub-admins', JSON.stringify(updated))
-    
-    toast.success(`Admin ${newUsername} added successfully`)
-    setIsAddOpen(false)
-    setNewUsername("")
-    setNewPassword("")
-    setSelectedPerms(['dashboard'])
+    if (error) {
+      toast.error("Error creating account")
+    } else {
+      toast.success(`Admin ${newUsername} added and synced`)
+      setIsAddOpen(false)
+      setNewUsername("")
+      setNewPassword("")
+      setSelectedPerms(['dashboard'])
+      fetchAdmins()
+    }
   }
 
-  const handleDelete = (id: string) => {
-    if (admins.find(a => a.id === id)?.username === 'admin01') {
+  const handleDelete = async (id: string, username: string) => {
+    if (username === 'admin01') {
       toast.error("Cannot delete the primary Super Admin")
       return
     }
-    const updated = admins.filter(a => a.id !== id)
-    setAdmins(updated)
-    localStorage.setItem('trip-butler-sub-admins', JSON.stringify(updated))
-    toast.success("Account removed")
+
+    const { error } = await supabase
+      .from('admins')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      toast.error("Error removing account")
+    } else {
+      toast.success("Account removed and synced")
+      fetchAdmins()
+    }
   }
 
   const togglePerm = (id: string) => {
@@ -234,8 +250,8 @@ export default function AdminManagementPage() {
                            <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="text-zinc-600 hover:text-red-500 hover:bg-red-500/10 rounded-xl"
-                            onClick={() => handleDelete(admin.id)}
+                            className="text-zinc-600 hover:text-red-500 hover:bg-red-50 rounded-xl"
+                            onClick={() => handleDelete(admin.id, admin.username)}
                             disabled={admin.username === 'admin01'}
                            >
                              <Trash2 className="h-5 w-5" />
@@ -248,11 +264,6 @@ export default function AdminManagementPage() {
               </table>
            </div>
         </CardContent>
-      </Card>
-    </div>
-  )
-}
-tent>
       </Card>
     </div>
   )
