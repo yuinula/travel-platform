@@ -301,7 +301,7 @@ export default function ExplorePage() {
                 {t('addToItinerary')}
               </DialogTitle>
               <DialogDescription className="text-zinc-500 font-medium">
-                {t('addDescription', { name: selectedLandmark?.name })}
+                {t('addDescription', { name: selectedLandmark?.name || "" })}
               </DialogDescription>
             </DialogHeader>
 
