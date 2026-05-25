@@ -56,21 +56,25 @@ export default function ProfilePage() {
         return
       }
       
-      const { data: profileData } = await supabase
+      setUserId(authUser.id)
+      setEmail(authUser.email || "")
+
+      // Use maybeSingle to avoid 406/404 errors if row doesn't exist
+      const { data: profileData, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", authUser.id)
-        .single()
+        .maybeSingle()
 
       if (profileData) {
-        const p = profileData as UserProfile
-        // Batch updates to minimize renders if needed, but Next.js/React 18 does this
-        setUserId(authUser.id)
-        setEmail(authUser.email || "")
-        setName(p.name || "")
-        setPhone(p.phone || "")
-        setAvatarUrl(p.avatar_url || "")
-        setIsPhoneVerified(p.phone_verified || false)
+        setName(profileData.name || "")
+        setPhone(profileData.phone || "")
+        setAvatarUrl(profileData.avatar_url || "")
+        setIsPhoneVerified(profileData.phone_verified || false)
+      } else {
+        // If profile doesn't exist, use auth metadata as fallback
+        setName(authUser.user_metadata?.name || "")
+        setAvatarUrl(authUser.user_metadata?.avatar_url || "")
       }
     } catch (err) {
       console.error("Error fetching profile:", err)
@@ -95,12 +99,13 @@ export default function ProfilePage() {
       setSaving(true)
       const { error } = await supabase
         .from("profiles")
-        .update({
+        .upsert({
+          id: userId,
           name,
           phone,
           avatar_url: avatarUrl,
+          email: email // Keep email synced
         })
-        .eq("id", userId)
 
       if (error) throw error
 
