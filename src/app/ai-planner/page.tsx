@@ -593,7 +593,6 @@ export default function AIPlannerPage() {
                           className="h-16 md:h-20 text-lg md:text-2xl px-16 rounded-3xl border-2 border-zinc-100 focus:border-primary transition-all bg-zinc-50/50"
                           value={(answers[currentQuestion.id] as string) || ""}
                           onChange={(e) => setAnswers({ ...answers, [currentQuestion.id]: e.target.value })}
-                          onKeyDown={(e) => e.key === 'Enter' && handleNext()}
                         />
                       </div>
                       <Button 
