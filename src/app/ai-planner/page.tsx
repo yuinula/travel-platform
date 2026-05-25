@@ -222,12 +222,18 @@ export default function AIPlannerPage() {
     const afts = shuffle(activityPool.afternoon);
     const eves = shuffle(activityPool.evening);
 
-    const mockPlan: ItineraryDay[] = Array.from({ length: days }, (_, i) => ({
-      day: i + 1,
-      morning: morns[i % morns.length],
-      afternoon: afts[i % afts.length],
-      evening: eves[i % eves.length]
-    }))
+    const mockPlan: ItineraryDay[] = Array.from({ length: days }, (_, i) => {
+      const morn = morns[i % morns.length].replace('{destination}', dest);
+      const aft = afts[i % afts.length].replace('{destination}', dest);
+      const eve = eves[i % eves.length].replace('{destination}', dest);
+      
+      return {
+        day: i + 1,
+        morning: morn,
+        afternoon: aft,
+        evening: eve
+      }
+    })
     
     setItinerary(mockPlan)
   }

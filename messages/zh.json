@@ -55,9 +55,9 @@
       "deleteConfirmAction": "確認刪除",
       "deleteConfirmCancel": "取消",
       "activityPool": {
-        "morning": ["參訪歷史地標與古蹟", "在地早餐市場探索", "絕美山景健行體驗", "藝術與設計博物館巡禮", "傳統手工藝工作坊", "植物園晨間散步", "舊城區深度導覽"],
-        "afternoon": ["城市私房景點探險", "在地料理烹飪課程", "現代建築巡禮", "悠閒河岸遊船之旅", "時尚與精品購物行程", "舒壓水療與傳統按摩", "茶道文化或咖啡烘焙體驗"],
-        "evening": ["在地夜市美食巡演", "天際線高空酒吧晚餐", "文化舞蹈或音樂表演", "璀璨夜景街道漫步", "在地酒吧文化體驗", "溫馨巷弄小館晚餐", "夜間攝影主題工作坊"]
+        "morning": ["參訪 {destination} 核心歷史地標與古蹟巡禮", "前往 {destination} 在地知名早市，品嚐地道晨間美食", "展開 {destination} 絕美山景或自然公園健行體驗", "探索 {destination} 當代藝術與設計博物館", "參與 {destination} 傳統手工藝工坊，親手製作文化紀念品", "在 {destination} 皇家植物園享受清新晨間散步", "由專家導覽 {destination} 舊城區隱藏版歷史故事"],
+        "afternoon": ["深度挖掘 {destination} 城市巷弄內的私房景點", "參加 {destination} 頂級主廚授課的在地料理烹飪課", "巡禮 {destination} 知名建築師打造的現代城市地標", "搭乘 {destination} 悠閒河岸遊船，從不同角度看城市", "在 {destination} 流行時尚與精品商圈享受購物時光", "體驗 {destination} 舒壓頂級水療與傳統經絡按摩", "沉浸於 {destination} 傳統茶道文化或精品咖啡烘焙體驗"],
+        "evening": ["橫掃 {destination} 知名夜市，體驗在地深夜美食文化", "在 {destination} 最高天際線景觀餐廳享用主廚晚餐", "欣賞 {destination} 特有的傳統舞蹈、戲劇或音樂表演", "漫步於 {destination} 燈火璀璨的經典街道，拍下迷人夜景", "深入 {destination} 在地酒吧，體驗特有的微醺社交文化", "在 {destination} 溫馨巷弄的米其林推薦小館享用驚喜餐點", "參與 {destination} 夜間專屬攝影主題徒步工作坊"]
       }
     },
     "questions": {

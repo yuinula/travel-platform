@@ -108,13 +108,19 @@ export default function MyItinerariesPage() {
       const afts = shuffle(activityPool.afternoon);
       const eves = shuffle(activityPool.evening);
 
-      const newDetails = trip.itinerary_details.map((day, i) => ({
-        itinerary_id: trip.id,
-        day_number: day.day_number,
-        morning: morns[i % morns.length],
-        afternoon: afts[i % afts.length],
-        evening: eves[i % eves.length]
-      }))
+      const newDetails = trip.itinerary_details.map((day, i) => {
+        const morn = morns[i % morns.length].replace('{destination}', trip.destination);
+        const aft = afts[i % afts.length].replace('{destination}', trip.destination);
+        const eve = eves[i % eves.length].replace('{destination}', trip.destination);
+
+        return {
+          itinerary_id: trip.id,
+          day_number: day.day_number,
+          morning: morn,
+          afternoon: aft,
+          evening: eve
+        }
+      })
 
       // Replace details in DB
       await supabase.from('itinerary_details').delete().eq('itinerary_id', trip.id)
