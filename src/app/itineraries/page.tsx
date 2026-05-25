@@ -15,7 +15,8 @@ import {
   ArrowRight,
   Sun,
   Sunset,
-  Moon
+  Moon,
+  RotateCcw
 } from "lucide-react"
 import { 
   Accordion, 
@@ -26,6 +27,7 @@ import {
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 import { createClient } from "@/lib/supabase"
+import Link from "next/link"
 
 interface ItineraryDay {
   day_number: number;
@@ -198,7 +200,14 @@ export default function MyItinerariesPage() {
                 </div>
                 <div className="grid gap-6">
                   {futureTrips.map(trip => (
-                    <TripCard key={trip.id} trip={trip} onDelete={handleDelete} t={t} />
+                    <TripCard 
+                      key={trip.id} 
+                      trip={trip} 
+                      onDelete={handleDelete} 
+                      onRegenerate={handleRegenerate}
+                      isRegenerating={isRegenerating}
+                      t={t} 
+                    />
                   ))}
                 </div>
               </section>
@@ -212,7 +221,14 @@ export default function MyItinerariesPage() {
                 </div>
                 <div className="grid gap-6 opacity-60">
                   {pastTrips.map(trip => (
-                    <TripCard key={trip.id} trip={trip} onDelete={handleDelete} t={t} />
+                    <TripCard 
+                      key={trip.id} 
+                      trip={trip} 
+                      onDelete={handleDelete} 
+                      onRegenerate={handleRegenerate}
+                      isRegenerating={isRegenerating}
+                      t={t} 
+                    />
                   ))}
                 </div>
               </section>
@@ -224,7 +240,19 @@ export default function MyItinerariesPage() {
   )
 }
 
-function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: string) => void, t: any }) {
+function TripCard({ 
+  trip, 
+  onDelete, 
+  onRegenerate,
+  isRegenerating,
+  t 
+}: { 
+  trip: SavedTrip, 
+  onDelete: (id: string) => void, 
+  onRegenerate: (trip: SavedTrip) => void,
+  isRegenerating: string | null,
+  t: any 
+}) {
   return (
     <Card className="border-none shadow-xl shadow-zinc-200/40 rounded-[2.5rem] overflow-hidden bg-white group">
       <Accordion>
@@ -285,14 +313,14 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
                   className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg gap-2 hover:bg-white"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleRegenerate(trip);
+                    onRegenerate(trip);
                   }}
                   disabled={isRegenerating === trip.id}
                 >
                   <RotateCcw className={cn("h-5 w-5", isRegenerating === trip.id && "animate-spin")} />
                   {isRegenerating === trip.id ? "Analyzing..." : t('result.regenerate')}
                 </Button>
-                <Link href={`/explore?matched=true&dest=${trip.destination}`} className="flex-[2]">
+                <Link href={`/explore?matched=true&dest=${trip.destination}`} className="flex-[2] block w-full">
                   <Button 
                     render={
                       <button>
