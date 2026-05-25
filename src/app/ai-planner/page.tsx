@@ -46,6 +46,7 @@ import {
   AccordionItem, 
   AccordionTrigger 
 } from "@/components/ui/accordion"
+import { createClient } from "@/lib/supabase"
 
 // Simple Progress bar replacement
 function CustomProgress({ value }: { value: number }) {
@@ -90,6 +91,7 @@ interface SavedTrip {
 export default function AIPlannerPage() {
   const t = useTranslations('AIPlanner')
   const router = useRouter()
+  const supabase = createClient()
   
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
