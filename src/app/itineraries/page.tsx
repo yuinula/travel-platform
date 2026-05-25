@@ -237,15 +237,17 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
                 </div>
               ))}
               <div className="pt-6 border-t border-zinc-100">
-                <Button 
-                  render={
-                    <a href={`/explore?matched=true&dest=${trip.destination}`}>
-                      {t('result.hireGuide')}
-                      <ArrowRight className="h-5 w-5" />
-                    </a>
-                  }
-                  className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-lg shadow-primary/20" 
-                />
+                <Link href={`/explore?matched=true&dest=${trip.destination}`} className="block w-full">
+                  <Button 
+                    render={
+                      <button>
+                        {t('result.hireGuide')}
+                        <ArrowRight className="h-5 w-5" />
+                      </button>
+                    }
+                    className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-lg shadow-primary/20" 
+                  />
+                </Link>
               </div>
             </div>
           </AccordionContent>
