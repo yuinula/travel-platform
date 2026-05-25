@@ -200,12 +200,15 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
                 </div>
               ))}
               <div className="pt-6 border-t border-zinc-100">
-                <Button className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-lg shadow-primary/20" asChild>
-                  <a href={`/explore?matched=true&dest=${trip.destination}`}>
-                    {t('result.hireGuide')}
-                    <ArrowRight className="h-5 w-5" />
-                  </a>
-                </Button>
+                <Button 
+                  render={
+                    <a href={`/explore?matched=true&dest=${trip.destination}`}>
+                      {t('result.hireGuide')}
+                      <ArrowRight className="h-5 w-5" />
+                    </a>
+                  }
+                  className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-lg shadow-primary/20" 
+                />
               </div>
             </div>
           </AccordionContent>
