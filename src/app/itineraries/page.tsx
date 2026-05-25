@@ -25,9 +25,10 @@ import {
 } from "@/components/ui/accordion"
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
+import { createClient } from "@/lib/supabase"
 
 interface ItineraryDay {
-  day: number;
+  day_number: number;
   morning: string;
   afternoon: string;
   evening: string;
@@ -37,38 +38,74 @@ interface SavedTrip {
   id: string;
   name: string;
   destination: string;
-  dateRange: { from: string, to: string };
-  itinerary: ItineraryDay[];
-  createdAt: string;
+  start_date: string;
+  end_date: string;
+  itinerary_details: ItineraryDay[];
+  created_at: string;
 }
 
 export default function MyItinerariesPage() {
   const t = useTranslations('AIPlanner')
   const router = useRouter()
+  const supabase = createClient()
   
   const [trips, setTrips] = useState<SavedTrip[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const saved = localStorage.getItem('trip-butler-itineraries')
-    if (saved) {
-      setTrips(JSON.parse(saved))
+  const fetchTrips = async () => {
+    setLoading(true)
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      router.push("/login")
+      return
     }
-    setLoading(false)
-  }, [])
 
-  const handleDelete = (id: string) => {
-    const updated = trips.filter(t => t.id !== id)
-    setTrips(updated)
-    localStorage.setItem('trip-butler-itineraries', JSON.stringify(updated))
-    toast.success(t('result.removed'))
+    const { data, error } = await supabase
+      .from('itineraries')
+      .select(`
+        *,
+        itinerary_details (*)
+      `)
+      .eq('user_id', user.id)
+      .order('start_date', { ascending: true })
+    
+    if (data) setTrips(data)
+    setLoading(false)
   }
 
-  const futureTrips = trips.filter(trip => new Date(trip.dateRange.from).getTime() >= new Date().setHours(0,0,0,0))
-  const pastTrips = trips.filter(trip => new Date(trip.dateRange.from).getTime() < new Date().setHours(0,0,0,0))
+  useEffect(() => {
+    fetchTrips()
+  }, [])
+
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase
+      .from('itineraries')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      toast.error("Failed to remove itinerary")
+    } else {
+      setTrips(trips.filter(t => t.id !== id))
+      toast.success(t('result.removed'))
+    }
+  }
+
+  const futureTrips = trips.filter(trip => new Date(trip.start_date).getTime() >= new Date().setHours(0,0,0,0))
+  const pastTrips = trips.filter(trip => new Date(trip.start_date).getTime() < new Date().setHours(0,0,0,0))
 
   if (loading) {
-    return <div className="container py-20 text-center font-bold text-zinc-400 animate-pulse">Loading journeys...</div>
+    return (
+      <div className="min-h-screen bg-zinc-50/50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+           <div className="h-12 w-12 rounded-2xl ai-gradient animate-spin-slow flex items-center justify-center">
+              <Sparkles className="h-6 w-6 text-white" />
+           </div>
+           <p className="text-zinc-400 font-bold tracking-widest uppercase text-xs">Fetching your journeys...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -160,11 +197,11 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
                   <div className="flex items-center gap-4 text-zinc-500 font-bold text-sm">
                     <span className="flex items-center gap-1.5">
                       <Calendar className="h-3.5 w-3.5" />
-                      {format(new Date(trip.dateRange.from), "MMM dd")} - {format(new Date(trip.dateRange.to), "MMM dd, yyyy")}
+                      {format(new Date(trip.start_date), "MMM dd")} - {format(new Date(trip.end_date), "MMM dd, yyyy")}
                     </span>
                     <span className="flex items-center gap-1.5">
                       <Clock className="h-3.5 w-3.5" />
-                      {t('result.daysCount', { count: trip.itinerary.length })}
+                      {t('result.daysCount', { count: trip.itinerary_details.length })}
                     </span>
                   </div>
                 </div>
@@ -185,11 +222,11 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
 
           <AccordionContent className="bg-zinc-50/30">
             <div className="p-4 space-y-6">
-              {trip.itinerary.map(day => (
-                <div key={day.day} className="space-y-4">
+              {trip.itinerary_details.sort((a, b) => a.day_number - b.day_number).map(day => (
+                <div key={day.day_number} className="space-y-4">
                    <div className="flex items-center gap-3 px-4">
                      <span className="h-px flex-1 bg-zinc-200" />
-                     <span className="font-black text-zinc-400 text-xs uppercase tracking-widest">{t('result.dayTitle', { day: day.day })}</span>
+                     <span className="font-black text-zinc-400 text-xs uppercase tracking-widest">{t('result.dayTitle', { day: day.day_number })}</span>
                      <span className="h-px flex-1 bg-zinc-200" />
                    </div>
                    <div className="grid gap-4 md:grid-cols-3">

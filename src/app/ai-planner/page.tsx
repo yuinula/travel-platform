@@ -173,13 +173,18 @@ export default function AIPlannerPage() {
     }
   }
 
-  const checkLimitAndFinish = () => {
-    // Check 5 future trips limit
-    const saved = localStorage.getItem('trip-butler-itineraries')
-    if (saved) {
-      const trips: SavedTrip[] = JSON.parse(saved)
-      const futureTrips = trips.filter(trip => new Date(trip.dateRange.from).getTime() >= new Date().setHours(0,0,0,0))
-      if (futureTrips.length >= 5) {
+  const checkLimitAndFinish = async () => {
+    // Check 5 future trips limit from Supabase
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (user) {
+      const { count } = await supabase
+        .from('itineraries')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .gte('start_date', new Date().toISOString().split('T')[0])
+
+      if (count && count >= 5) {
         toast.error(t('result.limitExceeded'), {
           icon: <AlertCircle className="h-5 w-5 text-red-500" />,
           duration: 5000,
@@ -235,29 +240,54 @@ export default function AIPlannerPage() {
     }, 3000)
   }
 
-  const handleSaveTrip = () => {
-    const newTrip: SavedTrip = {
-      id: Math.random().toString(36).substr(2, 9),
-      name: tripName,
-      destination: (answers.destination as string),
-      dateRange: { 
-        from: dateRange!.from!.toISOString(), 
-        to: dateRange!.to!.toISOString() 
-      },
-      itinerary,
-      createdAt: new Date().toISOString()
+  const handleSaveTrip = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      toast.error("Please login to save your itinerary")
+      router.push("/login")
+      return
     }
 
-    const saved = localStorage.getItem('trip-butler-itineraries')
-    const trips = saved ? JSON.parse(saved) : []
-    trips.push(newTrip)
-    localStorage.setItem('trip-butler-itineraries', JSON.stringify(trips))
+    try {
+      // 1. Insert into Master table
+      const { data: trip, error: masterError } = await supabase
+        .from('itineraries')
+        .insert([{
+          user_id: user.id,
+          name: tripName,
+          destination: (answers.destination as string),
+          start_date: dateRange!.from!.toISOString().split('T')[0],
+          end_date: dateRange!.to!.toISOString().split('T')[0]
+        }])
+        .select()
+        .single()
 
-    toast.success(t('result.saveSuccess'), {
-      icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-    })
-    
-    router.push("/itineraries")
+      if (masterError) throw masterError
+
+      // 2. Insert all days into Details table
+      const details = itinerary.map(day => ({
+        itinerary_id: trip.id,
+        day_number: day.day,
+        morning: day.morning,
+        afternoon: day.afternoon,
+        evening: day.evening
+      }))
+
+      const { error: detailError } = await supabase
+        .from('itinerary_details')
+        .insert(details)
+
+      if (detailError) throw detailError
+
+      toast.success(t('result.saveSuccess'), {
+        icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+      })
+      
+      router.push("/itineraries")
+    } catch (err) {
+      toast.error("Error saving to cloud. Please try again.")
+    }
   }
 
   const handleSelect = (option: string) => {
