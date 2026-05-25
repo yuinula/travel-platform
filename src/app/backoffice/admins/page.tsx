@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
 import { 
   Plus, 
   Trash2, 
@@ -15,8 +14,8 @@ import {
   UserPlus, 
   Search,
   CheckCircle2,
-  XCircle,
-  Settings2
+  Settings2,
+  ArrowRight
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
@@ -36,7 +35,7 @@ interface AdminUser {
   password?: string;
   role: string;
   permissions: string[];
-  createdAt: string;
+  created_at: string;
 }
 
 const MODULES = [
@@ -50,6 +49,9 @@ const MODULES = [
 export default function AdminManagementPage() {
   const [admins, setAdmins] = useState<AdminUser[]>([])
   const [isAddOpen, setIsAddOpen] = useState(false)
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [editingAdmin, setEditingAdmin] = useState<AdminUser | null>(null)
+  
   const [newUsername, setNewUsername] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [selectedPerms, setSelectedPerms] = useState<string[]>(['dashboard'])
@@ -100,9 +102,31 @@ export default function AdminManagementPage() {
     }
   }
 
-  const handleDelete = async (id: string, username: string) => {
-    if (username === 'admin01') {
-      toast.error("Cannot delete the primary Super Admin")
+  const handleUpdateAdmin = async () => {
+    if (!editingAdmin) return
+
+    const { error } = await supabase
+      .from('admins')
+      .update({
+        password: newPassword || editingAdmin.password,
+        permissions: selectedPerms
+      })
+      .eq('id', editingAdmin.id)
+
+    if (error) {
+      toast.error("Error updating account")
+    } else {
+      toast.success(`Admin ${editingAdmin.username} updated`)
+      setIsEditOpen(false)
+      setEditingAdmin(null)
+      setNewPassword("")
+      fetchAdmins()
+    }
+  }
+
+  const handleDelete = async (id: string, role: string) => {
+    if (role === 'Super Admin') {
+      toast.error("Cannot delete Super Admin")
       return
     }
 
@@ -125,6 +149,13 @@ export default function AdminManagementPage() {
     )
   }
 
+  const openEdit = (admin: AdminUser) => {
+    setEditingAdmin(admin)
+    setSelectedPerms(admin.permissions)
+    setNewPassword("")
+    setIsEditOpen(true)
+  }
+
   return (
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -140,37 +171,37 @@ export default function AdminManagementPage() {
               Add Sub-Admin
             </Button>
           } />
-          <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-2xl p-10">
+          <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-2xl p-10 rounded-[3.5rem] bg-white/80 backdrop-blur-xl">
             <DialogHeader className="space-y-4">
-              <DialogTitle className="text-3xl font-black uppercase text-white">Create Admin Account</DialogTitle>
-              <DialogDescription className="text-zinc-500 text-lg">Define credentials and module permissions.</DialogDescription>
+              <DialogTitle className="text-3xl font-black uppercase text-zinc-900 font-rounded tracking-widest ai-text-gradient">Create Admin Account</DialogTitle>
+              <DialogDescription className="text-zinc-500 text-lg font-bold">Define credentials and module permissions.</DialogDescription>
             </DialogHeader>
             
             <div className="mt-8 space-y-8">
                <div className="grid grid-cols-2 gap-6">
                  <div className="space-y-2">
-                   <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Username</Label>
+                   <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Username</Label>
                    <Input 
                     value={newUsername}
                     onChange={(e) => setNewUsername(e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white h-12 rounded-xl" 
+                    className="bg-zinc-100 border-zinc-200 text-zinc-900 h-12 rounded-xl" 
                     placeholder="e.g. staff_tokyo" 
                    />
                  </div>
                  <div className="space-y-2">
-                   <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Password</Label>
+                   <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Password</Label>
                    <Input 
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white h-12 rounded-xl" 
+                    className="bg-zinc-100 border-zinc-200 text-zinc-900 h-12 rounded-xl" 
                     placeholder="••••••••" 
                    />
                  </div>
                </div>
 
                <div className="space-y-4">
-                 <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Module Access</Label>
+                 <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Module Access</Label>
                  <div className="grid grid-cols-2 gap-3">
                     {MODULES.map(module => (
                       <button 
@@ -179,18 +210,18 @@ export default function AdminManagementPage() {
                         className={cn(
                           "flex items-center justify-between p-4 rounded-2xl border-2 transition-all font-bold text-sm",
                           selectedPerms.includes(module.id) 
-                            ? "bg-primary/10 border-primary text-white" 
-                            : "bg-zinc-800/50 border-zinc-800 text-zinc-500 hover:border-zinc-700"
+                            ? "bg-primary/10 border-primary text-primary" 
+                            : "bg-zinc-50 border-zinc-100 text-zinc-400 hover:border-zinc-200"
                         )}
                       >
                         {module.name}
-                        {selectedPerms.includes(module.id) ? <CheckCircle2 className="h-4 w-4 text-primary" /> : <div className="h-4 w-4 rounded-full border border-zinc-700" />}
+                        {selectedPerms.includes(module.id) ? <CheckCircle2 className="h-4 w-4 text-primary" /> : <div className="h-4 w-4 rounded-full border border-zinc-200" />}
                       </button>
                     ))}
                  </div>
                </div>
 
-               <Button onClick={handleAddAdmin} className="w-full h-16 rounded-2xl font-black text-xl mt-4">
+               <Button onClick={handleAddAdmin} className="w-full h-16 rounded-2xl font-black text-xl mt-4 shadow-xl shadow-primary/20">
                  Create Account
                </Button>
             </div>
@@ -228,7 +259,7 @@ export default function AdminManagementPage() {
                       <td className="p-8">
                         <Badge className={cn(
                           "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest",
-                          admin.role === 'Super Admin' ? 'bg-primary/20 text-primary' : 'bg-zinc-800 text-zinc-400'
+                          admin.role === 'Super Admin' ? 'bg-primary/20 text-primary border-primary/30' : 'bg-zinc-800 text-zinc-500 border-zinc-700'
                         )}>
                           {admin.role}
                         </Badge>
@@ -236,7 +267,7 @@ export default function AdminManagementPage() {
                       <td className="p-8">
                         <div className="flex flex-wrap gap-1.5 max-w-[200px]">
                            {admin.permissions.map(p => (
-                             <span key={p} className="text-[9px] font-black text-zinc-500 uppercase bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800">
+                             <span key={p} className="text-[9px] font-black text-zinc-600 uppercase bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800">
                                {MODULES.find(m => m.id === p)?.name}
                              </span>
                            ))}
@@ -244,15 +275,27 @@ export default function AdminManagementPage() {
                       </td>
                       <td className="p-8 text-right">
                         <div className="flex justify-end gap-2">
-                           <Button variant="ghost" size="icon" className="text-zinc-600 hover:text-white hover:bg-zinc-800 rounded-xl">
+                           <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className={cn(
+                              "text-zinc-600 rounded-xl transition-all",
+                              admin.role === 'Super Admin' ? "opacity-20 cursor-not-allowed" : "hover:text-white hover:bg-zinc-800"
+                            )}
+                            disabled={admin.role === 'Super Admin'}
+                            onClick={() => openEdit(admin)}
+                           >
                              <Settings2 className="h-5 w-5" />
                            </Button>
                            <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="text-zinc-600 hover:text-red-500 hover:bg-red-50 rounded-xl"
-                            onClick={() => handleDelete(admin.id, admin.username)}
-                            disabled={admin.username === 'admin01'}
+                            className={cn(
+                              "text-zinc-600 rounded-xl transition-all",
+                              admin.role === 'Super Admin' ? "opacity-20 cursor-not-allowed" : "hover:text-red-500 hover:bg-red-500/10"
+                            )}
+                            onClick={() => handleDelete(admin.id, admin.role)}
+                            disabled={admin.role === 'Super Admin'}
                            >
                              <Trash2 className="h-5 w-5" />
                            </Button>
@@ -265,6 +308,58 @@ export default function AdminManagementPage() {
            </div>
         </CardContent>
       </Card>
+
+      {/* Edit Admin Dialog */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="bg-white/80 border-white/40 text-zinc-900 max-w-2xl p-10 rounded-[3.5rem] backdrop-blur-xl shadow-2xl">
+          <DialogHeader className="space-y-4">
+            <DialogTitle className="text-3xl font-black uppercase font-rounded tracking-widest ai-text-gradient">Edit Sub-Admin</DialogTitle>
+            <DialogDescription className="text-zinc-500 text-lg font-bold">Update credentials and function access for <span className="text-zinc-900 underline underline-offset-4">{editingAdmin?.username}</span></DialogDescription>
+          </DialogHeader>
+          
+          <div className="mt-8 space-y-8">
+             <div className="space-y-2">
+               <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">New Password (Optional)</Label>
+               <div className="relative">
+                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-300" />
+                 <Input 
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="bg-zinc-50 border-zinc-100 text-zinc-900 h-14 pl-12 rounded-xl focus-visible:ring-primary/20" 
+                  placeholder="Leave blank to keep current" 
+                 />
+               </div>
+             </div>
+
+             <div className="space-y-4">
+               <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Update Module Access</Label>
+               <div className="grid grid-cols-2 gap-3">
+                  {MODULES.map(module => (
+                    <button 
+                      key={module.id}
+                      onClick={() => togglePerm(module.id)}
+                      className={cn(
+                        "flex items-center justify-between p-4 rounded-2xl border-2 transition-all font-bold text-sm",
+                        selectedPerms.includes(module.id) 
+                          ? "bg-primary/10 border-primary text-primary shadow-sm" 
+                          : "bg-zinc-50 border-zinc-100 text-zinc-400 hover:border-zinc-200"
+                      )}
+                    >
+                      {module.name}
+                      {selectedPerms.includes(module.id) ? <CheckCircle2 className="h-4 w-4 text-primary" /> : <div className="h-4 w-4 rounded-full border border-zinc-200" />}
+                    </button>
+                  ))}
+               </div>
+             </div>
+
+             <Button onClick={handleUpdateAdmin} className="w-full h-18 rounded-2xl font-black text-xl mt-4 shadow-2xl shadow-primary/30 scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all">
+               Save Changes
+               <ArrowRight className="ml-2 h-6 w-6" />
+             </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
