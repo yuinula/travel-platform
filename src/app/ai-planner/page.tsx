@@ -240,8 +240,8 @@ export default function AIPlannerPage() {
               <Sparkles className="h-4 w-4 text-primary" />
               <span className="ai-text-gradient font-bold">{t('badge')}</span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900">{th('result.title')}</h1>
-            <p className="text-zinc-500 font-medium md:text-lg">{th('result.subtitle')}</p>
+            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900">{t('result.title')}</h1>
+            <p className="text-zinc-500 font-medium md:text-lg">{t('result.subtitle')}</p>
           </div>
 
           <Card className="border-none shadow-2xl shadow-zinc-200/50 rounded-[3rem] overflow-hidden bg-white">
@@ -253,7 +253,7 @@ export default function AIPlannerPage() {
                       <div className="h-10 w-10 rounded-2xl ai-gradient flex items-center justify-center text-white font-black text-sm">
                         {item.day}
                       </div>
-                      <span className="font-black text-xl">{th('result.dayTitle', { day: item.day })}</span>
+                      <span className="font-black text-xl">{t('result.dayTitle', { day: item.day })}</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -261,21 +261,21 @@ export default function AIPlannerPage() {
                       <div className="p-6 rounded-[2rem] bg-amber-50/50 border border-amber-100/50 space-y-3">
                         <div className="flex items-center gap-2 text-amber-600 font-black text-xs uppercase tracking-widest">
                           <Sun className="h-4 w-4" />
-                          {th('result.morning')}
+                          {t('result.morning')}
                         </div>
                         <p className="text-zinc-800 font-bold leading-relaxed">{item.morning}</p>
                       </div>
                       <div className="p-6 rounded-[2rem] bg-blue-50/50 border border-blue-100/50 space-y-3">
                         <div className="flex items-center gap-2 text-blue-600 font-black text-xs uppercase tracking-widest">
                           <Sunset className="h-4 w-4" />
-                          {th('result.afternoon')}
+                          {t('result.afternoon')}
                         </div>
                         <p className="text-zinc-800 font-bold leading-relaxed">{item.afternoon}</p>
                       </div>
                       <div className="p-6 rounded-[2rem] bg-indigo-50/50 border border-indigo-100/50 space-y-3">
                         <div className="flex items-center gap-2 text-indigo-600 font-black text-xs uppercase tracking-widest">
                           <Moon className="h-4 w-4" />
-                          {th('result.evening')}
+                          {t('result.evening')}
                         </div>
                         <p className="text-zinc-800 font-bold leading-relaxed">{item.evening}</p>
                       </div>
@@ -301,7 +301,7 @@ export default function AIPlannerPage() {
                 }}
               >
                 <RotateCcw className="h-5 w-5" />
-                {th('result.regenerate')}
+                {t('result.regenerate')}
               </Button>
               <Button 
                 size="lg" 
@@ -309,7 +309,7 @@ export default function AIPlannerPage() {
                 onClick={() => router.push("/explore?matched=true")}
               >
                 <Edit3 className="h-5 w-5" />
-                {th('result.editManually')}
+                {t('result.editManually')}
               </Button>
             </CardContent>
           </Card>
