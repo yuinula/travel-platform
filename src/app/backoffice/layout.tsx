@@ -81,7 +81,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
                   <AvatarFallback className="bg-primary text-white text-xs font-black uppercase">AD</AvatarFallback>
                 </Avatar>
                 <div className="text-left hidden sm:block">
-                  <p className="text-xs font-black text-white leading-none">adminstrator</p>
+                  <p className="text-xs font-black text-white leading-none">admin01</p>
                   <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-tighter mt-1">Super Admin</p>
                 </div>
                 <ChevronRight className="h-3 w-3 text-zinc-600 rotate-90 group-data-[state=open]:-rotate-90 transition-transform" />

@@ -21,7 +21,7 @@ export default function BackofficeLoginPage() {
     setLoading(true)
 
     // Check credentials provided by user
-    if (username === "adminstrator" && password === "qwer1234") {
+    if (username === "admin01" && password === "qwer1234") {
       // Use localStorage to simulate admin session for this prototype
       localStorage.setItem("trip-butler-admin", "true")
       toast.success("Administrator login successful")
