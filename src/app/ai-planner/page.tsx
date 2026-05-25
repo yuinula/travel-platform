@@ -214,11 +214,8 @@ export default function AIPlannerPage() {
       setTripName(t('result.defaultTripName', { destination: dest, days }))
     }
 
-    const activityPool = {
-      morning: ["Historical Landmarks", "Local Breakfast Market", "Scenic Mountain Hike", "Museum visit", "Craft Workshop", "Garden Morning Walk", "Guided Walking Tour"],
-      afternoon: ["Hidden Gems Discovery", "Cooking Class", "Architecture Sightseeing", "Boat Cruise", "Fashion Shopping", "Wellness Spa", "Tea Ceremony"],
-      evening: ["Night Market Tour", "Skyline Rooftop Dinner", "Cultural Performance", "Illuminated Walk", "Local Pub Crawl", "Hidden Bistro", "Night Photography"]
-    }
+    // Get localized activity pool
+    const activityPool = t.raw('result.activityPool')
 
     const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
     const morns = shuffle(activityPool.morning);
@@ -227,9 +224,9 @@ export default function AIPlannerPage() {
 
     const mockPlan: ItineraryDay[] = Array.from({ length: days }, (_, i) => ({
       day: i + 1,
-      morning: `${morns[i % morns.length]} (Focused on ${interests[0] || 'Discovery'})`,
-      afternoon: `${afts[i % afts.length]} (Interests: ${interests.join(', ')})`,
-      evening: `${eves[i % eves.length]} (${pace} Style)`
+      morning: morns[i % morns.length],
+      afternoon: afts[i % afts.length],
+      evening: eves[i % eves.length]
     }))
     
     setItinerary(mockPlan)

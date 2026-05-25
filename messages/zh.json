@@ -53,7 +53,12 @@
       "deleteConfirmTitle": "刪除行程",
       "deleteConfirmDesc": "您確定要刪除「{name}」嗎？此動作將無法復原。",
       "deleteConfirmAction": "確認刪除",
-      "deleteConfirmCancel": "取消"
+      "deleteConfirmCancel": "取消",
+      "activityPool": {
+        "morning": ["參訪歷史地標與古蹟", "在地早餐市場探索", "絕美山景健行體驗", "藝術與設計博物館巡禮", "傳統手工藝工作坊", "植物園晨間散步", "舊城區深度導覽"],
+        "afternoon": ["城市私房景點探險", "在地料理烹飪課程", "現代建築巡禮", "悠閒河岸遊船之旅", "時尚與精品購物行程", "舒壓水療與傳統按摩", "茶道文化或咖啡烘焙體驗"],
+        "evening": ["在地夜市美食巡演", "天際線高空酒吧晚餐", "文化舞蹈或音樂表演", "璀璨夜景街道漫步", "在地酒吧文化體驗", "溫馨巷弄小館晚餐", "夜間攝影主題工作坊"]
+      }
     },
     "questions": {
       "destination": {

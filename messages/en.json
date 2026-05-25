@@ -53,7 +53,12 @@
       "deleteConfirmTitle": "Delete Itinerary",
       "deleteConfirmDesc": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
       "deleteConfirmAction": "Confirm Delete",
-      "deleteConfirmCancel": "Cancel"
+      "deleteConfirmCancel": "Cancel",
+      "activityPool": {
+        "morning": ["Historical Landmarks & Sites", "Local Breakfast Market", "Scenic Mountain Hike", "Art & Design Museum", "Traditional Craft Workshop", "Botanical Garden Walk", "Old Town Guided Tour"],
+        "afternoon": ["Hidden Gems Discovery", "Cooking Class", "Modern Architecture Tour", "Riverside Boat Cruise", "Fashion & Boutique Shopping", "Wellness Spa & Massage", "Tea Ceremony Experience"],
+        "evening": ["Night Market Food Tour", "Skyline Rooftop Dinner", "Cultural Performance", "City Lights Evening Stroll", "Local Pub Culture", "Cozy Hidden Bistro", "Night Photography Tour"]
+      }
     },
     "questions": {
       "destination": {

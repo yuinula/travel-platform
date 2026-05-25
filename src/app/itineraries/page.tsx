@@ -100,11 +100,8 @@ export default function MyItinerariesPage() {
     setIsRegenerating(trip.id)
     
     try {
-      const activityPool = {
-        morning: ["Historical Landmarks", "Local Breakfast Market", "Scenic Mountain Hike", "Museum visit", "Craft Workshop", "Garden Morning Walk", "Guided Walking Tour"],
-        afternoon: ["Hidden Gems Discovery", "Cooking Class", "Architecture Sightseeing", "Boat Cruise", "Fashion Shopping", "Wellness Spa", "Tea Ceremony"],
-        evening: ["Night Market Tour", "Skyline Rooftop Dinner", "Cultural Performance", "Illuminated Walk", "Local Pub Crawl", "Hidden Bistro", "Night Photography"]
-      }
+      // Get localized activity pool
+      const activityPool = t.raw('result.activityPool')
 
       const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
       const morns = shuffle(activityPool.morning);
@@ -114,11 +111,12 @@ export default function MyItinerariesPage() {
       const newDetails = trip.itinerary_details.map((day, i) => ({
         itinerary_id: trip.id,
         day_number: day.day_number,
-        morning: `${morns[i % morns.length]} (Focused on ${trip.interests?.[0] || 'Discovery'})`,
-        afternoon: `${afts[i % afts.length]} (Interests: ${trip.interests?.join(', ') || 'N/A'})`,
-        evening: `${eves[i % eves.length]} (${trip.pace || 'Balanced'} Style)`
+        morning: morns[i % morns.length],
+        afternoon: afts[i % afts.length],
+        evening: eves[i % eves.length]
       }))
 
+      // Replace details in DB
       await supabase.from('itinerary_details').delete().eq('itinerary_id', trip.id)
       const { error } = await supabase.from('itinerary_details').insert(newDetails)
 
