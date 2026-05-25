@@ -79,7 +79,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
           </Button>
           
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger render={
               <button className="flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 transition-all focus:outline-none group">
                 <Avatar className="h-8 w-8 border border-zinc-700">
                   <AvatarFallback className="bg-primary text-white text-xs font-black uppercase">AD</AvatarFallback>
@@ -90,7 +90,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
                 </div>
                 <ChevronRight className="h-3 w-3 text-zinc-600 rotate-90 group-data-[state=open]:-rotate-90 transition-transform" />
               </button>
-            </DropdownMenuTrigger>
+            } />
             <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-zinc-800 text-white rounded-2xl shadow-2xl p-2">
               <DropdownMenuGroup>
                 <DropdownMenuLabel className="px-4 py-3">
