@@ -22,15 +22,21 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
   const router = useRouter()
   const pathname = usePathname()
   const [isAuth, setIsAuth] = useState<boolean | null>(null)
+  const [adminUser, setAdminUser] = useState<any>(null)
 
   useEffect(() => {
     // Basic check for demo
     const auth = localStorage.getItem("trip-butler-admin")
+    const userData = localStorage.getItem("trip-butler-admin-user")
+    
     if (!auth && pathname !== "/backoffice/login") {
       router.push("/backoffice/login")
       setIsAuth(false)
     } else {
       setIsAuth(true)
+      if (userData) {
+        setAdminUser(JSON.parse(userData))
+      }
     }
 
     // Set page title for backoffice
@@ -47,14 +53,20 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
 
   const handleLogout = () => {
     localStorage.removeItem("trip-butler-admin")
+    localStorage.removeItem("trip-butler-admin-user")
     router.push("/backoffice/login")
   }
 
   const sidebarLinks = [
-    { name: "Dashboard", href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
-    { name: "Admin Portal", href: "/backoffice/admin", icon: <ShieldAlert className="h-5 w-5" /> },
-    { name: "Manage Admins", href: "/backoffice/admins", icon: <ShieldCheck className="h-5 w-5" /> },
+    { name: "Dashboard", href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-5 w-5" />, permId: 'dashboard' },
+    { name: "Admin Portal", href: "/backoffice/admin", icon: <ShieldAlert className="h-5 w-5" />, permId: 'admin-portal' },
+    { name: "Manage Admins", href: "/backoffice/admins", icon: <ShieldCheck className="h-5 w-5" />, permId: 'manage-admins' },
   ]
+
+  // Filter links based on current admin permissions
+  const filteredLinks = sidebarLinks.filter(link => 
+    adminUser?.permissions?.includes(link.permId)
+  )
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
@@ -70,7 +82,9 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
           <div className="h-8 w-px bg-zinc-800 hidden md:block" />
           <div className="hidden md:flex items-center gap-2 ml-4">
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">System Mode:</span>
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary font-rounded">Full Authority</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary font-rounded">
+              {adminUser?.role === 'Super Admin' ? 'Full Authority' : 'Restricted Access'}
+            </span>
           </div>
         </div>
 
@@ -83,11 +97,13 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
             <DropdownMenuTrigger render={
               <button className="flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 transition-all focus:outline-none group">
                 <Avatar className="h-8 w-8 border border-zinc-700">
-                  <AvatarFallback className="bg-primary text-white text-xs font-black uppercase">AD</AvatarFallback>
+                  <AvatarFallback className="bg-primary text-white text-xs font-black uppercase">
+                    {adminUser?.username?.[0] ?? "A"}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="text-left hidden sm:block">
-                  <p className="text-xs font-black text-white leading-none">admin01</p>
-                  <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-tighter mt-1">Super Admin</p>
+                  <p className="text-xs font-black text-white leading-none">{adminUser?.username || "administrator"}</p>
+                  <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-tighter mt-1">{adminUser?.role || "Admin"}</p>
                 </div>
                 <ChevronRight className="h-3 w-3 text-zinc-600 rotate-90 group-data-[state=open]:-rotate-90 transition-transform" />
               </button>
@@ -95,7 +111,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
             <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-zinc-800 text-white rounded-2xl shadow-2xl p-2">
               <DropdownMenuGroup>
                 <DropdownMenuLabel className="px-4 py-3">
-                  <p className="text-xs font-black text-zinc-500 uppercase tracking-widest">Administrator</p>
+                  <p className="text-xs font-black text-zinc-500 uppercase tracking-widest">Account Settings</p>
                 </DropdownMenuLabel>
               </DropdownMenuGroup>
               <DropdownMenuSeparator className="bg-zinc-800" />
@@ -116,7 +132,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
         {/* Admin Sidebar */}
         <aside className="w-80 border-r border-zinc-900 flex flex-col p-6 space-y-6 bg-zinc-950">
           <nav className="flex-1 space-y-2">
-            {sidebarLinks.map((link) => (
+            {filteredLinks.map((link) => (
               <Link 
                 key={link.href} 
                 href={link.href}

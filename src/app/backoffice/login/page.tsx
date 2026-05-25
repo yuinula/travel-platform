@@ -33,9 +33,14 @@ export default function BackofficeLoginPage() {
         .single()
 
       if (admin) {
-        // Store session with full admin profile
+        // Store session with the actual authenticated admin profile
         localStorage.setItem("trip-butler-admin", "true")
-        localStorage.setItem("trip-butler-admin-user", JSON.stringify(admin))
+        localStorage.setItem("trip-butler-admin-user", JSON.stringify({
+          id: admin.id,
+          username: admin.username,
+          role: admin.role,
+          permissions: admin.permissions
+        }))
         toast.success(`Welcome back, ${admin.username}`)
         router.push("/backoffice/dashboard")
       } else {
