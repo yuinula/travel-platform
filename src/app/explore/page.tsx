@@ -301,7 +301,7 @@ export default function ExplorePage() {
                 {t('addToItinerary')}
               </DialogTitle>
               <DialogDescription className="text-zinc-500 font-medium">
-                Add <span className="text-zinc-900 font-bold">{selectedLandmark?.name}</span> to your upcoming journey.
+                {t('addDescription', { name: selectedLandmark?.name })}
               </DialogDescription>
             </DialogHeader>
 
@@ -310,7 +310,7 @@ export default function ExplorePage() {
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 ml-1">{t('selectTrip')}</label>
                 <Select value={selectedTrip} onValueChange={(val) => setSelectedTrip(val || "")}>
                   <SelectTrigger className="h-14 rounded-2xl border-zinc-100 bg-white font-bold text-zinc-800">
-                    <SelectValue placeholder="Select itinerary..." />
+                    <SelectValue placeholder={t('tripPlaceholder')} />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-zinc-100">
                     {myTrips.map(trip => (
@@ -325,11 +325,13 @@ export default function ExplorePage() {
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 ml-1">{t('selectDay')}</label>
                   <Select value={selectedDay} onValueChange={(val) => setSelectedDay(val || "")}>
                     <SelectTrigger className="h-14 rounded-2xl border-zinc-100 bg-white font-bold text-zinc-800">
-                      <SelectValue placeholder="Which day?" />
+                      <SelectValue placeholder={t('dayPlaceholder')} />
                     </SelectTrigger>
                     <SelectContent className="rounded-2xl border-zinc-100">
                       {myTrips.find(t => t.id === selectedTrip)?.itinerary_details.map(day => (
-                        <SelectItem key={day.id} value={day.day_number.toString()} className="font-bold italic">Day {day.day_number}</SelectItem>
+                        <SelectItem key={day.id} value={day.day_number.toString()} className="font-bold italic">
+                          {t('dayLabel', { day: day.day_number })}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -353,7 +355,7 @@ export default function ExplorePage() {
                         {slot === 'morning' && <Sun className="h-3 w-3 mr-1" />}
                         {slot === 'afternoon' && <Sunset className="h-3 w-3 mr-1" />}
                         {slot === 'evening' && <Moon className="h-3 w-3 mr-1" />}
-                        {slot}
+                        {t(`slots.${slot}`)}
                       </Button>
                     ))}
                   </div>

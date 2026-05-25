@@ -118,7 +118,16 @@
     "selectTrip": "Select Itinerary",
     "selectDay": "Select Day",
     "selectSlot": "Select Slot",
-    "addSuccess": "Landmark added to your itinerary!"
+    "addSuccess": "Landmark added to your itinerary!",
+    "addDescription": "Add {name} to your upcoming journey.",
+    "tripPlaceholder": "Select itinerary...",
+    "dayPlaceholder": "Which day?",
+    "dayLabel": "Day {day}",
+    "slots": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening"
+    }
   },
   "GuideDetail": {
     "back": "Back to Explore",

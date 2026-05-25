@@ -118,7 +118,16 @@
     "selectTrip": "行程を選択",
     "selectDay": "日付を選択",
     "selectSlot": "時間帯を選択",
-    "addSuccess": "景點を行程に追加しました！"
+    "addSuccess": "景點を行程に追加しました！",
+    "addDescription": "{name} をこれからの旅に追加します。",
+    "tripPlaceholder": "行程を選択...",
+    "dayPlaceholder": "何日目？",
+    "dayLabel": "{day} 日目",
+    "slots": {
+      "morning": "午前",
+      "afternoon": "午後",
+      "evening": "夜"
+    }
   },
   "GuideDetail": {
     "back": "探索に戻る",

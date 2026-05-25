@@ -118,7 +118,16 @@
     "selectTrip": "選擇行程",
     "selectDay": "選擇天數",
     "selectSlot": "選擇時段",
-    "addSuccess": "景點已成功加入您的行程！"
+    "addSuccess": "景點已成功加入您的行程！",
+    "addDescription": "將 {name} 加入到您即將到來的旅程。",
+    "tripPlaceholder": "選擇行程...",
+    "dayPlaceholder": "哪一天？",
+    "dayLabel": "第 {day} 天",
+    "slots": {
+      "morning": "上午",
+      "afternoon": "下午",
+      "evening": "晚上"
+    }
   },
   "GuideDetail": {
     "back": "返回探索",
