@@ -40,6 +40,10 @@ interface SavedTrip {
   destination: string;
   start_date: string;
   end_date: string;
+  pax: string;
+  needs: string[];
+  interests: string[];
+  pace: string;
   itinerary_details: ItineraryDay[];
   created_at: string;
 }
@@ -51,6 +55,7 @@ export default function MyItinerariesPage() {
   
   const [trips, setTrips] = useState<SavedTrip[]>([])
   const [loading, setLoading] = useState(true)
+  const [isRegenerating, setIsRegenerating] = useState<string | null>(null)
 
   const fetchTrips = async () => {
     setLoading(true)
@@ -77,6 +82,44 @@ export default function MyItinerariesPage() {
   useEffect(() => {
     fetchTrips()
   }, [])
+
+  const handleRegenerate = async (trip: SavedTrip) => {
+    setIsRegenerating(trip.id)
+    
+    try {
+      const activityPool = {
+        morning: ["Historical Landmarks", "Local Breakfast Market", "Scenic Mountain Hike", "Museum visit", "Craft Workshop", "Garden Morning Walk", "Guided Walking Tour"],
+        afternoon: ["Hidden Gems Discovery", "Cooking Class", "Architecture Sightseeing", "Boat Cruise", "Fashion Shopping", "Wellness Spa", "Tea Ceremony"],
+        evening: ["Night Market Tour", "Skyline Rooftop Dinner", "Cultural Performance", "Illuminated Walk", "Local Pub Crawl", "Hidden Bistro", "Night Photography"]
+      }
+
+      const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
+      const morns = shuffle(activityPool.morning);
+      const afts = shuffle(activityPool.afternoon);
+      const eves = shuffle(activityPool.evening);
+
+      const newDetails = trip.itinerary_details.map((day, i) => ({
+        itinerary_id: trip.id,
+        day_number: day.day_number,
+        morning: `${morns[i % morns.length]} (Focused on ${trip.interests?.[0] || 'Discovery'})`,
+        afternoon: `${afts[i % afts.length]} (Interests: ${trip.interests?.join(', ') || 'N/A'})`,
+        evening: `${eves[i % eves.length]} (${trip.pace || 'Balanced'} Style)`
+      }))
+
+      // Replace details in DB
+      await supabase.from('itinerary_details').delete().eq('itinerary_id', trip.id)
+      const { error } = await supabase.from('itinerary_details').insert(newDetails)
+
+      if (error) throw error
+      
+      toast.success("Itinerary regenerated and synced!")
+      fetchTrips()
+    } catch (err) {
+      toast.error("Error regenerating itinerary")
+    } finally {
+      setIsRegenerating(null)
+    }
+  }
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase
@@ -236,13 +279,25 @@ function TripCard({ trip, onDelete, t }: { trip: SavedTrip, onDelete: (id: strin
                    </div>
                 </div>
               ))}
-              <div className="pt-6 border-t border-zinc-100">
-                <Link href={`/explore?matched=true&dest=${trip.destination}`} className="block w-full">
+              <div className="pt-6 border-t border-zinc-100 flex flex-col sm:flex-row gap-4">
+                <Button 
+                  variant="outline"
+                  className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg gap-2 hover:bg-white"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRegenerate(trip);
+                  }}
+                  disabled={isRegenerating === trip.id}
+                >
+                  <RotateCcw className={cn("h-5 w-5", isRegenerating === trip.id && "animate-spin")} />
+                  {isRegenerating === trip.id ? "Analyzing..." : t('result.regenerate')}
+                </Button>
+                <Link href={`/explore?matched=true&dest=${trip.destination}`} className="flex-[2]">
                   <Button 
                     render={
                       <button>
                         {t('result.hireGuide')}
-                        <ArrowRight className="h-5 w-5" />
+                        <ArrowRight className="ml-2 h-5 w-5" />
                       </button>
                     }
                     className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-lg shadow-primary/20" 

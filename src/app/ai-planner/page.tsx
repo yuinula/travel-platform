@@ -198,19 +198,21 @@ export default function AIPlannerPage() {
     finishPlanning()
   }
 
-  const generateItinerary = () => {
-    const dest = (answers.destination as string) || "Japan"
-    const interests = (answers.interests as string[]) || ["Local Culture", "Food"]
-    const pace = (answers.pace as string) || "Balanced"
+  const generateItinerary = (params?: { dest?: string, interests?: string[], pace?: string, days?: number }) => {
+    const dest = params?.dest || (answers.destination as string) || "Japan"
+    const interests = params?.interests || (answers.interests as string[]) || ["Local Culture", "Food"]
+    const pace = params?.pace || (answers.pace as string) || "Balanced"
     
-    let days = 3;
-    if (dateRange?.from && dateRange?.to) {
+    let days = params?.days || 3;
+    if (!params?.days && dateRange?.from && dateRange?.to) {
       const diffTime = Math.abs(dateRange.to.getTime() - dateRange.from.getTime());
       days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     }
 
-    // Set default trip name
-    setTripName(t('result.defaultTripName', { destination: dest, days }))
+    // Set default trip name only if not already editing
+    if (!tripName) {
+      setTripName(t('result.defaultTripName', { destination: dest, days }))
+    }
 
     const activityPool = {
       morning: ["Historical Landmarks", "Local Breakfast Market", "Scenic Mountain Hike", "Museum visit", "Craft Workshop", "Garden Morning Walk", "Guided Walking Tour"],
@@ -252,7 +254,7 @@ export default function AIPlannerPage() {
     }
 
     try {
-      // 1. Insert into Master table
+      // 1. Insert into Master table with all original answers
       const { data: trip, error: masterError } = await supabase
         .from('itineraries')
         .insert([{
@@ -260,7 +262,11 @@ export default function AIPlannerPage() {
           name: tripName,
           destination: (answers.destination as string),
           start_date: dateRange!.from!.toISOString().split('T')[0],
-          end_date: dateRange!.to!.toISOString().split('T')[0]
+          end_date: dateRange!.to!.toISOString().split('T')[0],
+          pax: (answers.pax as string),
+          needs: (answers.needs as string[]),
+          interests: (answers.interests as string[]),
+          pace: (answers.pace as string)
         }])
         .select()
         .single()
