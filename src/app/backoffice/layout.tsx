@@ -91,9 +91,11 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-zinc-800 text-white rounded-2xl shadow-2xl p-2">
-              <DropdownMenuLabel className="px-4 py-3">
-                <p className="text-xs font-black text-zinc-500 uppercase tracking-widest">Administrator</p>
-              </DropdownMenuLabel>
+              <DropdownMenuGroup>
+                <DropdownMenuLabel className="px-4 py-3">
+                  <p className="text-xs font-black text-zinc-500 uppercase tracking-widest">Administrator</p>
+                </DropdownMenuLabel>
+              </DropdownMenuGroup>
               <DropdownMenuSeparator className="bg-zinc-800" />
               <DropdownMenuItem onClick={() => router.push("/backoffice/dashboard")} className="rounded-xl p-3 focus:bg-zinc-800 focus:text-white cursor-pointer font-bold">
                 <LayoutDashboard className="mr-3 h-4 w-4" />

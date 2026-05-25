@@ -8,15 +8,6 @@ import { useTranslations } from 'next-intl';
 import { Button, buttonVariants } from "@/components/ui/button"
 import { MessageSquare, User, LogOut, Briefcase, Sparkles, ShieldAlert, Menu, LogIn, UserPlus, Compass, Calendar } from "lucide-react"
 import { createClient } from "@/lib/supabase"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Sheet,
