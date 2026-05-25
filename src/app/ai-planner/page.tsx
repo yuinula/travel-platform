@@ -8,6 +8,8 @@ import { DateRange } from "react-day-picker"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { toast } from "sonner"
 import { 
   Sparkles, 
   ChevronRight, 
@@ -24,7 +26,10 @@ import {
   Edit3,
   Sun,
   Sunset,
-  Moon
+  Moon,
+  Save,
+  CheckCircle2,
+  AlertCircle
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
@@ -73,9 +78,17 @@ interface ItineraryDay {
   evening: string;
 }
 
+interface SavedTrip {
+  id: string;
+  name: string;
+  destination: string;
+  dateRange: { from: string, to: string };
+  itinerary: ItineraryDay[];
+  createdAt: string;
+}
+
 export default function AIPlannerPage() {
   const t = useTranslations('AIPlanner')
-  const th = useTranslations('Home')
   const router = useRouter()
   
   const [step, setStep] = useState(0)
@@ -83,6 +96,7 @@ export default function AIPlannerPage() {
   const [isFinishing, setIsFinishing] = useState(false)
   const [showResult, setShowResult] = useState(false)
   const [itinerary, setItinerary] = useState<ItineraryDay[]>([])
+  const [tripName, setTripName] = useState("")
   
   const [dateRange, setDateRange] = useState<DateRange | undefined>()
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
@@ -147,7 +161,7 @@ export default function AIPlannerPage() {
   const progress = ((step + 1) / questions.length) * 100
 
   const handleNext = () => {
-    if (currentQuestion.type === 'date-range' && dateRange?.from && dateRange?.to) {
+    if (currentQuestion.id === "dates" && dateRange?.from && dateRange?.to) {
       const formattedRange = `${format(dateRange.from, "yyyy/MM/dd")} - ${format(dateRange.to, "yyyy/MM/dd")}`
       setAnswers({ ...answers, [currentQuestion.id]: formattedRange })
     }
@@ -155,8 +169,26 @@ export default function AIPlannerPage() {
     if (step < questions.length - 1) {
       setStep(step + 1)
     } else {
-      finishPlanning()
+      checkLimitAndFinish()
     }
+  }
+
+  const checkLimitAndFinish = () => {
+    // Check 5 future trips limit
+    const saved = localStorage.getItem('trip-butler-itineraries')
+    if (saved) {
+      const trips: SavedTrip[] = JSON.parse(saved)
+      const futureTrips = trips.filter(trip => new Date(trip.dateRange.from) >= new Date().setHours(0,0,0,0))
+      if (futureTrips.length >= 5) {
+        toast.error(t('result.limitExceeded'), {
+          icon: <AlertCircle className="h-5 w-5 text-red-500" />,
+          duration: 5000,
+        })
+        return
+      }
+    }
+
+    finishPlanning()
   }
 
   const generateItinerary = () => {
@@ -164,41 +196,19 @@ export default function AIPlannerPage() {
     const interests = (answers.interests as string[]) || ["Local Culture", "Food"]
     const pace = (answers.pace as string) || "Balanced"
     
-    // Dynamic day calculation from dateRange
     let days = 3;
     if (dateRange?.from && dateRange?.to) {
       const diffTime = Math.abs(dateRange.to.getTime() - dateRange.from.getTime());
       days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     }
 
+    // Set default trip name
+    setTripName(t('result.defaultTripName', { destination: dest, days }))
+
     const activityPool = {
-      morning: [
-        "Historical Landmarks & Temples",
-        "Local Breakfast Market Exploration",
-        "Scenic Mountain Hike & Views",
-        "Museum of Art & Design",
-        "Traditional Craft Workshop",
-        "Botanical Garden Morning Walk",
-        "Old Town Guided Walking Tour"
-      ],
-      afternoon: [
-        "Hidden Gems & Backalley Discovery",
-        "Local Cooking Class & Lunch",
-        "Modern Architecture Sightseeing",
-        "Riverside Boat Cruise",
-        "Fashion & Boutique Shopping",
-        "Wellness Spa & Traditional Massage",
-        "Tea Ceremony or Coffee Roastery Visit"
-      ],
-      evening: [
-        "Night Market Gastronomy Tour",
-        "Skyline Rooftop Bar & Dinner",
-        "Cultural Dance or Music Performance",
-        "Illuminated Shrine or Tower Walk",
-        "Local Pub Crawl & Social Hour",
-        "Cozy Hidden Bistro Experience",
-        "Night Photography Workshop"
-      ]
+      morning: ["Historical Landmarks", "Local Breakfast Market", "Scenic Mountain Hike", "Museum visit", "Craft Workshop", "Garden Morning Walk", "Guided Walking Tour"],
+      afternoon: ["Hidden Gems Discovery", "Cooking Class", "Architecture Sightseeing", "Boat Cruise", "Fashion Shopping", "Wellness Spa", "Tea Ceremony"],
+      evening: ["Night Market Tour", "Skyline Rooftop Dinner", "Cultural Performance", "Illuminated Walk", "Local Pub Crawl", "Hidden Bistro", "Night Photography"]
     }
 
     const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
@@ -208,9 +218,9 @@ export default function AIPlannerPage() {
 
     const mockPlan: ItineraryDay[] = Array.from({ length: days }, (_, i) => ({
       day: i + 1,
-      morning: `${dest}: ${morns[i % morns.length]} (Focus on ${interests[0]})`,
-      afternoon: `${dest}: ${afts[i % afts.length]} (Interests: ${interests.join(', ')})`,
-      evening: `${dest}: ${eves[i % eves.length]} (${pace} Pace Experience)`
+      morning: `${morns[i % morns.length]} (Focused on ${interests[0] || 'Discovery'})`,
+      afternoon: `${afts[i % afts.length]} (Interests: ${interests.join(', ')})`,
+      evening: `${eves[i % eves.length]} (${pace} Style)`
     }))
     
     setItinerary(mockPlan)
@@ -225,12 +235,29 @@ export default function AIPlannerPage() {
     }, 3000)
   }
 
-  const resetPlanner = () => {
-    setStep(0)
-    setAnswers({})
-    setShowResult(false)
-    setItinerary([])
-    setDateRange(undefined)
+  const handleSaveTrip = () => {
+    const newTrip: SavedTrip = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: tripName,
+      destination: (answers.destination as string),
+      dateRange: { 
+        from: dateRange!.from!.toISOString(), 
+        to: dateRange!.to!.toISOString() 
+      },
+      itinerary,
+      createdAt: new Date().toISOString()
+    }
+
+    const saved = localStorage.getItem('trip-butler-itineraries')
+    const trips = saved ? JSON.parse(saved) : []
+    trips.push(newTrip)
+    localStorage.setItem('trip-butler-itineraries', JSON.stringify(trips))
+
+    toast.success(t('result.saveSuccess'), {
+      icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+    })
+    
+    router.push("/itineraries")
   }
 
   const handleSelect = (option: string) => {
@@ -275,19 +302,33 @@ export default function AIPlannerPage() {
     return (
       <div className="min-h-[calc(100vh-4rem)] bg-zinc-50/50 py-12 md:py-20">
         <div className="container max-w-4xl mx-auto px-4 space-y-12">
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-zinc-200 shadow-sm text-zinc-600 text-xs md:text-sm font-medium">
               <Sparkles className="h-4 w-4 text-primary" />
               <span className="ai-text-gradient font-bold">{t('badge')}</span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900">{t('result.title')}</h1>
-            <p className="text-zinc-500 font-medium md:text-lg">{t('result.subtitle')}</p>
+            
+            <div className="max-w-2xl mx-auto space-y-4">
+               <div className="space-y-2">
+                 <Label className="text-xs uppercase font-black tracking-widest text-zinc-400">{t('result.tripNameLabel')}</Label>
+                 <Input 
+                   value={tripName}
+                   onChange={(e) => setTripName(e.target.value)}
+                   className="text-2xl md:text-4xl h-auto py-4 text-center font-black border-none bg-transparent focus-visible:ring-0 focus-visible:bg-white/50 rounded-3xl"
+                   placeholder={t('result.tripNamePlaceholder')}
+                 />
+               </div>
+               <div className="flex items-center justify-center gap-2 text-zinc-500 font-bold">
+                 <Calendar className="h-4 w-4" />
+                 {format(dateRange!.from!, "yyyy/MM/dd")} - {format(dateRange!.to!, "yyyy/MM/dd")}
+               </div>
+            </div>
           </div>
 
           <Card className="border-none shadow-2xl shadow-zinc-200/50 rounded-[3rem] overflow-hidden bg-white">
             <Accordion className="w-full">
               {itinerary.map((item) => (
-                <AccordionItem key={item.day} value={`day-${item.day}`} className="border-b border-zinc-50">
+                <AccordionItem key={item.day} value={`day-${item.day}`} className="border-b border-zinc-50 last:border-0">
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center gap-4">
                       <div className="h-10 w-10 rounded-2xl ai-gradient flex items-center justify-center text-white font-black text-sm">
@@ -325,32 +366,44 @@ export default function AIPlannerPage() {
               ))}
             </Accordion>
 
-            <CardContent className="p-8 md:p-12 bg-zinc-50/30 border-t border-zinc-100 flex flex-col sm:flex-row gap-4">
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg md:text-xl gap-2 hover:bg-white"
-                onClick={() => {
-                  setIsFinishing(true);
-                  setShowResult(false);
-                  generateItinerary();
-                  setTimeout(() => {
-                    setIsFinishing(false);
-                    setShowResult(true);
-                  }, 2000);
-                }}
-              >
-                <RotateCcw className="h-5 w-5" />
-                {t('result.regenerate')}
-              </Button>
+            <CardContent className="p-8 md:p-12 bg-zinc-50/30 border-t border-zinc-100 flex flex-col gap-6">
               <Button 
                 size="lg" 
-                className="flex-1 h-16 rounded-2xl font-black text-lg md:text-xl gap-2 shadow-xl shadow-primary/20"
-                onClick={() => router.push("/explore?matched=true")}
+                className="w-full h-20 rounded-3xl font-black text-2xl gap-3 shadow-2xl shadow-primary/30 ai-gradient-hover scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                onClick={handleSaveTrip}
               >
-                <Edit3 className="h-5 w-5" />
-                {t('result.editManually')}
+                <Save className="h-6 w-6" />
+                {t('result.saveItinerary')}
               </Button>
+              
+              <div className="flex gap-4">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg gap-2 hover:bg-white"
+                  onClick={() => {
+                    setIsFinishing(true);
+                    setShowResult(false);
+                    generateItinerary();
+                    setTimeout(() => {
+                      setIsFinishing(false);
+                      setShowResult(true);
+                    }, 2000);
+                  }}
+                >
+                  <RotateCcw className="h-5 w-5" />
+                  {t('result.regenerate')}
+                </Button>
+                <Button 
+                  variant="outline"
+                  size="lg" 
+                  className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg gap-2 hover:bg-white"
+                  onClick={() => router.push("/explore?matched=true")}
+                >
+                  <Edit3 className="h-5 w-5" />
+                  {t('result.editManually')}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -562,26 +615,10 @@ function LoadingItem({ label, done }: { label: string, done: boolean }) {
     )}>
       <span className="font-bold text-sm md:text-base">{label}</span>
       {done ? (
-        <CheckCircle className="h-5 w-5 text-emerald-500" />
+        <CheckCircle2 className="h-5 w-5 text-emerald-500" />
       ) : (
         <div className="h-2 w-2 rounded-full bg-zinc-300 animate-ping" />
       )}
     </div>
-  )
-}
-
-function CheckCircle({ className }: { className?: string }) {
-  return (
-    <svg 
-      className={className} 
-      xmlns="http://www.w3.org/2000/svg" 
-      width="24" height="24" 
-      viewBox="0 0 24 24" fill="none" 
-      stroke="currentColor" strokeWidth="3" 
-      strokeLinecap="round" strokeLinejoin="round"
-    >
-      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-      <polyline points="22 4 12 14.01 9 11.01" />
-    </svg>
   )
 }

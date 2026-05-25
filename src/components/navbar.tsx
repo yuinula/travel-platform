@@ -194,6 +194,10 @@ export default function Navbar() {
                   </DropdownMenuLabel>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => router.push("/itineraries")}>
+                  <Calendar className="mr-2 h-4 w-4" />
+                  <span>{t('myItineraries')}</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.push("/dashboard")}>
                   <Briefcase className="mr-2 h-4 w-4" />
                   <span>{t('dashboard')}</span>
@@ -224,6 +228,16 @@ export default function Navbar() {
                 <Button size="sm" className="px-2 md:px-4">
                   <UserPlus className="h-5 w-5 md:hidden" />
                   <span className="hidden md:inline">{t('signup')}</span>
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  )
+}
+         <span className="hidden md:inline">{t('signup')}</span>
                 </Button>
               </Link>
             </div>

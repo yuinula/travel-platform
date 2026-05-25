@@ -6,6 +6,7 @@
     "login": "ログイン",
     "signup": "始める",
     "becomeGuide": "ガイドになる",
+    "myItineraries": "マイトラベル",
     "dashboard": "ダッシュボード",
     "profile": "プロフィール",
     "logout": "ログアウト"
@@ -30,7 +31,14 @@
       "editManually": "自分で修正する",
       "morning": "午前",
       "afternoon": "午後",
-      "evening": "夜"
+      "evening": "夜",
+      "tripNameLabel": "行程名",
+      "tripNamePlaceholder": "行程名を入力してください",
+      "defaultTripName": "{destination} {days}日間 行程",
+      "saveItinerary": "行程を保存",
+      "limitExceeded": "行程リストがいっぱいです。新しい行程を生成できません。行程リストを整理してください。",
+      "saveSuccess": "行程を保存しました！",
+      "myItineraries": "マイトラベル"
     },
     "questions": {
       "destination": {

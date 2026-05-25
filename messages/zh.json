@@ -6,6 +6,7 @@
     "login": "登入",
     "signup": "開始使用",
     "becomeGuide": "成為導遊",
+    "myItineraries": "我的行程",
     "dashboard": "控制台",
     "profile": "個人資料",
     "logout": "登出"
@@ -30,7 +31,14 @@
       "editManually": "自行修改",
       "morning": "上午",
       "afternoon": "下午",
-      "evening": "晚上"
+      "evening": "晚上",
+      "tripNameLabel": "行程名稱",
+      "tripNamePlaceholder": "請輸入行程名稱",
+      "defaultTripName": "{destination} {days}天 行程",
+      "saveItinerary": "儲存行程",
+      "limitExceeded": "行程清單已滿，無法再生成新的行程，請確認整理您的行程清單。",
+      "saveSuccess": "行程已成功儲存！",
+      "myItineraries": "我的行程"
     },
     "questions": {
       "destination": {

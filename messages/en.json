@@ -6,6 +6,7 @@
     "login": "Log in",
     "signup": "Get Started",
     "becomeGuide": "Become a Guide",
+    "myItineraries": "My Itineraries",
     "dashboard": "Dashboard",
     "profile": "Profile",
     "logout": "Log out"
@@ -22,6 +23,23 @@
     "scanning": "Scanning 500+ local experts",
     "filtering": "Filtering for accessibility needs",
     "matching": "Matching itinerary styles",
+    "result": {
+      "title": "Your Custom Itinerary",
+      "subtitle": "Based on your needs, AI Butler has planned the following itinerary:",
+      "dayTitle": "Day {day}",
+      "regenerate": "Regenerate",
+      "editManually": "Edit Manually",
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "tripNameLabel": "Itinerary Name",
+      "tripNamePlaceholder": "Enter itinerary name",
+      "defaultTripName": "{destination} {days}-Day Trip",
+      "saveItinerary": "Save Itinerary",
+      "limitExceeded": "Itinerary list is full. Cannot generate new itineraries. Please organize your itinerary list.",
+      "saveSuccess": "Itinerary saved successfully!",
+      "myItineraries": "My Itineraries"
+    },
     "questions": {
       "destination": {
         "text": "Where are you dreaming of going?",
