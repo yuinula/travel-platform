@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react"
-import { Check, ChevronDown, ChevronUp } from "lucide-react"
+import { Check, ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -25,7 +25,7 @@ const SelectTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <SelectPrimitive.Icon className="h-4 w-4 opacity-50">
+    <SelectPrimitive.Icon className="h-4 w-4 opacity-50 flex items-center justify-center">
       <ChevronDown />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
@@ -37,18 +37,16 @@ const SelectContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Popup> & { className?: string }
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Portal>
-    <SelectPrimitive.Positioner className="z-50 min-w-[8rem]">
+    <SelectPrimitive.Positioner className="z-50 min-w-[var(--base-ui-select-trigger-width)]">
       <SelectPrimitive.Popup
         ref={ref}
         className={cn(
-          "relative z-50 max-h-96 min-w-[var(--base-ui-select-trigger-width)] overflow-hidden rounded-md border border-zinc-200 bg-white text-zinc-950 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50",
+          "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border border-zinc-200 bg-white text-zinc-950 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50 p-1",
           className
         )}
         {...props}
       >
-        <SelectPrimitive.Viewport className="p-1">
-          {children}
-        </SelectPrimitive.Viewport>
+        {children}
       </SelectPrimitive.Popup>
     </SelectPrimitive.Positioner>
   </SelectPrimitive.Portal>
