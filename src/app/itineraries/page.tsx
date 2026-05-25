@@ -61,6 +61,50 @@ interface SavedTrip {
   created_at: string;
 }
 
+// Global Landmark Database (Shared between Planner and Itineraries)
+const LANDMARK_DB: Record<string, any> = {
+  "Taipei": {
+    morning: ["台北 101 觀景台與信義區散策", "國立故宮博物院文物巡禮", "陽明山國家公園擎天崗健行", "龍山寺與剝皮寮巡禮"],
+    afternoon: ["迪化街大稻埕老街探索", "松山文創園區設計展覽", "西門町電影街與萬年大樓", "象山親山步道登頂眺望"],
+    evening: ["士林夜市必比登美食搜查", "饒河街夜市胡椒餅巡禮", "信義區頂級高空酒吧微醺", "寧夏夜市在地小吃大集合"]
+  },
+  "台北": {
+    morning: ["台北 101 觀景台與信義區散策", "國立故宮博物院文物巡禮", "陽明山國家公園擎天崗健行", "中正紀念堂與大安森林公園"],
+    afternoon: ["迪化街大稻埕老街探索", "松山文創園區設計展覽", "西門町電影街與萬年大樓", "象山親山步道登頂眺望"],
+    evening: ["士林夜市必比登美食搜查", "饒河街夜市胡椒餅巡禮", "信義區頂級高空酒吧微醺", "寧夏夜市在地小吃大集合"]
+  },
+  "Kyoto": {
+    morning: ["清水寺舞台與產寧坂漫步", "金閣寺鏡湖池倒影欣賞", "伏見稻荷大社千本鳥居健行", "嵐山竹林小徑晨間漫步"],
+    afternoon: ["二條城世界文化遺產巡禮", "錦市場京都廚房美食探索", "銀閣寺哲學之道散策", "平安神宮與岡崎公園"],
+    evening: ["祇園花見小路尋訪藝妓足跡", "鴨川河畔納涼床晚餐", "先斗町隱藏版懷石料理", "京都車站空中徑路看夜景"]
+  },
+  "京都": {
+    morning: ["清水寺舞台與產寧坂漫步", "金閣寺鏡湖池倒影欣賞", "伏見稻荷大社千本鳥居健行", "嵐山竹林小徑晨間漫步"],
+    afternoon: ["二條城世界文化遺產巡禮", "錦市場京都廚房美食探索", "銀閣寺哲學之道散策", "平安神宮與岡崎公園"],
+    evening: ["祇園花見小路尋訪藝妓足跡", "鴨川河畔納涼床晚餐", "先斗町隱藏版懷石料理", "京都車站空中徑路看夜景"]
+  },
+  "Tokyo": {
+    morning: ["築地場外市場海鮮早餐", "淺草寺雷門與仲見世通", "明治神宮大鳥居參拜", "上野恩賜公園與博物館"],
+    afternoon: ["秋葉原電器街與動漫探索", "原宿表參道流行設計巡禮", "澀谷代代木公園與十字路口", "銀座時尚百貨旗艦店巡禮"],
+    evening: ["新宿歌舞伎町夜生活體驗", "六本木之丘森大樓展望台夜景", "惠比壽花園廣場晚餐", "東京鐵塔赤羽橋浪漫夜景"]
+  },
+  "東京": {
+    morning: ["築地場外市場海鮮早餐", "淺草寺雷門與仲見世通", "明治神宮大鳥居參拜", "上野恩賜公園與博物館"],
+    afternoon: ["秋葉原電器街與動漫探索", "原宿表參道流行設計巡禮", "澀谷代代木公園與十字路口", "銀座時尚百貨旗艦店巡禮"],
+    evening: ["新宿歌舞伎町夜生活體驗", "六本木之丘森大樓展望台夜景", "惠比壽花園廣場晚餐", "東京鐵塔赤羽橋浪漫夜景"]
+  },
+  "Paris": {
+    morning: ["艾菲爾鐵塔戰神廣場野餐", "羅浮宮鎮館三寶深度參訪", "聖母院與塞納河畔漫步", "蒙馬特聖心堂俯瞰巴黎"],
+    afternoon: ["香榭麗舍大道與凱旋門購物", "奧賽美術館印象派畫作", "瑪黑區設計小店與猶太美食", "歌劇院與拉法葉百貨"],
+    evening: ["塞納河遊船晚餐巡禮", "拉丁區隱藏版法式小館", "紅磨坊康康舞歌舞表演", "夏祐宮拍艾菲爾鐵塔夜景"]
+  },
+  "巴黎": {
+    morning: ["艾菲爾鐵塔戰神廣場野餐", "羅浮宮鎮館三寶深度參訪", "聖母院與塞納河畔漫步", "蒙馬特聖心堂俯瞰巴黎"],
+    afternoon: ["香榭麗舍大道與凱旋門購物", "奧賽美術館印象派畫作", "瑪黑區設計小店與猶太美食", "歌劇院與拉法葉百貨"],
+    evening: ["塞納河遊船晚餐巡禮", "拉丁區隱藏版法式小館", "紅磨坊康康舞歌舞表演", "夏祐宮拍艾菲爾鐵塔夜景"]
+  }
+}
+
 export default function MyItinerariesPage() {
   const t = useTranslations('AIPlanner')
   const router = useRouter()
@@ -100,18 +144,23 @@ export default function MyItinerariesPage() {
     setIsRegenerating(trip.id)
     
     try {
-      // Get localized activity pool
       const activityPool = t.raw('result.activityPool')
+      const dest = trip.destination;
+      
+      const dbKey = Object.keys(LANDMARK_DB).find(key => 
+        dest.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(dest.toLowerCase())
+      );
 
       const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
-      const morns = shuffle(activityPool.morning);
-      const afts = shuffle(activityPool.afternoon);
-      const eves = shuffle(activityPool.evening);
+      
+      const morns = dbKey ? shuffle(LANDMARK_DB[dbKey].morning) : shuffle(activityPool.morning);
+      const afts = dbKey ? shuffle(LANDMARK_DB[dbKey].afternoon) : shuffle(activityPool.afternoon);
+      const eves = dbKey ? shuffle(LANDMARK_DB[dbKey].evening) : shuffle(activityPool.evening);
 
       const newDetails = trip.itinerary_details.map((day, i) => {
-        const morn = morns[i % morns.length].replace('{destination}', trip.destination);
-        const aft = afts[i % afts.length].replace('{destination}', trip.destination);
-        const eve = eves[i % eves.length].replace('{destination}', trip.destination);
+        const morn = morns[i % morns.length].replace('{destination}', dest);
+        const aft = afts[i % afts.length].replace('{destination}', dest);
+        const eve = eves[i % eves.length].replace('{destination}', dest);
 
         return {
           itinerary_id: trip.id,
@@ -122,7 +171,6 @@ export default function MyItinerariesPage() {
         }
       })
 
-      // Replace details in DB
       await supabase.from('itinerary_details').delete().eq('itinerary_id', trip.id)
       const { error } = await supabase.from('itinerary_details').insert(newDetails)
 
@@ -383,7 +431,7 @@ function TripCard({
                     render={
                       <button>
                         {t('result.hireGuide')}
-                        <ArrowRight className="ml-2 h-6 w-6" />
+                        <ArrowRight className="ml-2 h-5 w-6" />
                       </button>
                     }
                     className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-2xl shadow-primary/30 ai-gradient-hover scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all" 

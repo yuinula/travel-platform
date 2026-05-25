@@ -79,13 +79,48 @@ interface ItineraryDay {
   evening: string;
 }
 
-interface SavedTrip {
-  id: string;
-  name: string;
-  destination: string;
-  dateRange: { from: string, to: string };
-  itinerary: ItineraryDay[];
-  createdAt: string;
+// Landmark Database for high-quality generation
+const LANDMARK_DB: Record<string, any> = {
+  "Taipei": {
+    morning: ["台北 101 觀景台與信義區散策", "國立故宮博物院文物巡禮", "陽明山國家公園擎天崗健行", "中正紀念堂與大安森林公園"],
+    afternoon: ["迪化街大稻埕老街探索", "松山文創園區設計展覽", "西門町電影街與萬年大樓", "象山親山步道登頂眺望"],
+    evening: ["士林夜市必比登美食搜查", "饒河街夜市胡椒餅巡禮", "信義區頂級高空酒吧微醺", "寧夏夜市在地小吃大集合"]
+  },
+  "台北": {
+    morning: ["台北 101 觀景台與信義區散策", "國立故宮博物院文物巡禮", "陽明山國家公園擎天崗健行", "中正紀念堂與大安森林公園"],
+    afternoon: ["迪化街大稻埕老街探索", "松山文創園區設計展覽", "西門町電影街與萬年大樓", "象山親山步道登頂眺望"],
+    evening: ["士林夜市必比登美食搜查", "饒河街夜市胡椒餅巡禮", "信義區頂級高空酒吧微醺", "寧夏夜市在地小吃大集合"]
+  },
+  "Kyoto": {
+    morning: ["清水寺舞台與產寧坂漫步", "金閣寺鏡湖池倒影欣賞", "伏見稻荷大社千本鳥居健行", "嵐山竹林小徑晨間漫步"],
+    afternoon: ["二條城世界文化遺產巡禮", "錦市場京都廚房美食探索", "銀閣寺哲學之道散策", "平安神宮與岡崎公園"],
+    evening: ["祇園花見小路尋訪藝妓足跡", "鴨川河畔納涼床晚餐", "先斗町隱藏版懷石料理", "京都車站空中徑路看夜景"]
+  },
+  "京都": {
+    morning: ["清水寺舞台與產寧坂漫步", "金閣寺鏡湖池倒影欣賞", "伏見稻荷大社千本鳥居健行", "嵐山竹林小徑晨間漫步"],
+    afternoon: ["二條城世界文化遺產巡禮", "錦市場京都廚房美食探索", "銀閣寺哲學之道散策", "平安神宮與岡崎公園"],
+    evening: ["祇園花見小路尋訪藝妓足跡", "鴨川河畔納涼床晚餐", "先斗町隱藏版懷石料理", "京都車站空中徑路看夜景"]
+  },
+  "Tokyo": {
+    morning: ["築地場外市場海鮮早餐", "淺草寺雷門與仲見世通", "明治神宮大鳥居參拜", "上野恩賜公園與博物館"],
+    afternoon: ["秋葉原電器街與動漫探索", "原宿表參道流行設計巡禮", "澀谷代代木公園與十字路口", "銀座時尚百貨旗艦店巡禮"],
+    evening: ["新宿歌舞伎町夜生活體驗", "六本木之丘森大樓展望台夜景", "惠比壽花園廣場晚餐", "東京鐵塔赤羽橋浪漫夜景"]
+  },
+  "東京": {
+    morning: ["築地場外市場海鮮早餐", "淺草寺雷門與仲見世通", "明治神宮大鳥居參拜", "上野恩賜公園與博物館"],
+    afternoon: ["秋葉原電器街與動漫探索", "原宿表參道流行設計巡禮", "澀谷代代木公園與十字路口", "銀座時尚百貨旗艦店巡禮"],
+    evening: ["新宿歌舞伎町夜生活體驗", "六本木之丘森大樓展望台夜景", "惠比壽花園廣場晚餐", "東京鐵塔赤羽橋浪漫夜景"]
+  },
+  "Paris": {
+    morning: ["艾菲爾鐵塔戰神廣場野餐", "羅浮宮鎮館三寶深度參訪", "聖母院與塞納河畔漫步", "蒙馬特聖心堂俯瞰巴黎"],
+    afternoon: ["香榭麗舍大道與凱旋門購物", "奧賽美術館印象派畫作", "瑪黑區設計小店與猶太美食", "歌劇院與拉法葉百貨"],
+    evening: ["塞納河遊船晚餐巡禮", "拉丁區隱藏版法式小館", "紅磨坊康康舞歌舞表演", "夏祐宮拍艾菲爾鐵塔夜景"]
+  },
+  "巴黎": {
+    morning: ["艾菲爾鐵塔戰神廣場野餐", "羅浮宮鎮館三寶深度參訪", "聖母院與塞納河畔漫步", "蒙馬特聖心堂俯瞰巴黎"],
+    afternoon: ["香榭麗舍大道與凱旋門購物", "奧賽美術館印象派畫作", "瑪黑區設計小店與猶太美食", "歌劇院與拉法葉百貨"],
+    evening: ["塞納河遊船晚餐巡禮", "拉丁區隱藏版法式小館", "紅磨坊康康舞歌舞表演", "夏祐宮拍艾菲爾鐵塔夜景"]
+  }
 }
 
 export default function AIPlannerPage() {
@@ -99,14 +134,13 @@ export default function AIPlannerPage() {
   const [showResult, setShowResult] = useState(false)
   const [itinerary, setItinerary] = useState<ItineraryDay[]>([])
   const [tripName, setTripName] = useState("")
-  
   const [dateRange, setDateRange] = useState<DateRange | undefined>()
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
-  const [numberOfMonths, setNumberOfMonths] = useState(2)
+  const [numberOfMonths, setNumberOfMonths] = useState(1)
 
   useEffect(() => {
     const handleResize = () => {
-      setNumberOfMonths(window.innerWidth < 768 ? 1 : 2)
+      setNumberOfMonths(window.innerWidth >= 768 ? 2 : 1)
     }
     handleResize()
     window.addEventListener('resize', handleResize)
@@ -117,27 +151,27 @@ export default function AIPlannerPage() {
     { 
       id: "destination", 
       text: t('questions.destination.text'), 
-      icon: <MapPin className="h-5 w-5 md:h-6 md:w-6 text-blue-500" />,
       placeholder: t('questions.destination.placeholder'),
+      icon: <MapPin className="h-5 w-5 md:h-6 md:w-6 text-primary" />,
       type: 'text'
     },
     { 
       id: "dates", 
       text: t('questions.dates.text'), 
-      icon: <Calendar className="h-5 w-5 md:h-6 md:w-6 text-purple-500" />,
+      icon: <Calendar className="h-5 w-5 md:h-6 md:w-6 text-emerald-500" />,
       type: 'date-range'
     },
     { 
       id: "pax", 
       text: t('questions.pax.text'), 
-      icon: <Users className="h-5 w-5 md:h-6 md:w-6 text-emerald-500" />,
+      icon: <Users className="h-5 w-5 md:h-6 md:w-6 text-blue-500" />,
       options: t.raw('questions.pax.options'),
       type: 'choice'
     },
     { 
       id: "needs", 
       text: t('questions.needs.text'), 
-      icon: <Accessibility className="h-5 w-5 md:h-6 md:w-6 text-orange-500" />,
+      icon: <Accessibility className="h-5 w-5 md:h-6 md:w-6 text-amber-500" />,
       options: t.raw('questions.needs.options'),
       type: 'multi-choice',
       limit: 3
@@ -148,7 +182,7 @@ export default function AIPlannerPage() {
       icon: <Heart className="h-5 w-5 md:h-6 md:w-6 text-rose-500" />,
       options: t.raw('questions.interests.options'),
       type: 'multi-choice',
-      limit: 2
+      limit: 3
     },
     { 
       id: "pace", 
@@ -176,7 +210,6 @@ export default function AIPlannerPage() {
   }
 
   const checkLimitAndFinish = async () => {
-    // Check 5 future trips limit from Supabase
     const { data: { user } } = await supabase.auth.getUser()
     
     if (user) {
@@ -209,20 +242,26 @@ export default function AIPlannerPage() {
       days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     }
 
-    // Set default trip name only if not already editing
     if (!tripName) {
       setTripName(t('result.defaultTripName', { destination: dest, days }))
     }
 
-    // Get localized activity pool
+    // Smart Landmark Selection Logic
     const activityPool = t.raw('result.activityPool')
+    
+    // Check if destination matches our DB (fuzzy match)
+    const dbKey = Object.keys(LANDMARK_DB).find(key => 
+      dest.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(dest.toLowerCase())
+    );
 
     const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
-    const morns = shuffle(activityPool.morning);
-    const afts = shuffle(activityPool.afternoon);
-    const eves = shuffle(activityPool.evening);
+    
+    const morns = dbKey ? shuffle(LANDMARK_DB[dbKey].morning) : shuffle(activityPool.morning);
+    const afts = dbKey ? shuffle(LANDMARK_DB[dbKey].afternoon) : shuffle(activityPool.afternoon);
+    const eves = dbKey ? shuffle(LANDMARK_DB[dbKey].evening) : shuffle(activityPool.evening);
 
     const mockPlan: ItineraryDay[] = Array.from({ length: days }, (_, i) => {
+      // If using generic pool, replace placeholder
       const morn = morns[i % morns.length].replace('{destination}', dest);
       const aft = afts[i % afts.length].replace('{destination}', dest);
       const eve = eves[i % eves.length].replace('{destination}', dest);
@@ -257,7 +296,6 @@ export default function AIPlannerPage() {
     }
 
     try {
-      // 1. Insert into Master table with all original answers
       const { data: trip, error: masterError } = await supabase
         .from('itineraries')
         .insert([{
@@ -276,7 +314,6 @@ export default function AIPlannerPage() {
 
       if (masterError) throw masterError
 
-      // 2. Insert all days into Details table
       const details = itinerary.map(day => ({
         itinerary_id: trip.id,
         day_number: day.day,
@@ -385,124 +422,112 @@ export default function AIPlannerPage() {
                   <AccordionContent>
                     <div className="grid gap-6 md:grid-cols-3 pt-2">
                       <div className="p-6 rounded-[2rem] bg-amber-50/50 border border-amber-100/50 space-y-3">
-                        <div className="flex items-center gap-2 text-amber-600 font-black text-xs uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-amber-600 font-black text-[10px] uppercase tracking-widest">
                           <Sun className="h-4 w-4" />
                           {t('result.morning')}
                         </div>
-                        <p className="text-zinc-800 font-bold leading-relaxed">{item.morning}</p>
+                        <p className="text-zinc-800 font-bold text-sm leading-relaxed">{item.morning}</p>
                       </div>
                       <div className="p-6 rounded-[2rem] bg-blue-50/50 border border-blue-100/50 space-y-3">
-                        <div className="flex items-center gap-2 text-blue-600 font-black text-xs uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest">
                           <Sunset className="h-4 w-4" />
                           {t('result.afternoon')}
                         </div>
-                        <p className="text-zinc-800 font-bold leading-relaxed">{item.afternoon}</p>
+                        <p className="text-zinc-800 font-bold text-sm leading-relaxed">{item.afternoon}</p>
                       </div>
                       <div className="p-6 rounded-[2rem] bg-indigo-50/50 border border-indigo-100/50 space-y-3">
-                        <div className="flex items-center gap-2 text-indigo-600 font-black text-xs uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-indigo-600 font-black text-[10px] uppercase tracking-widest">
                           <Moon className="h-4 w-4" />
                           {t('result.evening')}
                         </div>
-                        <p className="text-zinc-800 font-bold leading-relaxed">{item.evening}</p>
+                        <p className="text-zinc-800 font-bold text-sm leading-relaxed">{item.evening}</p>
                       </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
-
-            <CardContent className="p-8 md:p-12 bg-zinc-50/30 border-t border-zinc-100 flex flex-col gap-6">
-              <Button 
-                size="lg" 
-                className="w-full h-20 rounded-3xl font-black text-2xl gap-3 shadow-2xl shadow-primary/30 ai-gradient-hover scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                onClick={handleSaveTrip}
-              >
-                <Save className="h-6 w-6" />
-                {t('result.saveItinerary')}
-              </Button>
-              
-              <div className="flex gap-4">
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg gap-2 hover:bg-white"
-                  onClick={() => {
-                    setIsFinishing(true);
-                    setShowResult(false);
-                    generateItinerary();
-                    setTimeout(() => {
-                      setIsFinishing(false);
-                      setShowResult(true);
-                    }, 2000);
-                  }}
-                >
-                  <RotateCcw className="h-5 w-5" />
-                  {t('result.regenerate')}
-                </Button>
-                <Button 
-                  variant="outline"
-                  size="lg" 
-                  className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg gap-2 hover:bg-white"
-                  onClick={() => router.push("/explore?matched=true")}
-                >
-                  <Edit3 className="h-5 w-5" />
-                  {t('result.editManually')}
-                </Button>
-              </div>
-            </CardContent>
           </Card>
+
+          <div className="flex flex-col md:flex-row gap-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowResult(false)} 
+              className="flex-1 h-16 rounded-2xl border-2 font-bold text-lg gap-2"
+            >
+              <RotateCcw className="h-5 w-5" />
+              {t('result.regenerate')}
+            </Button>
+            <Button 
+              onClick={handleSaveTrip} 
+              className="flex-[2] h-16 rounded-2xl ai-gradient font-black text-xl gap-2 shadow-xl shadow-primary/20"
+            >
+              <Save className="h-6 w-6" />
+              {t('result.saveItinerary')}
+            </Button>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-zinc-50/50 flex flex-col justify-center">
-      <div className="container py-8 md:py-16 max-w-3xl mx-auto px-4">
-        <div className="space-y-10">
-          <div className="space-y-4 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-zinc-200 shadow-sm text-zinc-600 text-xs md:text-sm font-medium">
-              <Sparkles className="h-4 w-4 text-primary animate-pulse" />
-              <span className="ai-text-gradient font-bold">{t('badge')}</span>
+    <div className="min-h-[calc(100vh-4rem)] bg-zinc-50/50 flex items-center justify-center p-4">
+      {isFinishing ? (
+        <div className="text-center space-y-8 max-w-md mx-auto animate-in fade-in duration-1000">
+          <div className="relative">
+            <div className="h-24 w-24 md:h-32 md:w-32 rounded-[2.5rem] md:rounded-[3.5rem] ai-gradient mx-auto animate-spin-slow flex items-center justify-center shadow-2xl shadow-primary/30">
+              <Sparkles className="h-12 w-12 md:h-16 md:w-16 text-white" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900">{t('title')}</h1>
+            <div className="absolute -top-4 -right-4 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white shadow-lg flex items-center justify-center animate-bounce">
+              <Plane className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+            </div>
           </div>
-
-          <div className="max-w-2xl mx-auto w-full space-y-8">
-            <CustomProgress value={progress} />
-
-            {!isFinishing ? (
-              <Card className="border-none shadow-2xl shadow-zinc-200/50 rounded-[2.5rem] overflow-hidden bg-white">
-                <CardHeader className="flex flex-row items-center gap-5 pb-4 p-8 md:p-10 border-b border-zinc-50">
-                  <div className="p-4 bg-zinc-50 rounded-2xl">
+          <div className="space-y-3">
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-zinc-900 font-rounded uppercase tracking-widest">{t('loading.title')}</h2>
+            <p className="text-zinc-500 font-medium text-lg">{t('loading.subtitle')}</p>
+          </div>
+          <div className="px-8">
+            <CustomProgress value={65} />
+          </div>
+        </div>
+      ) : (
+        <div className="w-full max-w-2xl bg-white rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-16 shadow-2xl shadow-zinc-200/50 border border-zinc-100/50">
+          <div className="space-y-12">
+            {/* Header */}
+            <div className="space-y-6">
+               <div className="flex items-center justify-between">
+                  <div className="h-12 w-12 md:h-16 md:w-16 rounded-2xl md:rounded-3xl bg-primary/5 flex items-center justify-center">
                     {currentQuestion.icon}
                   </div>
-                  <div className="flex-1">
-                    <CardTitle className="text-xl md:text-2xl font-bold text-zinc-800">{currentQuestion.text}</CardTitle>
-                    {currentQuestion.type === 'multi-choice' && (
-                      <p className="text-xs md:text-sm text-muted-foreground mt-1 font-medium">
-                        {t(`questions.${currentQuestion.id}.limitHint`)}
-                      </p>
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-8 space-y-6 p-8 md:p-10">
-                  {currentQuestion.type === 'date-range' ? (
-                    <div className="flex flex-col items-center space-y-6">
+                  <span className="text-zinc-400 font-black text-sm tracking-[0.2em] font-rounded uppercase">{step + 1} / {questions.length}</span>
+               </div>
+               <div className="space-y-2">
+                 <h1 className="text-2xl md:text-4xl font-black tracking-tight text-zinc-900 leading-tight">{currentQuestion.text}</h1>
+                 <CustomProgress value={progress} />
+               </div>
+            </div>
+
+            {/* Content */}
+            <div className="min-h-[300px] flex flex-col justify-center">
+               {currentQuestion.id === "dates" ? (
+                    <div className="space-y-8 w-full">
                       <Sheet open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                         <SheetTrigger 
                           render={
                             <Button 
                               variant="outline" 
-                              className="w-full h-20 md:h-24 text-lg md:text-2xl rounded-3xl border-2 border-zinc-100 flex items-center justify-between px-8 bg-zinc-50/50 hover:bg-zinc-100 transition-all"
+                              className="w-full h-24 md:h-32 rounded-3xl border-2 border-zinc-100 hover:border-primary hover:bg-primary/5 transition-all group px-8"
                             >
-                              <div className="flex items-center gap-4">
-                                <Calendar className="h-6 w-6 text-purple-500" />
-                                <span className={cn(!dateRange?.from && "text-zinc-400")}>
+                              <div className="flex flex-col items-start gap-1 flex-1">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-primary transition-colors">Selected Period</span>
+                                <span className="text-lg md:text-2xl font-black text-zinc-900">
                                   {dateRange?.from ? (
                                     dateRange.to ? (
                                       <>
-                                        {format(dateRange.from, "yyyy/MM/dd")} - {format(dateRange.to, "yyyy/MM/dd")}
+                                        {format(dateRange.from, "yyyy/MM/dd")} 
+                                        <span className="mx-2 text-zinc-300">→</span> 
+                                        {format(dateRange.to, "yyyy/MM/dd")}
                                       </>
                                     ) : (
                                       format(dateRange.from, "yyyy/MM/dd")
@@ -611,57 +636,33 @@ export default function AIPlannerPage() {
                       </Button>
                     </div>
                   )}
-                </CardContent>
-                <div className="px-10 pb-8 flex justify-between items-center text-xs md:text-sm text-muted-foreground border-t border-zinc-50 pt-6">
-                  <button 
-                    onClick={() => setStep(Math.max(0, step - 1))}
-                    className="flex items-center hover:text-zinc-900 font-bold transition-colors"
-                    disabled={step === 0}
-                  >
-                    <ChevronLeft className="h-4 w-4 mr-2" />
-                    {t('previous')}
-                  </button>
-                  <span className="font-bold uppercase tracking-widest">{t('questionCount', { current: step + 1, total: questions.length })}</span>
-                </div>
-              </Card>
-            ) : (
-              <div className="text-center space-y-10 py-16 animate-in fade-in zoom-in-95 duration-700">
-                <div className="flex justify-center">
-                  <div className="h-28 w-28 ai-gradient rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-primary/30 animate-pulse rotate-12">
-                    <Sparkles className="h-14 w-14 text-white" />
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <h2 className="text-3xl md:text-4xl font-black text-zinc-900">{t('finding')}</h2>
-                  <p className="text-base md:text-xl text-zinc-500 px-4 leading-relaxed">
-                    {t('analyzing', { count: Object.keys(answers).length, destination: answers.destination as string })}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-4 max-w-sm mx-auto">
-                  <LoadingItem label={t('scanning')} done={true} />
-                  <LoadingItem label={t('filtering')} done={true} />
-                  <LoadingItem label={t('matching')} done={false} />
-                </div>
-              </div>
-            )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between pt-8 border-t border-zinc-50">
+               <Button 
+                variant="ghost" 
+                onClick={() => setStep(Math.max(0, step - 1))}
+                disabled={step === 0}
+                className="text-zinc-400 font-bold hover:text-zinc-900"
+               >
+                 <ChevronLeft className="mr-2 h-5 w-5" />
+                 {t('back')}
+               </Button>
+               <div className="flex gap-1">
+                 {questions.map((_, i) => (
+                   <div 
+                    key={i} 
+                    className={cn(
+                      "h-1.5 w-4 rounded-full transition-all duration-500",
+                      i === step ? "w-8 ai-gradient" : "bg-zinc-100"
+                    )} 
+                   />
+                 ))}
+               </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
-
-function LoadingItem({ label, done }: { label: string, done: boolean }) {
-  return (
-    <div className={cn(
-      "flex justify-between items-center p-5 rounded-2xl border-2 transition-all duration-500",
-      done ? "bg-emerald-50 border-emerald-100 text-emerald-700" : "bg-white border-zinc-100 text-zinc-400 animate-pulse"
-    )}>
-      <span className="font-bold text-sm md:text-base">{label}</span>
-      {done ? (
-        <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-      ) : (
-        <div className="h-2 w-2 rounded-full bg-zinc-300 animate-ping" />
       )}
     </div>
   )
