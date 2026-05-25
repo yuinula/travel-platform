@@ -87,9 +87,14 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
     if (error) {
       toast.error("Failed to update password")
     } else {
-      toast.success("Password updated successfully")
+      toast.success("Password updated. Please log in again with your new credentials.")
       setIsPasswordOpen(false)
       setNewPassword("")
+      
+      // Automatic Logout
+      setTimeout(() => {
+        handleLogout()
+      }, 1500)
     }
     setIsUpdating(false)
   }
