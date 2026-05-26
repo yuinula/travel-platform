@@ -60,60 +60,60 @@ export default function BackofficeLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-zinc-50 flex flex-col items-center justify-center p-6">
       <div className="mb-16 flex flex-col items-center gap-6 animate-in fade-in slide-in-from-top-4 duration-1000">
         <div className="flex items-center gap-4">
-          <Image src="/logo.svg" alt="Logo" width={56} height={56} className="invert" />
-          <span className="text-4xl font-black tracking-[0.2em] text-white font-rounded uppercase italic">
+          <Image src="/logo.svg" alt="Logo" width={56} height={56} className="" />
+          <span className="text-4xl font-black tracking-[0.2em] text-zinc-900 font-rounded uppercase">
             Trip Butler
           </span>
         </div>
-        <div className="px-6 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-500 text-xs font-black tracking-[0.3em] uppercase">
+        <div className="px-6 py-2 rounded-full bg-white border border-zinc-200 text-zinc-400 text-xs font-black tracking-[0.3em] uppercase shadow-sm">
           Backoffice Command Center
         </div>
       </div>
 
-      <Card className="w-full max-w-lg border-zinc-800 bg-zinc-900 shadow-3xl rounded-[3.5rem] overflow-hidden">
+      <Card className="w-full max-w-lg border-zinc-200 bg-white shadow-3xl rounded-[3.5rem] overflow-hidden">
         <CardHeader className="space-y-4 text-center pt-16 pb-10">
-          <div className="mx-auto w-20 h-20 rounded-[2rem] bg-zinc-800 flex items-center justify-center mb-2 shadow-inner border border-zinc-700">
+          <div className="mx-auto w-20 h-20 rounded-[2rem] bg-zinc-50 flex items-center justify-center mb-2 shadow-inner border border-zinc-100">
             <ShieldAlert className="h-10 w-10 text-primary" />
           </div>
-          <CardTitle className="text-3xl font-black text-white uppercase tracking-widest font-rounded italic">Admin Gate</CardTitle>
+          <CardTitle className="text-3xl font-black text-zinc-900 uppercase tracking-widest font-rounded">Admin Gate</CardTitle>
           <CardDescription className="text-zinc-500 text-lg font-medium tracking-tight">Authorized personnel only. Identity check required.</CardDescription>
         </CardHeader>
         <CardContent className="px-12 pb-16">
           <form onSubmit={handleLogin} className="space-y-8">
             <div className="space-y-3">
-              <Label className="text-zinc-500 font-black uppercase text-[11px] tracking-[0.3em] ml-1">Personnel ID</Label>
+              <Label className="text-zinc-400 font-black uppercase text-[11px] tracking-[0.3em] ml-1">Personnel ID</Label>
               <div className="relative">
-                <User className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
+                <User className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-400" />
                 <Input 
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="admin_id"
-                  className="bg-zinc-800 border-zinc-700 text-white h-16 pl-14 rounded-2xl focus-visible:ring-primary/20 text-lg font-bold"
+                  className="bg-zinc-50 border-zinc-200 text-zinc-900 h-16 pl-14 rounded-2xl focus-visible:ring-primary/20 text-lg font-bold"
                 />
               </div>
             </div>
             <div className="space-y-3">
-              <Label className="text-zinc-500 font-black uppercase text-[11px] tracking-[0.3em] ml-1">Access Key</Label>
+              <Label className="text-zinc-400 font-black uppercase text-[11px] tracking-[0.3em] ml-1">Access Key</Label>
               <div className="relative">
-                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
+                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-400" />
                 <Input 
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="bg-zinc-800 border-zinc-700 text-white h-16 pl-14 rounded-2xl focus-visible:ring-primary/20 text-lg font-bold"
+                  className="bg-zinc-50 border-zinc-200 text-zinc-900 h-16 pl-14 rounded-2xl focus-visible:ring-primary/20 text-lg font-bold"
                 />
               </div>
             </div>
             <Button 
               type="submit" 
               disabled={loading}
-              className="w-full h-20 rounded-[1.5rem] text-2xl font-black bg-white text-zinc-950 hover:bg-zinc-200 transition-all shadow-2xl shadow-white/5 mt-4"
+              className="w-full h-20 rounded-[1.5rem] text-2xl font-black bg-zinc-900 text-white hover:bg-zinc-800 transition-all shadow-2xl shadow-zinc-900/20 mt-4"
             >
               {loading ? <Loader2 className="animate-spin h-8 w-8" /> : (
                 <>
@@ -124,8 +124,8 @@ export default function BackofficeLoginPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="bg-zinc-950/50 p-8 flex justify-center border-t border-zinc-800">
-          <p className="text-[11px] font-black text-zinc-700 uppercase tracking-[0.5em]">© 2026 Trip Butler Global Operations</p>
+        <CardFooter className="bg-zinc-50 p-8 flex justify-center border-t border-zinc-100">
+          <p className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.5em]">© 2026 Trip Butler Global Operations</p>
         </CardFooter>
       </Card>
     </div>
