@@ -88,6 +88,25 @@ export default function Navbar() {
         )}
         {t('aiPlanner')}
       </Link>
+      {user && (
+        <Link
+          href="/itineraries"
+          className={cn(
+            "flex items-center text-sm font-medium transition-colors hover:text-primary",
+            mobile 
+              ? "p-4 rounded-xl bg-zinc-50 border border-transparent active:border-zinc-900" 
+              : "text-muted-foreground"
+          )}
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          {mobile ? (
+            <Calendar className="h-4 w-4 mr-3 text-zinc-500" />
+          ) : (
+            <Calendar className="h-3 w-3 mr-1 text-zinc-500" />
+          )}
+          {t('myItineraries')}
+        </Link>
+      )}
     </>
   )
 
