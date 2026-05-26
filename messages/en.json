@@ -1,7 +1,7 @@
 {
   "Navbar": {
     "title": "Trip Butler",
-    "explore": "Explore",
+    "explore": "Landmarks",
     "aiPlanner": "AI Planner",
     "login": "Log in",
     "signup": "Get Started",
@@ -9,7 +9,46 @@
     "myItineraries": "My Itineraries",
     "dashboard": "Dashboard",
     "profile": "Profile",
-    "logout": "Log out"
+    "logout": "Log out",
+    "about": "About Us"
+  },
+  "About": {
+    "title": "About Us",
+    "subtitle": "Trip Butler: From 0 to 1, the Evolution of Smart Travel.",
+    "description": "We are dedicated to combining AI technology with local expertise to provide deeply personalized travel experiences for every traveler.",
+    "historyTitle": "Development Journey",
+    "timeline": [
+      {
+        "date": "2026/05/18",
+        "title": "Project Launch & Foundation",
+        "content": "Officially kicked off Trip Butler. Established Next.js core, integrated Supabase, and completed the foundation for multilingual support (ZH/EN/JA)."
+      },
+      {
+        "date": "2026/05/20",
+        "title": "AI Travel Brain: Planner Launch",
+        "content": "Released the AI Smart Planner. Used multi-dimensional questionnaires to capture preferences and implemented dynamic itinerary generation."
+      },
+      {
+        "date": "2026/05/22",
+        "title": "Cloud Sync & Security Hardening",
+        "content": "Migrated from local storage to Supabase Cloud Sync. Added user profile management (Phone/OTP) and itinerary limit protection."
+      },
+      {
+        "date": "2026/05/23",
+        "title": "Admin Command Center",
+        "content": "Established the backoffice system with permission-based access, system audit logs, and hierarchical admin management."
+      },
+      {
+        "date": "2026/05/24",
+        "title": "Landmark Encyclopedia & Discovery",
+        "content": "Integrated a real-world site database for major cities. Added 'Explore Landmarks' to allow instant additions to journeys."
+      },
+      {
+        "date": "2026/05/25",
+        "title": "Smart Matching & UX Refinement",
+        "content": "Implemented automated guide matching and quotation flow. Redesigned itinerary cards to 'Timeline Style' and improved global accessibility."
+      }
+    ]
   },
   "AIPlanner": {
     "badge": "AI Travel Matcher",
@@ -214,7 +253,7 @@
     "privacy": "Privacy Policy",
     "contact": "Contact",
     "sitemap": "Sitemap",
-    "explore": "Explore Guides",
+    "explore": "Explore Landmarks",
     "aiPlanner": "AI Matcher",
     "becomeGuide": "Become a Guide",
     "support": "Support",

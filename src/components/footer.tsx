@@ -61,7 +61,7 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <h3 className="font-bold text-sm uppercase tracking-widest">{t("support")}</h3>
             <nav className="flex flex-col gap-2">
-              <Link href="#" className="text-sm text-muted-foreground hover:text-zinc-900 transition-colors">
+              <Link href="/about" className="text-sm text-muted-foreground hover:text-zinc-900 transition-colors">
                 {t("about")}
               </Link>
               <Link href="#" className="text-sm text-muted-foreground hover:text-zinc-900 transition-colors">
