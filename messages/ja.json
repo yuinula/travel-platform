@@ -1,4 +1,99 @@
 {
+  "Backoffice": {
+    "sidebar": {
+      "dashboard": "ダッシュボード",
+      "adminPortal": "管理ポータル",
+      "manageLandmarks": "景點管理",
+      "manageGuides": "ガイド管理",
+      "manageAdmins": "管理者設定",
+      "systemLogs": "システムログ",
+      "nodeSecure": "セキュアノード",
+      "securityAudit": "現在のセッションは暗号化され、セキュリティ監査のために監視されています。"
+    },
+    "header": {
+      "systemMode": "システムモード：",
+      "fullAuthority": "完全な権限",
+      "restrictedAccess": "制限付きアクセス",
+      "accountSettings": "アカウント設定",
+      "controlCenter": "コントロールセンター",
+      "changePassword": "パスワード変更",
+      "signOut": "ログアウト"
+    },
+    "admins": {
+      "title": "管理者権限コントロール",
+      "subtitle": "バックオフィスアカウントの管理、権限の割り当て、システムの安全確保。",
+      "addNew": "管理者の追加",
+      "editAdmin": "管理者の編集",
+      "table": {
+        "username": "ユーザー名",
+        "role": "役割",
+        "permissions": "権限",
+        "createdAt": "作成日",
+        "actions": "操作"
+      }
+    },
+    "landmarks": {
+      "title": "景點データベース管理",
+      "subtitle": "世界の主要都市の景點、地標、グルメ情報の管理と更新。",
+      "addNew": "新規登録",
+      "editLandmark": "編集",
+      "searchPlaceholder": "景點名や都市で検索...",
+      "form": {
+        "name": "景點名",
+        "type": "タイプ",
+        "country": "国",
+        "city": "都市",
+        "imageUrl": "画像URL",
+        "description": "詳細説明",
+        "features": "特徴（カンマ区切り）",
+        "accessibility": "バリアフリー",
+        "childFriendly": "子供連れ歓迎",
+        "elderFriendly": "シニア向け"
+      }
+    },
+    "guides": {
+      "title": "ガイドパートナー管理",
+      "subtitle": "プロの現地ガイドのプロフィールとサービス設定の審査・管理。",
+      "addNew": "ガイドの追加",
+      "editGuide": "プロフィールの編集",
+      "searchPlaceholder": "ガイド名、メール、または都市で検索...",
+      "hourlyRate": "時給",
+      "rating": "評価",
+      "areas": "対応エリア",
+      "status": "ステータス",
+      "available": "予約可能",
+      "busy": "対応中",
+      "table": {
+        "rating": "評価",
+        "hourlyRate": "時給",
+        "areas": "対応エリア",
+        "status": "ステータス",
+        "available": "予約可能",
+        "busy": "対応中"
+      },
+      "form": {
+        "accountCredentials": "アカウント資格情報",
+        "fullName": "氏名",
+        "initialPassword": "初期パスワード",
+        "bio": "自己紹介",
+        "languages": "言語能力（カンマ区切り）",
+        "serviceAreas": "対応都市（カンマ区切り）",
+        "availableForBooking": "現在予約を受け付け中"
+      }
+    },
+    "logs": {
+      "title": "システム操作ログ",
+      "subtitle": "管理者によるすべての重要な操作と変更履歴を追跡し、データの安全を確保します。",
+      "searchPlaceholder": "ログ内容や担当者で検索...",
+      "table": {
+        "timestamp": "操作時間",
+        "administrator": "実行者",
+        "action": "操作タイプ",
+        "description": "詳細説明",
+        "trace": "追跡コード"
+      }
+    }
+  },
   "Navbar": {
     "title": "旅バトラー",
     "explore": "景點を探す",

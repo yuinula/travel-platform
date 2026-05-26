@@ -25,7 +25,8 @@ import {
   Accessibility,
   Baby,
   UserRound,
-  MoreVertical
+  MoreVertical,
+  ChevronRight
 } from "lucide-react"
 import {
   Dialog,
@@ -47,6 +48,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase"
 import { toast } from "sonner"
+import { useTranslations } from "next-intl"
 
 interface Landmark {
   id: string;
@@ -54,7 +56,7 @@ interface Landmark {
   country: string;
   province: string;
   city: string;
-  type: 'Sightseeing' | 'Market' | 'Restaurant' | 'Accommodation';
+  type: 'Sightseeing' | 'Market' | 'Restaurant' | 'Accommodation' | 'ArtGallery';
   features: string[];
   is_accessible: boolean;
   is_child_friendly: boolean;
@@ -64,6 +66,8 @@ interface Landmark {
 }
 
 export default function ManageLandmarksPage() {
+  const t = useTranslations("Backoffice.landmarks")
+  const et = useTranslations("Explore")
   const supabase = createClient()
   const [landmarks, setLandmarks] = useState<Landmark[]>([])
   const [loading, setLoading] = useState(true)
@@ -192,64 +196,70 @@ export default function ManageLandmarksPage() {
 
   const filtered = landmarks.filter(l => 
     l.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    l.city.toLowerCase().includes(searchTerm.toLowerCase())
+    l.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    l.country.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
-    <div className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-black tracking-tight text-white uppercase font-rounded tracking-widest italic">Landmark Management</h1>
-          <p className="text-zinc-500 font-medium text-lg mt-1">Curate and maintain the global landmark database.</p>
+    <div className="space-y-12">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+        <div className="space-y-2">
+          <h1 className="text-5xl font-black tracking-tight text-white uppercase font-rounded italic tracking-widest">{t('title')}</h1>
+          <p className="text-zinc-500 font-bold text-xl">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-4">
-           <div className="relative w-64 md:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-600" />
+           <div className="relative w-64 md:w-96">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
               <Input 
-                placeholder="Search landmarks..." 
+                placeholder={t('searchPlaceholder')} 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-zinc-900 border-zinc-800 text-white pl-12 h-14 rounded-2xl focus-visible:ring-zinc-700" 
+                className="bg-zinc-900 border-zinc-800 text-white pl-14 h-16 rounded-2xl focus-visible:ring-zinc-700 text-lg font-medium" 
               />
            </div>
-           <Button onClick={() => { resetForm(); setIsAddOpen(true); }} className="h-14 rounded-2xl ai-gradient px-6 font-black uppercase tracking-widest gap-2">
-             <Plus className="h-5 w-5" />
-             Add New
+           <Button onClick={() => { resetForm(); setIsAddOpen(true); }} className="h-16 rounded-2xl ai-gradient px-8 font-black uppercase tracking-widest gap-3 shadow-2xl shadow-primary/20 hover:scale-[1.02] transition-all active:scale-[0.98]">
+             <Plus className="h-6 w-6" />
+             {t('addNew')}
            </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {loading ? (
-          [1,2,3].map(i => <div key={i} className="h-64 rounded-[2.5rem] bg-zinc-900 animate-pulse" />)
+          [1,2,3].map(i => <div key={i} className="h-80 rounded-[3rem] bg-zinc-900 animate-pulse" />)
         ) : filtered.map(landmark => (
-          <Card key={landmark.id} className="bg-zinc-900 border-zinc-800 rounded-[2.5rem] overflow-hidden group">
-            <div className="h-48 relative overflow-hidden">
-               <img src={landmark.image_url || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e'} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 to-transparent" />
-               <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button onClick={() => openEdit(landmark)} size="icon" className="h-10 w-10 rounded-xl bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/10">
-                    <Edit2 className="h-4 w-4 text-white" />
+          <Card key={landmark.id} className="bg-zinc-900 border-zinc-800 rounded-[3rem] overflow-hidden group hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2">
+            <div className="h-56 relative overflow-hidden">
+               <img src={landmark.image_url || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e'} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={landmark.name} />
+               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent" />
+               <div className="absolute top-6 right-6 flex gap-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                  <Button onClick={() => openEdit(landmark)} size="icon" className="h-12 w-12 rounded-2xl bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/10 shadow-xl">
+                    <Edit2 className="h-5 w-5 text-white" />
                   </Button>
-                  <Button onClick={() => handleDelete(landmark)} size="icon" className="h-10 w-10 rounded-xl bg-red-500/20 backdrop-blur-md hover:bg-red-500/40 border border-red-500/20">
-                    <Trash2 className="h-4 w-4 text-red-500" />
+                  <Button onClick={() => handleDelete(landmark)} size="icon" className="h-12 w-12 rounded-2xl bg-red-500/20 backdrop-blur-md hover:bg-red-500/40 border border-red-500/20 shadow-xl">
+                    <Trash2 className="h-5 w-5 text-red-500" />
                   </Button>
                </div>
-               <div className="absolute bottom-4 left-6">
-                  <Badge className="bg-primary/20 text-primary border-primary/20 mb-2 uppercase text-[9px] font-black">{landmark.type}</Badge>
-                  <h3 className="text-white text-xl font-black">{landmark.name}</h3>
+               <div className="absolute bottom-6 left-8 right-8">
+                  <Badge className="bg-primary/20 text-primary border-primary/20 mb-3 uppercase text-[10px] font-black tracking-widest px-3 py-1 rounded-full">
+                    {et(`types.${landmark.type}`)}
+                  </Badge>
+                  <h3 className="text-white text-2xl font-black font-rounded truncate">{landmark.name}</h3>
                </div>
             </div>
-            <CardContent className="p-6 space-y-4">
-               <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold">
-                  <MapPin className="h-3 w-3" />
+            <CardContent className="p-8 space-y-5">
+               <div className="flex items-center gap-3 text-zinc-400 text-sm font-bold">
+                  <MapPin className="h-4 w-4 text-primary" />
                   {landmark.city}, {landmark.country}
                </div>
-               <div className="flex flex-wrap gap-2 pt-2 border-t border-zinc-800/50">
-                  {landmark.is_accessible && <Accessibility className="h-4 w-4 text-emerald-500" />}
-                  {landmark.is_child_friendly && <Baby className="h-4 w-4 text-blue-500" />}
-                  {landmark.is_elder_friendly && <UserRound className="h-4 w-4 text-amber-500" />}
-                  <span className="text-[10px] text-zinc-600 font-bold uppercase ml-auto">Updated recently</span>
+               <p className="text-zinc-500 text-sm font-medium line-clamp-2 italic leading-relaxed">
+                 {landmark.description || "No description provided."}
+               </p>
+               <div className="flex flex-wrap gap-3 pt-4 border-t border-zinc-800/50">
+                  {landmark.is_accessible && <Accessibility className="h-5 w-5 text-emerald-500" />}
+                  {landmark.is_child_friendly && <Baby className="h-5 w-5 text-blue-500" />}
+                  {landmark.is_elder_friendly && <UserRound className="h-5 w-5 text-amber-500" />}
+                  <span className="text-[11px] text-zinc-600 font-black uppercase ml-auto tracking-tighter">Updated: {new Date().toLocaleDateString()}</span>
                </div>
             </CardContent>
           </Card>
@@ -258,72 +268,82 @@ export default function ManageLandmarksPage() {
 
       {/* Landmark Dialog (Add/Edit) */}
       <Dialog open={isAddOpen || isEditOpen} onOpenChange={(val) => { if(!val) { setIsAddOpen(false); setIsEditOpen(false); resetForm(); }}}>
-        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-2xl p-10 rounded-[3rem] shadow-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-3xl font-black uppercase font-rounded tracking-widest">{isEditOpen ? "Edit Landmark" : "Add Landmark"}</DialogTitle>
-            <DialogDescription className="text-zinc-500">Fill in the details below to maintain the landmark library.</DialogDescription>
+        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-3xl p-12 rounded-[4rem] shadow-2xl overflow-hidden backdrop-blur-2xl">
+          <DialogHeader className="space-y-6">
+            <DialogTitle className="text-4xl font-black uppercase font-rounded tracking-widest ai-text-gradient">
+              {isEditOpen ? t('editLandmark') : t('addNew')}
+            </DialogTitle>
+            <DialogDescription className="text-zinc-500 text-xl font-bold">{t('subtitle')}</DialogDescription>
           </DialogHeader>
 
-          <div className="grid grid-cols-2 gap-6 mt-8">
-            <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Name</Label>
-              <Input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-xl" />
+          <div className="grid grid-cols-2 gap-8 mt-10 overflow-y-auto max-h-[60vh] pr-6 custom-scrollbar">
+            <div className="space-y-3">
+              <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('form.name')}</Label>
+              <Input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold" />
             </div>
-            <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Type</Label>
+            <div className="space-y-3">
+              <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('form.type')}</Label>
               <Select value={formData.type} onValueChange={v => setFormData({...formData, type: v as any})}>
-                <SelectTrigger className="bg-zinc-800 border-zinc-700 rounded-xl">
+                <SelectTrigger className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-zinc-800 border-zinc-700">
-                  <SelectItem value="Sightseeing">Sightseeing</SelectItem>
-                  <SelectItem value="Market">Market</SelectItem>
-                  <SelectItem value="Restaurant">Restaurant</SelectItem>
-                  <SelectItem value="Accommodation">Accommodation</SelectItem>
-                  <SelectItem value="ArtGallery">Art Gallery</SelectItem>
+                <SelectContent className="bg-zinc-800 border-zinc-700 rounded-2xl">
+                  <SelectItem value="Sightseeing">{et('types.Sightseeing')}</SelectItem>
+                  <SelectItem value="Market">{et('types.Market')}</SelectItem>
+                  <SelectItem value="Restaurant">{et('types.Restaurant')}</SelectItem>
+                  <SelectItem value="Accommodation">{et('types.Accommodation')}</SelectItem>
+                  <SelectItem value="ArtGallery">{et('types.ArtGallery')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Country</Label>
-              <Input value={formData.country} onChange={e => setFormData({...formData, country: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-xl" />
+            <div className="space-y-3">
+              <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('form.country')}</Label>
+              <Input value={formData.country} onChange={e => setFormData({...formData, country: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold" />
             </div>
-            <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">City</Label>
-              <Input value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-xl" />
+            <div className="space-y-3">
+              <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('form.city')}</Label>
+              <Input value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold" />
             </div>
-            <div className="col-span-2 space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Image URL</Label>
-              <Input value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-xl" />
+            <div className="col-span-2 space-y-3">
+              <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('form.imageUrl')}</Label>
+              <div className="relative">
+                <ImageIcon className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-600" />
+                <Input value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 pl-14 pr-6 text-lg font-bold" placeholder="https://..." />
+              </div>
             </div>
-            <div className="col-span-2 space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Description</Label>
-              <Input value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-xl" />
+            <div className="col-span-2 space-y-3">
+              <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('form.description')}</Label>
+              <textarea 
+                value={formData.description} 
+                onChange={e => setFormData({...formData, description: e.target.value})} 
+                className="w-full bg-zinc-800 border-zinc-700 rounded-2xl p-6 text-lg font-medium min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
             </div>
-            <div className="col-span-2 space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Features (comma separated)</Label>
-              <Input value={formData.features} onChange={e => setFormData({...formData, features: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-xl" placeholder="e.g. Landmark, Architecture, View" />
+            <div className="col-span-2 space-y-3">
+              <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('form.features')}</Label>
+              <Input value={formData.features} onChange={e => setFormData({...formData, features: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold" placeholder="e.g. Landmark, Architecture, View" />
             </div>
             
-            <div className="col-span-2 flex gap-6 mt-2">
-               <div className="flex items-center gap-3">
-                  <Checkbox checked={formData.is_accessible} onCheckedChange={v => setFormData({...formData, is_accessible: !!v})} className="border-zinc-700" />
-                  <Label className="text-xs font-bold text-zinc-400">Accessible</Label>
+            <div className="col-span-2 flex flex-wrap gap-8 py-4 bg-white/5 rounded-[2rem] px-8 border border-white/5">
+               <div className="flex items-center gap-4">
+                  <Checkbox checked={formData.is_accessible} onCheckedChange={v => setFormData({...formData, is_accessible: !!v})} className="h-6 w-6 border-zinc-700 rounded-lg" />
+                  <Label className="text-sm font-black uppercase tracking-widest text-zinc-400">{t('form.accessibility')}</Label>
                </div>
-               <div className="flex items-center gap-3">
-                  <Checkbox checked={formData.is_child_friendly} onCheckedChange={v => setFormData({...formData, is_child_friendly: !!v})} className="border-zinc-700" />
-                  <Label className="text-xs font-bold text-zinc-400">Child Friendly</Label>
+               <div className="flex items-center gap-4">
+                  <Checkbox checked={formData.is_child_friendly} onCheckedChange={v => setFormData({...formData, is_child_friendly: !!v})} className="h-6 w-6 border-zinc-700 rounded-lg" />
+                  <Label className="text-sm font-black uppercase tracking-widest text-zinc-400">{t('form.childFriendly')}</Label>
                </div>
-               <div className="flex items-center gap-3">
-                  <Checkbox checked={formData.is_elder_friendly} onCheckedChange={v => setFormData({...formData, is_elder_friendly: !!v})} className="border-zinc-700" />
-                  <Label className="text-xs font-bold text-zinc-400">Elder Friendly</Label>
+               <div className="flex items-center gap-4">
+                  <Checkbox checked={formData.is_elder_friendly} onCheckedChange={v => setFormData({...formData, is_elder_friendly: !!v})} className="h-6 w-6 border-zinc-700 rounded-lg" />
+                  <Label className="text-sm font-black uppercase tracking-widest text-zinc-400">{t('form.elderFriendly')}</Label>
                </div>
             </div>
           </div>
 
-          <DialogFooter className="mt-10">
-            <Button onClick={() => handleSave(isEditOpen ? 'edit' : 'add')} className="w-full h-16 rounded-2xl ai-gradient font-black text-lg shadow-xl shadow-primary/20">
-              {isEditOpen ? "Update Landmark" : "Create Landmark"}
+          <DialogFooter className="mt-12">
+            <Button onClick={() => handleSave(isEditOpen ? 'edit' : 'add')} className="w-full h-20 rounded-[1.5rem] ai-gradient font-black text-2xl shadow-xl shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
+              {isEditOpen ? t('editLandmark') : t('addNew')}
+              <ChevronRight className="ml-3 h-8 w-8" />
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,4 +1,115 @@
 {
+  "Backoffice": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "adminPortal": "Admin Portal",
+      "manageLandmarks": "Manage Landmarks",
+      "manageGuides": "Manage Guides",
+      "manageAdmins": "Manage Admins",
+      "systemLogs": "System Logs",
+      "nodeSecure": "Node Secure",
+      "securityAudit": "Current session is encrypted and monitored for security audit."
+    },
+    "header": {
+      "systemMode": "System Mode:",
+      "fullAuthority": "Full Authority",
+      "restrictedAccess": "Restricted Access",
+      "accountSettings": "Account Settings",
+      "controlCenter": "Control Center",
+      "changePassword": "Change Password",
+      "signOut": "Sign Out"
+    },
+    "admins": {
+      "title": "Administrator Control",
+      "subtitle": "Manage backend accounts, assign permissions and ensure security.",
+      "addNew": "New Admin",
+      "editAdmin": "Edit Admin",
+      "table": {
+        "username": "Username",
+        "role": "Role",
+        "permissions": "Permissions",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      }
+    },
+    "landmarks": {
+      "title": "Landmark Management",
+      "subtitle": "Curate and maintain the global landmark database.",
+      "addNew": "Add New",
+      "editLandmark": "Edit Landmark",
+      "searchPlaceholder": "Search landmarks...",
+      "form": {
+        "name": "Name",
+        "type": "Type",
+        "country": "Country",
+        "city": "City",
+        "imageUrl": "Image URL",
+        "description": "Description",
+        "features": "Features (comma separated)",
+        "accessibility": "Accessible",
+        "childFriendly": "Child Friendly",
+        "elderFriendly": "Elder Friendly"
+      }
+    },
+    "guides": {
+      "title": "Guide Management",
+      "subtitle": "Review and manage professional local guide profiles.",
+      "addNew": "Add New Guide",
+      "editGuide": "Edit Guide Profile",
+      "searchPlaceholder": "Search guides...",
+      "hourlyRate": "Hourly Rate",
+      "rating": "Rating",
+      "areas": "Areas",
+      "status": "Status",
+      "available": "Available",
+      "busy": "Busy",
+      "table": {
+        "rating": "Rating",
+        "hourlyRate": "Hourly Rate",
+        "areas": "Areas",
+        "status": "Status",
+        "available": "Available",
+        "busy": "Busy"
+      },
+      "form": {
+        "accountCredentials": "Account Credentials",
+        "fullName": "Full Name",
+        "initialPassword": "Initial Password",
+        "bio": "Biography",
+        "languages": "Languages (comma separated)",
+        "serviceAreas": "Service Areas (comma separated)",
+        "availableForBooking": "Currently Available for Booking"
+      }
+    },
+    "logs": {
+      "title": "System Logs",
+      "subtitle": "Audit trail for all administrative operations.",
+      "searchPlaceholder": "Search logs...",
+      "table": {
+        "timestamp": "Timestamp",
+        "administrator": "Administrator",
+        "action": "Action",
+        "description": "Description",
+        "trace": "Trace"
+      }
+    },
+    "dashboard": {
+      "title": "Platform Dashboard",
+      "subtitle": "Cross-role activity and financial overview.",
+      "tabs": {
+        "traveler": "Traveler Activity",
+        "guide": "Guide Operations"
+      },
+      "metrics": {
+        "escrow": "Escrow Volume",
+        "liveSessions": "Live Sessions",
+        "matchRate": "Match Rate",
+        "feedback": "Avg. Feedback"
+      },
+      "recentTransactions": "Recent Transactions",
+      "marketIntelligence": "Market Intelligence"
+    }
+  },
   "Navbar": {
     "title": "Trip Butler",
     "explore": "Landmarks",

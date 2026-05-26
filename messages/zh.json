@@ -1,4 +1,115 @@
 {
+  "Backoffice": {
+    "sidebar": {
+      "dashboard": "儀表板",
+      "adminPortal": "管理入口",
+      "manageLandmarks": "景點管理",
+      "manageGuides": "導遊管理",
+      "manageAdmins": "管理員設置",
+      "systemLogs": "系統日誌",
+      "nodeSecure": "安全節點",
+      "securityAudit": "當前階段已加密並受到安全審計監控。"
+    },
+    "header": {
+      "systemMode": "系統模式：",
+      "fullAuthority": "完全控制權限",
+      "restrictedAccess": "受限訪問權限",
+      "accountSettings": "帳號設定",
+      "controlCenter": "控制中心",
+      "changePassword": "修改密碼",
+      "signOut": "登出系統"
+    },
+    "admins": {
+      "title": "管理員權限控制",
+      "subtitle": "管理後台帳號、分配功能權限並確保系統安全。",
+      "addNew": "新增管理員",
+      "editAdmin": "編輯管理員",
+      "table": {
+        "username": "使用者名稱",
+        "role": "角色",
+        "permissions": "功能權限",
+        "createdAt": "建立時間",
+        "actions": "操作"
+      }
+    },
+    "landmarks": {
+      "title": "全球景點管理",
+      "subtitle": "維護並更新全球熱門城市之景點、地標與特色美食資料庫。",
+      "addNew": "新增景點",
+      "editLandmark": "編輯景點",
+      "searchPlaceholder": "搜尋景點或城市...",
+      "form": {
+        "name": "景點名稱",
+        "type": "類型",
+        "country": "國家",
+        "city": "城市",
+        "imageUrl": "圖片網址",
+        "description": "詳細描述",
+        "features": "特色標籤 (以逗號分隔)",
+        "accessibility": "無障礙友善",
+        "childFriendly": "兒童友善",
+        "elderFriendly": "長者友善"
+      }
+    },
+    "guides": {
+      "title": "導遊夥伴管理",
+      "subtitle": "審核並管理專業在地導遊的個人資料與服務設定。",
+      "addNew": "新增導遊",
+      "editGuide": "編輯導遊檔案",
+      "searchPlaceholder": "搜尋導遊姓名、Email 或城市...",
+      "hourlyRate": "時薪",
+      "rating": "評分",
+      "areas": "服務區域",
+      "status": "狀態",
+      "available": "可接單",
+      "busy": "忙碌中",
+      "table": {
+        "rating": "評分",
+        "hourlyRate": "時薪",
+        "areas": "服務區域",
+        "status": "狀態",
+        "available": "可接單",
+        "busy": "忙碌中"
+      },
+      "form": {
+        "accountCredentials": "帳號憑證",
+        "fullName": "真實姓名",
+        "initialPassword": "初始密碼",
+        "bio": "個人簡介",
+        "languages": "語言能力 (以逗號分隔)",
+        "serviceAreas": "服務城市 (以逗號分隔)",
+        "availableForBooking": "目前開放預約"
+      }
+    },
+    "logs": {
+      "title": "系統操作日誌",
+      "subtitle": "追蹤後台所有管理員的關鍵操作與異動紀錄，確保資料安全。",
+      "searchPlaceholder": "搜尋日誌內容或人員...",
+      "table": {
+        "timestamp": "操作時間",
+        "administrator": "執行人員",
+        "action": "操作類型",
+        "description": "詳細描述",
+        "trace": "追蹤碼"
+      }
+    },
+    "dashboard": {
+      "title": "平台管理儀表板",
+      "subtitle": "全站數據監測、角色活躍度及財務概況總覽。",
+      "tabs": {
+        "traveler": "旅客活動",
+        "guide": "導遊營運"
+      },
+      "metrics": {
+        "escrow": "代管資金總額",
+        "liveSessions": "即時對話數",
+        "matchRate": "成功媒合率",
+        "feedback": "平均滿意度"
+      },
+      "recentTransactions": "近期交易紀錄",
+      "marketIntelligence": "市場情報分析"
+    }
+  },
   "Navbar": {
     "title": "Trip Butler",
     "explore": "探索景點",
