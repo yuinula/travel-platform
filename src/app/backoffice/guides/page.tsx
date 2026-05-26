@@ -157,8 +157,12 @@ export default function ManageGuidesPage() {
         }
       })
 
-      if (authError) throw authError
-      if (!authData.user) throw new Error("Failed to create auth user")
+      if (authError) {
+        throw new Error(authError.message || "Auth signup failed")
+      }
+      if (!authData.user) {
+        throw new Error("User creation succeeded but no data returned")
+      }
 
       // 2. Initialize Guide Profile
       const payload = {
