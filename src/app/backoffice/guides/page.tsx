@@ -145,43 +145,25 @@ export default function ManageGuidesPage() {
 
     setLoading(true)
     try {
-      // 1. Create Auth User
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            name: formData.name,
-            role: 'guide'
-          }
-        }
+      // Call server-side API to bypass email confirmation
+      const response = await fetch('/api/backoffice/create-guide', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          languages: formData.languages.split(',').map(l => l.trim()).filter(l => l),
+          service_areas: formData.service_areas.split(',').map(s => s.trim()).filter(s => s)
+        })
       })
 
-      if (authError) {
-        throw new Error(authError.message || "Auth signup failed")
-      }
-      if (!authData.user) {
-        throw new Error("User creation succeeded but no data returned")
-      }
+      const result = await response.json()
 
-      // 2. Initialize Guide Profile
-      const payload = {
-        user_id: authData.user.id,
-        bio: formData.bio,
-        languages: formData.languages.split(',').map(l => l.trim()).filter(l => l),
-        service_areas: formData.service_areas.split(',').map(s => s.trim()).filter(s => s),
-        hourly_rate: formData.hourly_rate,
-        is_available: formData.is_available
+      if (!result.success) {
+        throw new Error(result.error || "Failed to create guide")
       }
-
-      const { error: profileError } = await supabase
-        .from('guide_profiles')
-        .insert([payload])
-
-      if (profileError) throw profileError
 
       toast.success(`Guide ${formData.name} created successfully!`)
-      await logAction('CREATE_GUIDE', `Created new guide: ${formData.name}`, { email: formData.email })
+      await logAction('CREATE_GUIDE', `Created new guide (Admin API): ${formData.name}`, { email: formData.email })
       
       setIsAddOpen(false)
       resetForm()
