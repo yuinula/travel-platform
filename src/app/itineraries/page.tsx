@@ -426,12 +426,12 @@ function TripCard({
                   <RotateCcw className={cn("h-5 w-5", isRegenerating === trip.id && "animate-spin")} />
                   {isRegenerating === trip.id ? "Analyzing..." : t('result.regenerate')}
                 </Button>
-                <Link href={`/explore?matched=true&dest=${trip.destination}`} className="flex-[2] block w-full">
+                <Link href={`/itineraries/${trip.id}/match`} className="flex-[2] block w-full">
                   <Button 
                     render={
                       <button>
                         {t('result.hireGuide')}
-                        <ArrowRight className="ml-2 h-5 w-6" />
+                        <ArrowRight className="ml-2 h-6 w-6" />
                       </button>
                     }
                     className="w-full h-16 rounded-2xl font-black text-xl gap-2 shadow-2xl shadow-primary/30 ai-gradient-hover scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all" 

@@ -96,8 +96,18 @@
       "subtitle": "AI Butler 正在根據您的喜好挑選最合適的景點與活動..."
     }
   },
-  "Explore": {
-    "title": "探索景點",
+  "Match": {
+    "matching": "正在為您的行程媒合最佳導遊...",
+    "found": "我們為您找到了 {count} 位合適的當地專家",
+    "noMatches": "目前該地區暫無符合所有條件的導遊，已為您列出鄰近地區的專家。",
+    "selectGuide": "選擇此導遊並開始對話",
+    "startChat": "開始洽談與索取報價",
+    "hourlyRate": "小時",
+    "matchedNeeds": "符合您的需求",
+    "experience": "年經驗",
+    "rating": "分"
+  },
+  "Explore": {    "title": "探索景點",
     "description": "瀏覽世界各地的熱門景點、在地市集與特色美食。",
     "searchPlaceholder": "搜尋景點名稱、城市...",
     "filterCountry": "國家",

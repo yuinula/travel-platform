@@ -96,8 +96,18 @@
       "subtitle": "AI Butler is selecting the best landmarks and activities based on your preferences..."
     }
   },
-  "Explore": {
-    "title": "Explore Landmarks",
+  "Match": {
+    "matching": "Matching the best guides for your journey...",
+    "found": "We found {count} suitable local experts for you",
+    "noMatches": "No exact matches found for all criteria, showing best alternatives in the area.",
+    "selectGuide": "Select Guide & Start Chat",
+    "startChat": "Start Negotiation & Get Quote",
+    "hourlyRate": "hr",
+    "matchedNeeds": "Matches your needs",
+    "experience": "yrs exp",
+    "rating": "rating"
+  },
+  "Explore": {    "title": "Explore Landmarks",
     "description": "Discover iconic sites, local markets, and featured restaurants around the world.",
     "searchPlaceholder": "Search landmarks, cities...",
     "filterCountry": "Country",

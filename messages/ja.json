@@ -96,8 +96,18 @@
       "subtitle": "AI Butler があなたの好みに合わせて、最適な景點やアクティビティを選んでいます..."
     }
   },
-  "Explore": {
-    "title": "景點を探す",
+  "Match": {
+    "matching": "あなたの行程に最適なガイドをマッチング中...",
+    "found": "{count} 名の最適な現地エキスパートが見つかりました",
+    "noMatches": "すべての条件に一致するガイドが見つかりませんでした。近隣地域の代替案を表示しています。",
+    "selectGuide": "このガイドを選択してチャットを開始",
+    "startChat": "相談・見積もり依頼を開始",
+    "hourlyRate": "時間",
+    "matchedNeeds": "ご要望に一致",
+    "experience": "年の経験",
+    "rating": "評価"
+  },
+  "Explore": {    "title": "景點を探す",
     "description": "世界中の人気観光スポット、地元の市場、レストランを見つけましょう。",
     "searchPlaceholder": "景點名、都市で検索...",
     "filterCountry": "国",
