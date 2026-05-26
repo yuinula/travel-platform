@@ -116,6 +116,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
   const sidebarLinks = [
     { name: "Dashboard", href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-5 w-5" />, permId: 'dashboard' },
     { name: "Admin Portal", href: "/backoffice/admin", icon: <ShieldAlert className="h-5 w-5" />, permId: 'admin-portal' },
+    { name: "Manage Landmarks", href: "/backoffice/landmarks", icon: <MapPin className="h-5 w-5" />, permId: 'manage-admins' }, // Using manage-admins permission for now
     { name: "Manage Admins", href: "/backoffice/admins", icon: <ShieldCheck className="h-5 w-5" />, permId: 'manage-admins' },
     { name: "System Logs", href: "/backoffice/logs", icon: <Settings className="h-5 w-5" />, permId: 'manage-admins' },
   ]
