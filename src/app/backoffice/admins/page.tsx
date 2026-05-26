@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/dialog"
 import { createClient } from "@/lib/supabase"
 import { useTranslations } from "next-intl"
+import { useBackofficeTheme } from "../layout"
 
 interface AdminUser {
   id: string;
@@ -43,6 +44,9 @@ interface AdminUser {
 export default function AdminManagementPage() {
   const t = useTranslations("Backoffice.admins")
   const st = useTranslations("Backoffice.sidebar")
+  const { theme } = useBackofficeTheme()
+  const isDark = theme === "dark"
+  
   const [admins, setAdmins] = useState<AdminUser[]>([])
   const [isAddOpen, setIsAddOpen] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
@@ -189,7 +193,10 @@ export default function AdminManagementPage() {
     <div className="space-y-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
         <div className="space-y-2">
-          <h1 className="text-5xl font-black tracking-tight text-white uppercase font-rounded italic tracking-widest">{t('title')}</h1>
+          <h1 className={cn(
+            "text-5xl font-black tracking-tight uppercase tracking-widest font-rounded transition-colors",
+            isDark ? "text-white" : "text-zinc-900"
+          )}>{t('title')}</h1>
           <p className="text-zinc-500 font-bold text-xl">{t('subtitle')}</p>
         </div>
         
@@ -200,37 +207,40 @@ export default function AdminManagementPage() {
               {t('addNew')}
             </Button>
           } />
-          <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-2xl p-12 rounded-[3.5rem] shadow-2xl overflow-hidden backdrop-blur-2xl">
+          <DialogContent className={cn(
+            "max-w-2xl p-12 rounded-[3.5rem] shadow-2xl overflow-hidden backdrop-blur-2xl border transition-colors",
+            isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
+          )}>
             <DialogHeader className="space-y-6">
-              <DialogTitle className="text-4xl font-black uppercase text-white font-rounded tracking-widest ai-text-gradient">{t('addNew')}</DialogTitle>
+              <DialogTitle className="text-4xl font-black uppercase font-rounded tracking-widest ai-text-gradient">{t('addNew')}</DialogTitle>
               <DialogDescription className="text-zinc-500 text-xl font-bold">{t('subtitle')}</DialogDescription>
             </DialogHeader>
             
             <div className="mt-10 space-y-10">
                <div className="grid grid-cols-2 gap-8">
                  <div className="space-y-3">
-                   <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 ml-1">{t('table.username')}</Label>
+                   <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('table.username')}</Label>
                    <Input 
                     value={newUsername}
                     onChange={(e) => setNewUsername(e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white h-14 rounded-2xl px-6 text-lg font-bold" 
+                    className={cn("h-14 rounded-2xl px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-zinc-50 border-zinc-200")} 
                     placeholder="staff_admin" 
                    />
                  </div>
                  <div className="space-y-3">
-                   <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 ml-1">Password</Label>
+                   <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">Password</Label>
                    <Input 
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white h-14 rounded-2xl px-6 text-lg font-bold" 
+                    className={cn("h-14 rounded-2xl px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-zinc-50 border-zinc-200")} 
                     placeholder="••••••••" 
                    />
                  </div>
                </div>
 
                <div className="space-y-5">
-                 <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 ml-1">{t('table.permissions')}</Label>
+                 <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('table.permissions')}</Label>
                  <div className="grid grid-cols-2 gap-4">
                     {MODULES.map(module => (
                       <button 
@@ -240,11 +250,11 @@ export default function AdminManagementPage() {
                           "flex items-center justify-between p-5 rounded-2xl border-2 transition-all font-black text-sm uppercase tracking-wider",
                           selectedPerms.includes(module.id) 
                             ? "bg-primary/10 border-primary text-primary" 
-                            : "bg-zinc-800 border-zinc-700 text-zinc-500 hover:border-zinc-500"
+                            : (isDark ? "bg-zinc-800 border-zinc-700 text-zinc-500" : "bg-white border-zinc-200 text-zinc-400 hover:border-zinc-300")
                         )}
                       >
                         {module.name}
-                        {selectedPerms.includes(module.id) ? <CheckCircle2 className="h-5 w-5 text-primary" /> : <div className="h-5 w-5 rounded-full border border-zinc-700" />}
+                        {selectedPerms.includes(module.id) ? <CheckCircle2 className="h-5 w-5 text-primary" /> : <div className="h-5 w-5 rounded-full border border-zinc-300" />}
                       </button>
                     ))}
                  </div>
@@ -258,11 +268,17 @@ export default function AdminManagementPage() {
         </Dialog>
       </div>
 
-      <Card className="bg-zinc-900 border-zinc-800 shadow-2xl rounded-[3rem] overflow-hidden">
+      <Card className={cn(
+        "shadow-2xl rounded-[3rem] overflow-hidden border transition-colors",
+        isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-zinc-200 shadow-xl"
+      )}>
         <CardContent className="p-0">
            <div className="overflow-x-auto">
               <table className="w-full text-base">
-                <thead className="bg-zinc-950/50 text-zinc-500 uppercase tracking-[0.3em] text-[11px] font-black border-b border-zinc-800">
+                <thead className={cn(
+                  "uppercase tracking-[0.3em] text-[11px] font-black border-b transition-colors",
+                  isDark ? "bg-zinc-950/50 text-zinc-500 border-zinc-800" : "bg-zinc-50 text-zinc-400 border-zinc-100"
+                )}>
                   <tr>
                     <th className="text-left p-10">{t('table.username')}</th>
                     <th className="text-left p-10">{t('table.role')}</th>
@@ -270,24 +286,29 @@ export default function AdminManagementPage() {
                     <th className="text-right p-10">{t('table.actions')}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-800">
+                <tbody className={cn("divide-y transition-colors", isDark ? "divide-zinc-800" : "divide-zinc-100")}>
                   {admins.map(admin => (
-                    <tr key={admin.id} className="hover:bg-white/[0.01] transition-colors group">
+                    <tr key={admin.id} className="hover:bg-primary/[0.01] transition-colors group">
                       <td className="p-10">
                         <div className="flex items-center gap-6">
-                          <div className="h-16 w-16 rounded-[1.5rem] bg-zinc-800 flex items-center justify-center border border-zinc-700 text-zinc-400 group-hover:text-primary transition-all duration-500 group-hover:rotate-12 group-hover:scale-110">
+                          <div className={cn(
+                            "h-16 w-16 rounded-[1.5rem] flex items-center justify-center border transition-all duration-500 group-hover:rotate-12 group-hover:scale-110",
+                            isDark ? "bg-zinc-800 border-zinc-700 text-zinc-400" : "bg-zinc-50 border-zinc-200 text-zinc-400 group-hover:text-primary"
+                          )}>
                             <Shield className="h-8 w-8" />
                           </div>
                           <div className="space-y-1">
-                             <span className="font-black text-white text-2xl font-rounded">{admin.username}</span>
-                             <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">{t('table.createdAt')}: {new Date(admin.created_at).toLocaleDateString()}</p>
+                             <span className={cn("font-black text-2xl font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{admin.username}</span>
+                             <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">{t('table.createdAt')}: {new Date(admin.created_at).toLocaleDateString()}</p>
                           </div>
                         </div>
                       </td>
                       <td className="p-10">
                         <Badge className={cn(
-                          "px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border-2 transition-all",
-                          admin.role === 'Super Admin' ? 'bg-primary/10 text-primary border-primary/20 shadow-lg shadow-primary/5' : 'bg-zinc-800 text-zinc-500 border-zinc-700'
+                          "px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border transition-all shadow-md",
+                          admin.role === 'Super Admin' 
+                            ? 'bg-primary/10 text-primary border-primary/20' 
+                            : (isDark ? 'bg-zinc-800 text-zinc-500 border-zinc-700' : 'bg-zinc-100 text-zinc-500 border-zinc-200')
                         )}>
                           {admin.role}
                         </Badge>
@@ -295,7 +316,10 @@ export default function AdminManagementPage() {
                       <td className="p-10">
                         <div className="flex flex-wrap gap-2 max-w-[300px]">
                            {admin.permissions.map(p => (
-                             <span key={p} className="text-[10px] font-black text-zinc-500 uppercase bg-zinc-950 px-3 py-1 rounded-xl border border-zinc-800 group-hover:border-zinc-700 transition-colors">
+                             <span key={p} className={cn(
+                               "text-[10px] font-black uppercase px-3 py-1 rounded-xl border transition-all",
+                               isDark ? "bg-zinc-950 text-zinc-500 border-zinc-800" : "bg-zinc-50 text-zinc-500 border-zinc-200"
+                             )}>
                                {MODULES.find(m => m.id === p)?.name || p}
                              </span>
                            ))}
@@ -307,8 +331,10 @@ export default function AdminManagementPage() {
                             variant="ghost" 
                             size="icon" 
                             className={cn(
-                              "h-12 w-12 rounded-2xl transition-all border border-transparent",
-                              admin.role === 'Super Admin' ? "opacity-10 cursor-not-allowed" : "hover:text-white hover:bg-zinc-800 hover:border-zinc-700"
+                              "h-12 w-12 rounded-2xl transition-all border",
+                              admin.role === 'Super Admin' 
+                                ? "opacity-10 cursor-not-allowed border-transparent" 
+                                : (isDark ? "text-zinc-600 hover:text-white hover:bg-zinc-800 border-transparent hover:border-zinc-700" : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 border-zinc-100")
                             )}
                             disabled={admin.role === 'Super Admin'}
                             onClick={() => openEdit(admin)}
@@ -319,8 +345,10 @@ export default function AdminManagementPage() {
                             variant="ghost" 
                             size="icon" 
                             className={cn(
-                              "h-12 w-12 rounded-2xl transition-all border border-transparent",
-                              admin.role === 'Super Admin' ? "opacity-10 cursor-not-allowed" : "hover:text-red-500 hover:bg-red-500/10 hover:border-red-500/20"
+                              "h-12 w-12 rounded-2xl transition-all border",
+                              admin.role === 'Super Admin' 
+                                ? "opacity-10 cursor-not-allowed border-transparent" 
+                                : (isDark ? "text-zinc-600 hover:text-red-500 hover:bg-red-500/10 border-transparent hover:border-red-500/20" : "text-zinc-400 hover:text-red-500 hover:bg-red-50 border-zinc-100 hover:border-red-200")
                             )}
                             onClick={() => handleDelete(admin.id, admin.role)}
                             disabled={admin.role === 'Super Admin'}
@@ -339,31 +367,34 @@ export default function AdminManagementPage() {
 
       {/* Edit Admin Dialog */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-2xl p-12 rounded-[3.5rem] backdrop-blur-2xl shadow-2xl overflow-hidden">
+        <DialogContent className={cn(
+          "max-w-2xl p-12 rounded-[3.5rem] backdrop-blur-2xl shadow-2xl overflow-hidden border transition-colors",
+          isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
+        )}>
           <DialogHeader className="space-y-6">
             <DialogTitle className="text-4xl font-black uppercase font-rounded tracking-widest ai-text-gradient">{t('editAdmin')}</DialogTitle>
             <DialogDescription className="text-zinc-500 text-xl font-bold">
-              {t('table.username')}: <span className="text-white underline underline-offset-8 decoration-primary/50">{editingAdmin?.username}</span>
+              {t('table.username')}: <span className={cn("underline underline-offset-8 decoration-primary/50", isDark ? "text-white" : "text-zinc-900")}>{editingAdmin?.username}</span>
             </DialogDescription>
           </DialogHeader>
           
           <div className="mt-10 space-y-10">
              <div className="space-y-3">
-               <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 ml-1">New Password (Optional)</Label>
+               <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">New Password (Optional)</Label>
                <div className="relative">
-                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
+                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-400" />
                  <Input 
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="bg-zinc-800 border-zinc-700 text-white h-16 pl-16 rounded-2xl focus-visible:ring-primary/20 text-lg font-bold" 
+                  className={cn("h-16 pl-16 rounded-2xl focus-visible:ring-primary/20 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-zinc-50 border-zinc-200")} 
                   placeholder="••••••••" 
                  />
                </div>
              </div>
 
              <div className="space-y-6">
-               <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 ml-1">{t('table.permissions')}</Label>
+               <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">{t('table.permissions')}</Label>
                <div className="grid grid-cols-2 gap-4">
                   {MODULES.map(module => (
                     <button 
@@ -373,17 +404,17 @@ export default function AdminManagementPage() {
                         "flex items-center justify-between p-5 rounded-2xl border-2 transition-all font-black text-sm uppercase tracking-wider",
                         selectedPerms.includes(module.id) 
                           ? "bg-primary/10 border-primary text-primary shadow-2xl shadow-primary/5" 
-                          : "bg-zinc-800 border-zinc-700 text-zinc-500 hover:border-zinc-500"
+                          : (isDark ? "bg-zinc-800 border-zinc-700 text-zinc-500" : "bg-white border-zinc-200 text-zinc-400")
                       )}
                     >
                       {module.name}
-                      {selectedPerms.includes(module.id) ? <CheckCircle2 className="h-5 w-5 text-primary" /> : <div className="h-5 w-5 rounded-full border border-zinc-700" />}
+                      {selectedPerms.includes(module.id) ? <CheckCircle2 className="h-5 w-5 text-primary" /> : <div className="h-5 w-5 rounded-full border border-zinc-200" />}
                     </button>
                   ))}
                </div>
              </div>
 
-             <Button onClick={handleUpdateAdmin} className="w-full h-20 rounded-[1.5rem] font-black text-2xl mt-4 shadow-2xl shadow-primary/30 scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all">
+             <Button onClick={handleUpdateAdmin} className="w-full h-20 rounded-[1.5rem] font-black text-2xl mt-4 shadow-xl shadow-primary/30 scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all">
                Update Credentials
                <ChevronRight className="ml-3 h-8 w-8" />
              </Button>

@@ -44,6 +44,7 @@ import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
+import { useBackofficeTheme } from "../layout"
 
 interface Guide {
   id: string;
@@ -63,6 +64,8 @@ interface Guide {
 
 export default function ManageGuidesPage() {
   const t = useTranslations("Backoffice.guides")
+  const { theme } = useBackofficeTheme()
+  const isDark = theme === "dark"
   const supabase = createClient()
   const [guides, setGuides] = useState<Guide[]>([])
   const [loading, setLoading] = useState(true)
@@ -217,17 +220,23 @@ export default function ManageGuidesPage() {
     <div className="space-y-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
         <div className="space-y-2">
-          <h1 className="text-5xl font-black tracking-tight text-white uppercase font-rounded italic tracking-widest">{t('title')}</h1>
+          <h1 className={cn(
+            "text-5xl font-black tracking-tight uppercase tracking-widest font-rounded transition-colors",
+            isDark ? "text-white" : "text-zinc-900"
+          )}>{t('title')}</h1>
           <p className="text-zinc-500 font-bold text-xl">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="relative w-64 md:w-96">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
             <Input 
               placeholder={t('searchPlaceholder')} 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-zinc-900 border-zinc-800 text-white pl-14 h-16 rounded-2xl focus-visible:ring-zinc-700 text-lg font-medium" 
+              className={cn(
+                "border h-16 rounded-2xl pl-14 text-lg font-medium transition-all focus-visible:ring-primary/20",
+                isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
+              )} 
             />
           </div>
           <Button onClick={() => { resetForm(); setIsAddOpen(true); }} className="h-16 rounded-2xl ai-gradient px-8 font-black uppercase tracking-widest gap-3 shadow-2xl shadow-primary/20 hover:scale-[1.02] transition-all active:scale-[0.98]">
@@ -239,51 +248,64 @@ export default function ManageGuidesPage() {
 
       <div className="grid grid-cols-1 gap-8">
         {loading && guides.length === 0 ? (
-          [1,2,3].map(i => <div key={i} className="h-32 rounded-[2.5rem] bg-zinc-900 animate-pulse" />)
+          [1,2,3].map(i => <div key={i} className={cn("h-32 rounded-[2.5rem] animate-pulse", isDark ? "bg-zinc-900" : "bg-zinc-200")} />)
         ) : filtered.length === 0 ? (
-          <div className="text-center py-32 bg-zinc-900/50 rounded-[4rem] border-2 border-dashed border-zinc-800">
-             <Briefcase className="h-16 w-16 text-zinc-800 mx-auto mb-6" />
-             <p className="text-zinc-600 font-black text-2xl uppercase tracking-widest">No guides found.</p>
+          <div className={cn(
+            "text-center py-32 rounded-[4rem] border-2 border-dashed transition-colors",
+            isDark ? "bg-zinc-900/50 border-zinc-800" : "bg-white border-zinc-200"
+          )}>
+             <Briefcase className="h-16 w-16 text-zinc-300 mx-auto mb-6" />
+             <p className="text-zinc-400 font-black text-2xl uppercase tracking-widest">No guides found.</p>
           </div>
         ) : (
           filtered.map(guide => (
-            <Card key={guide.id} className="bg-zinc-900 border-zinc-800 rounded-[2.5rem] overflow-hidden group hover:bg-zinc-800/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
+            <Card key={guide.id} className={cn(
+              "rounded-[2.5rem] overflow-hidden group transition-all duration-500 hover:shadow-2xl border",
+              isDark ? "bg-zinc-900 border-zinc-800 hover:bg-zinc-800/50" : "bg-white border-zinc-200 hover:bg-zinc-50"
+            )}>
               <CardContent className="p-10 flex flex-col lg:flex-row lg:items-center gap-12">
                 <div className="flex items-center gap-8 min-w-[320px]">
-                  <Avatar className="h-24 w-20 rounded-2xl border-4 border-zinc-800 shadow-2xl">
+                  <Avatar className="h-24 w-20 rounded-2xl border-4 shadow-2xl transition-colors" style={{ borderColor: isDark ? '#27272a' : '#f4f4f5' }}>
                     <AvatarImage src={guide.avatar_url} className="object-cover" />
-                    <AvatarFallback className="bg-zinc-800 text-zinc-500 text-2xl font-black uppercase">{guide.name?.[0]}</AvatarFallback>
+                    <AvatarFallback className={isDark ? "bg-zinc-800 text-zinc-500" : "bg-zinc-100 text-zinc-400"}>
+                      {guide.name?.[0]}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="space-y-2">
-                    <h3 className="text-3xl font-black text-white font-rounded italic">{guide.name}</h3>
+                    <h3 className={cn("text-3xl font-black font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{guide.name}</h3>
                     <p className="text-zinc-500 text-base font-bold truncate max-w-[220px]">{guide.email}</p>
                   </div>
                 </div>
 
-                <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-10 lg:border-x border-zinc-800 lg:px-12">
+                <div className={cn(
+                  "flex-1 grid grid-cols-2 md:grid-cols-4 gap-10 lg:border-x lg:px-12 transition-colors",
+                  isDark ? "border-zinc-800" : "border-zinc-100"
+                )}>
                   <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-600 uppercase tracking-widest">{t('table.rating')}</p>
+                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.rating')}</p>
                     <div className="flex items-center gap-2 text-amber-500 font-black text-xl">
                        <Star className="h-6 w-6 fill-current" />
-                       {guide.guide_profiles?.rating_avg || 0} <span className="text-xs text-zinc-600 font-bold">({guide.guide_profiles?.review_count || 0})</span>
+                       {guide.guide_profiles?.rating_avg || 0} <span className="text-xs text-zinc-400 font-bold">({guide.guide_profiles?.review_count || 0})</span>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-600 uppercase tracking-widest">{t('table.hourlyRate')}</p>
-                    <p className="text-white font-black text-xl">${guide.guide_profiles?.hourly_rate || 0}<span className="text-xs text-zinc-600 font-bold ml-1">/hr</span></p>
+                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.hourlyRate')}</p>
+                    <p className={cn("font-black text-xl transition-colors", isDark ? "text-white" : "text-zinc-900")}>${guide.guide_profiles?.hourly_rate || 0}<span className="text-xs text-zinc-400 font-bold ml-1">/hr</span></p>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-600 uppercase tracking-widest">{t('table.areas')}</p>
+                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.areas')}</p>
                     <div className="flex items-center gap-2 text-zinc-400">
                        <MapPin className="h-5 w-5 text-primary" />
                        <p className="text-base font-bold truncate max-w-[180px]">{guide.guide_profiles?.service_areas?.join(', ') || 'N/A'}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-600 uppercase tracking-widest">{t('table.status')}</p>
+                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.status')}</p>
                     <Badge className={cn(
-                      "rounded-full px-5 py-1.5 text-[10px] font-black uppercase tracking-widest border-none transition-all",
-                      guide.guide_profiles?.is_available ? "bg-emerald-500/10 text-emerald-500 shadow-xl shadow-emerald-500/5" : "bg-zinc-800 text-zinc-500"
+                      "rounded-full px-5 py-1.5 text-[10px] font-black uppercase tracking-widest border-none transition-all shadow-md",
+                      guide.guide_profiles?.is_available 
+                        ? "bg-emerald-500/10 text-emerald-500" 
+                        : (isDark ? "bg-zinc-800 text-zinc-500" : "bg-zinc-100 text-zinc-400")
                     )}>
                       {guide.guide_profiles?.is_available ? t('table.available') : t('table.busy')}
                     </Badge>
@@ -291,7 +313,10 @@ export default function ManageGuidesPage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <Button onClick={() => openEdit(guide)} variant="outline" className="h-16 w-16 rounded-2xl border-zinc-800 bg-zinc-950 hover:bg-zinc-800 hover:text-white transition-all shadow-xl">
+                  <Button onClick={() => openEdit(guide)} variant="outline" className={cn(
+                    "h-16 w-16 rounded-2xl border transition-all shadow-xl",
+                    isDark ? "border-zinc-800 bg-zinc-950 hover:bg-zinc-800" : "border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-900"
+                  )}>
                     <Edit2 className="h-7 w-7" />
                   </Button>
                 </div>
@@ -302,7 +327,10 @@ export default function ManageGuidesPage() {
       </div>
 
       <Dialog open={isEditOpen || isAddOpen} onOpenChange={(val) => { if(!val) { setIsEditOpen(false); setIsAddOpen(false); resetForm(); }}}>
-        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-3xl p-12 rounded-[4rem] shadow-3xl overflow-hidden backdrop-blur-2xl">
+        <DialogContent className={cn(
+          "max-w-3xl p-12 rounded-[4rem] shadow-3xl overflow-hidden backdrop-blur-2xl border transition-colors",
+          isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
+        )}>
           <DialogHeader className="space-y-6">
             <DialogTitle className="text-4xl font-black uppercase font-rounded tracking-widest ai-text-gradient">
               {isAddOpen ? t('addNew') : t('editGuide')}
@@ -314,7 +342,10 @@ export default function ManageGuidesPage() {
 
           <div className="space-y-10 mt-10 overflow-y-auto max-h-[60vh] pr-6 custom-scrollbar">
             {isAddOpen && (
-              <div className="grid grid-cols-2 gap-8 p-10 bg-white/5 rounded-[3rem] border border-white/5 mb-8">
+              <div className={cn(
+                "grid grid-cols-2 gap-8 p-10 rounded-[3rem] border mb-8 transition-colors",
+                isDark ? "bg-white/5 border-white/5" : "bg-zinc-50 border-zinc-100"
+              )}>
                  <div className="col-span-2">
                     <div className="flex items-center gap-3">
                        <ShieldCheck className="h-5 w-5 text-primary" />
@@ -323,15 +354,15 @@ export default function ManageGuidesPage() {
                  </div>
                  <div className="space-y-3">
                     <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.fullName')}</Label>
-                    <Input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold" placeholder="e.g. Kyoto Expert" />
+                    <Input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className={cn("rounded-2xl h-14 px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="e.g. Kyoto Expert" />
                  </div>
                  <div className="space-y-3">
                     <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">Email</Label>
-                    <Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold" placeholder="guide@tripbutler.com" />
+                    <Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className={cn("rounded-2xl h-14 px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="guide@tripbutler.com" />
                  </div>
                  <div className="col-span-2 space-y-3">
                     <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.initialPassword')}</Label>
-                    <Input type="password" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 px-6 text-lg font-bold" placeholder="••••••••" />
+                    <Input type="password" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} className={cn("rounded-2xl h-14 px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="••••••••" />
                  </div>
               </div>
             )}
@@ -341,7 +372,10 @@ export default function ManageGuidesPage() {
               <textarea 
                 value={formData.bio} 
                 onChange={e => setFormData({...formData, bio: e.target.value})}
-                className="w-full bg-zinc-800 border-zinc-700 rounded-[1.5rem] p-8 text-lg font-medium min-h-[160px] focus:outline-none focus:ring-2 focus:ring-primary/20 leading-relaxed"
+                className={cn(
+                  "w-full rounded-[1.5rem] p-8 text-lg font-medium min-h-[160px] focus:outline-none focus:ring-2 focus:ring-primary/20 leading-relaxed border transition-colors",
+                  isDark ? "bg-zinc-800 border-zinc-700" : "bg-zinc-50 border-zinc-200"
+                )}
                 placeholder="..."
               />
             </div>
@@ -350,15 +384,15 @@ export default function ManageGuidesPage() {
                <div className="space-y-3">
                  <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.languages')}</Label>
                  <div className="relative">
-                    <Globe className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
-                    <Input value={formData.languages} onChange={e => setFormData({...formData, languages: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 pl-14 pr-6 text-lg font-bold" placeholder="English, Japanese..." />
+                    <Globe className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
+                    <Input value={formData.languages} onChange={e => setFormData({...formData, languages: e.target.value})} className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="English, Japanese..." />
                  </div>
                </div>
                <div className="space-y-3">
                  <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('hourlyRate')} (USD)</Label>
                  <div className="relative">
-                    <DollarSign className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
-                    <Input type="number" value={formData.hourly_rate} onChange={e => setFormData({...formData, hourly_rate: parseInt(e.target.value) || 0})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 pl-14 pr-6 text-lg font-bold" />
+                    <DollarSign className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
+                    <Input type="number" value={formData.hourly_rate} onChange={e => setFormData({...formData, hourly_rate: parseInt(e.target.value) || 0})} className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} />
                  </div>
                </div>
             </div>
@@ -366,18 +400,21 @@ export default function ManageGuidesPage() {
             <div className="space-y-3">
               <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.serviceAreas')}</Label>
               <div className="relative">
-                <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-600" />
-                <Input value={formData.service_areas} onChange={e => setFormData({...formData, service_areas: e.target.value})} className="bg-zinc-800 border-zinc-700 rounded-2xl h-14 pl-14 pr-6 text-lg font-bold" placeholder="Taipei, Tokyo..." />
+                <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
+                <Input value={formData.service_areas} onChange={e => setFormData({...formData, service_areas: e.target.value})} className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="Taipei, Tokyo..." />
               </div>
             </div>
 
-            <div className="flex items-center gap-6 py-6 bg-white/5 rounded-[2.5rem] px-10 border border-white/5">
+            <div className={cn(
+              "flex items-center gap-6 py-6 rounded-[2.5rem] px-10 border transition-colors",
+              isDark ? "bg-white/5 border-white/5" : "bg-zinc-50 border-zinc-100"
+            )}>
                <Button 
                 onClick={() => setFormData({...formData, is_available: !formData.is_available})}
                 variant="outline" 
                 className={cn(
                   "rounded-2xl border-2 h-16 px-10 font-black text-sm uppercase tracking-widest gap-4 transition-all",
-                  formData.is_available ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-xl shadow-emerald-500/5" : "bg-zinc-800 text-zinc-600 border-zinc-700"
+                  formData.is_available ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-xl shadow-emerald-500/5" : (isDark ? "bg-zinc-800 text-zinc-500 border-zinc-700" : "bg-zinc-100 text-zinc-400 border-zinc-200")
                 )}
                >
                  {formData.is_available ? <Check className="h-6 w-6" /> : <X className="h-6 w-6" />}
