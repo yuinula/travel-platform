@@ -207,6 +207,7 @@ export default function ExplorePage() {
                 <SelectItem value="Market" className="font-bold">{t('types.Market')}</SelectItem>
                 <SelectItem value="Restaurant" className="font-bold">{t('types.Restaurant')}</SelectItem>
                 <SelectItem value="Accommodation" className="font-bold">{t('types.Accommodation')}</SelectItem>
+                <SelectItem value="ArtGallery" className="font-bold">{t('types.ArtGallery')}</SelectItem>
               </SelectContent>
             </Select>
           </div>

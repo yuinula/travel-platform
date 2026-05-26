@@ -108,7 +108,8 @@
       "Sightseeing": "観光スポット",
       "Market": "市場・デパート",
       "Restaurant": "レストラン",
-      "Accommodation": "宿泊施設"
+      "Accommodation": "宿泊施設",
+      "ArtGallery": "美術館・ギャラリー"
     },
     "tags": {
       "accessible": "バリアフリー",

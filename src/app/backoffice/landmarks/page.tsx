@@ -280,6 +280,7 @@ export default function ManageLandmarksPage() {
                   <SelectItem value="Market">Market</SelectItem>
                   <SelectItem value="Restaurant">Restaurant</SelectItem>
                   <SelectItem value="Accommodation">Accommodation</SelectItem>
+                  <SelectItem value="ArtGallery">Art Gallery</SelectItem>
                 </SelectContent>
               </Select>
             </div>

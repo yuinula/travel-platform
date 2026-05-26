@@ -108,7 +108,8 @@
       "Sightseeing": "Sightseeing",
       "Market": "Market & Mall",
       "Restaurant": "Restaurant",
-      "Accommodation": "Accommodation"
+      "Accommodation": "Accommodation",
+      "ArtGallery": "Art Gallery & Museum"
     },
     "tags": {
       "accessible": "Accessible",
