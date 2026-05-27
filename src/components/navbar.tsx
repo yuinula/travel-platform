@@ -6,7 +6,21 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useTranslations } from 'next-intl';
 import { Button, buttonVariants } from "@/components/ui/button"
-import { MessageSquare, User, LogOut, Briefcase, Sparkles, ShieldAlert, Menu, LogIn, UserPlus, Compass, Calendar } from "lucide-react"
+import { 
+  MessageSquare, 
+  User, 
+  LogOut, 
+  Briefcase, 
+  Sparkles, 
+  ShieldAlert, 
+  Menu, 
+  LogIn, 
+  UserPlus, 
+  Compass, 
+  Calendar,
+  Settings,
+  ChevronDown
+} from "lucide-react"
 import { createClient } from "@/lib/supabase"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -16,6 +30,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import LocaleSwitcher from "./locale-switcher"
 import { cn } from "@/lib/utils"
 
@@ -88,25 +111,6 @@ export default function Navbar() {
         )}
         {t('aiPlanner')}
       </Link>
-      {user && (
-        <Link
-          href="/itineraries"
-          className={cn(
-            "flex items-center text-sm font-medium transition-colors hover:text-primary",
-            mobile 
-              ? "p-4 rounded-xl bg-zinc-50 border border-transparent active:border-zinc-900" 
-              : "text-muted-foreground"
-          )}
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          {mobile ? (
-            <Calendar className="h-4 w-4 mr-3 text-zinc-500" />
-          ) : (
-            <Calendar className="h-3 w-3 mr-1 text-zinc-500" />
-          )}
-          {t('myItineraries')}
-        </Link>
-      )}
     </>
   )
 
@@ -186,22 +190,48 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <LocaleSwitcher />
-          
-          <Link href="/messages">
-            <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
-              <MessageSquare className="h-5 w-5" />
-            </Button>
-          </Link>
+          <div className="hidden sm:flex items-center gap-4">
+            <LocaleSwitcher />
+            <Link href="/messages">
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <MessageSquare className="h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
 
           {user ? (
-            <Link href="/profile" className="relative h-9 w-9 rounded-full border-2 border-zinc-100 flex items-center justify-center hover:border-primary transition-all focus:outline-none overflow-hidden group">
-              <Avatar className="h-full w-full">
-                <AvatarImage src={user.user_metadata?.avatar_url} alt={user.user_metadata?.name} />
-                <AvatarFallback className="bg-zinc-50 text-zinc-400 font-bold">{user.user_metadata?.name?.[0] ?? "U"}</AvatarFallback>
-              </Avatar>
-              <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger render={
+                <button className="flex items-center gap-2 p-1 pr-3 rounded-full border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all focus:outline-none group">
+                  <Avatar className="h-8 w-8 border border-white">
+                    <AvatarImage src={user.user_metadata?.avatar_url} alt={user.user_metadata?.name} />
+                    <AvatarFallback className="bg-zinc-50 text-zinc-400 font-bold">{user.user_metadata?.name?.[0] ?? "U"}</AvatarFallback>
+                  </Avatar>
+                  <ChevronDown className="h-3 w-3 text-zinc-400 group-hover:text-zinc-600 transition-colors" />
+                </button>
+              } />
+              <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2 shadow-2xl border-zinc-100">
+                <DropdownMenuLabel className="px-3 py-2">
+                  <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">{t('profile')}</p>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem onClick={() => router.push("/itineraries")} className="rounded-xl p-3 cursor-pointer font-bold">
+                    <Calendar className="mr-3 h-4 w-4 text-zinc-500" />
+                    {t('myItineraries')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/profile")} className="rounded-xl p-3 cursor-pointer font-bold">
+                    <User className="mr-3 h-4 w-4 text-zinc-500" />
+                    {t('profile')}
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="rounded-xl p-3 cursor-pointer font-bold text-red-500 focus:bg-red-50 focus:text-red-600">
+                  <LogOut className="mr-3 h-4 w-4" />
+                  {t('logout')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <div className="flex items-center gap-1 md:gap-2">
               <Link href="/login">
