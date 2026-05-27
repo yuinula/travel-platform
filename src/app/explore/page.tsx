@@ -164,7 +164,7 @@ export default function ExplorePage() {
         {/* Header */}
         <div className="text-center space-y-6 max-w-3xl mx-auto">
           <Badge className="px-4 py-1 rounded-full ai-gradient border-none font-bold uppercase tracking-widest text-[10px]">Discovery</Badge>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-zinc-900 font-rounded uppercase italic">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-zinc-900 font-rounded uppercase">
             {t('title')}
           </h1>
           <p className="text-zinc-500 font-medium text-lg md:text-xl leading-relaxed italic">

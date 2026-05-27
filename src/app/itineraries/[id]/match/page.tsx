@@ -170,19 +170,19 @@ export default function GuideMatchPage() {
       <div className="container max-w-5xl mx-auto px-4 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3">
-             <div className="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-[0.2em]">
-                <MapPin className="h-4 w-4" />
+             <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-[0.3em]">
+                <MapPin className="h-3.5 w-3.5" />
                 {trip?.destination}
              </div>
-             <h1 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900 font-rounded">
+             <h1 className="text-2xl md:text-3xl font-black tracking-tight text-zinc-900 font-rounded leading-tight">
                {t('found', { count: guides.length })}
              </h1>
           </div>
-          <div className="bg-white px-6 py-4 rounded-2xl border border-zinc-100 shadow-sm flex items-center gap-4">
-             <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center">
-                <Calendar className="h-5 w-5 text-zinc-400" />
+          <div className="bg-white px-5 py-3 rounded-2xl border border-zinc-100 shadow-sm flex items-center gap-3">
+             <div className="h-8 w-8 rounded-lg bg-zinc-50 flex items-center justify-center">
+                <Calendar className="h-4 w-4 text-zinc-400" />
              </div>
-             <div className="text-sm font-bold text-zinc-500 uppercase tracking-widest leading-none">
+             <div className="text-[11px] font-black text-zinc-500 uppercase tracking-widest leading-none">
                {trip?.start_date} - {trip?.end_date}
              </div>
           </div>
