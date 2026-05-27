@@ -237,13 +237,13 @@ export default function Home() {
               <FadeInScroll key={feature.id} delay={(index + 1) * 100}>
                 <Dialog>
                   <DialogTrigger render={<Card variant="feature" icon={feature.icon} title={feature.title} desc={feature.desc} />} />
-                  <DialogContent className="sm:max-w-md p-10">
+                  <DialogContent className="sm:max-w-md p-10 bg-white/95 backdrop-blur-2xl rounded-[3rem] border-none shadow-2xl">
                     <DialogHeader className="space-y-6">
-                      <div className="p-5 bg-zinc-50 rounded-2xl w-fit mx-auto sm:mx-0 shadow-sm border border-zinc-100 ai-gradient text-white">
+                      <div className="p-5 rounded-2xl w-fit mx-auto sm:mx-0 shadow-xl shadow-primary/20 ai-gradient text-white">
                         {feature.icon}
                       </div>
-                      <div className="space-y-2">
-                        <DialogTitle className="text-3xl font-black text-zinc-900">{feature.title}</DialogTitle>
+                      <div className="space-y-2 text-left">
+                        <DialogTitle className="text-3xl font-black text-zinc-900 font-rounded">{feature.title}</DialogTitle>
                         <DialogDescription className="text-lg text-zinc-500 font-bold leading-relaxed">
                           {feature.desc}
                         </DialogDescription>
@@ -272,15 +272,15 @@ function Card({ variant, icon, title, desc, ...props }: { variant: string, icon:
       type="button"
       {...props}
       className={cn(
-        "flex flex-col items-center md:items-start space-y-5 text-center md:text-left group p-8 rounded-[2.5rem] hover:bg-zinc-50/80 transition-all duration-500 border border-transparent hover:border-zinc-100 hover:shadow-2xl hover:shadow-zinc-200/50 cursor-pointer w-full appearance-none",
+        "flex flex-col items-center md:items-start space-y-5 text-center md:text-left group p-8 rounded-[3rem] hover:bg-zinc-50/80 transition-all duration-500 border border-transparent hover:border-zinc-100 hover:shadow-2xl hover:shadow-zinc-200/50 cursor-pointer w-full appearance-none",
         props.className
       )}
     >
-      <div className="p-5 bg-zinc-50 rounded-2xl shadow-sm border border-zinc-100 group-hover:ai-gradient group-hover:text-white group-hover:shadow-xl group-hover:shadow-primary/20 group-hover:-translate-y-2 transition-all duration-500">
+      <div className="p-5 bg-zinc-50 rounded-2xl shadow-sm border border-zinc-100 group-hover:!bg-none group-hover:ai-gradient group-hover:text-white group-hover:shadow-xl group-hover:shadow-primary/20 group-hover:-translate-y-2 transition-all duration-500">
         {icon}
       </div>
       <div className="space-y-2 transition-transform duration-500 group-hover:translate-x-1 text-left">
-        <h3 className="text-2xl font-black tracking-tight text-zinc-800">{title}</h3>
+        <h3 className="text-2xl font-black tracking-tight text-zinc-800 font-rounded">{title}</h3>
         <p className="text-zinc-500 leading-relaxed font-medium">
           {desc}
         </p>
