@@ -28,7 +28,8 @@ import {
   Check,
   X,
   Globe,
-  ChevronRight
+  ChevronRight,
+  ChevronDown
 } from "lucide-react"
 import {
   Dialog,
@@ -39,6 +40,16 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase"
@@ -62,6 +73,19 @@ interface Guide {
   } | null;
 }
 
+const AVAILABLE_LANGUAGES = [
+  "English",
+  "Mandarin (中文)",
+  "Japanese (日本語)",
+  "French (Français)",
+  "German (Deutsch)",
+  "Spanish (Español)",
+  "Korean (한국어)",
+  "Cantonese (廣東話)",
+  "Thai (ไทย)",
+  "Vietnamese (Tiếng Việt)"
+]
+
 export default function ManageGuidesPage() {
   const t = useTranslations("Backoffice.guides")
   const { theme } = useBackofficeTheme()
@@ -81,7 +105,7 @@ export default function ManageGuidesPage() {
     email: "",
     password: "",
     bio: "",
-    languages: "",
+    languages: [] as string[],
     service_areas: "",
     hourly_rate: 0,
     is_available: true
@@ -124,7 +148,7 @@ export default function ManageGuidesPage() {
 
     const payload = {
       bio: formData.bio,
-      languages: formData.languages.split(',').map(l => l.trim()).filter(l => l),
+      languages: formData.languages,
       service_areas: formData.service_areas.split(',').map(s => s.trim()).filter(s => s),
       hourly_rate: formData.hourly_rate,
       is_available: formData.is_available
@@ -157,7 +181,6 @@ export default function ManageGuidesPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          languages: formData.languages.split(',').map(l => l.trim()).filter(l => l),
           service_areas: formData.service_areas.split(',').map(s => s.trim()).filter(s => s)
         })
       })
@@ -188,7 +211,7 @@ export default function ManageGuidesPage() {
       email: g.email,
       password: "",
       bio: g.guide_profiles?.bio || "",
-      languages: g.guide_profiles?.languages?.join(', ') || "",
+      languages: g.guide_profiles?.languages || [],
       service_areas: g.guide_profiles?.service_areas?.join(', ') || "",
       hourly_rate: g.guide_profiles?.hourly_rate || 0,
       is_available: g.guide_profiles?.is_available ?? true
@@ -202,12 +225,21 @@ export default function ManageGuidesPage() {
       email: "",
       password: "",
       bio: "",
-      languages: "",
+      languages: [],
       service_areas: "",
       hourly_rate: 0,
       is_available: true
     })
     setEditingGuide(null)
+  }
+
+  const toggleLanguage = (lang: string) => {
+    setFormData(prev => ({
+      ...prev,
+      languages: prev.languages.includes(lang)
+        ? prev.languages.filter(l => l !== lang)
+        : [...prev.languages, lang]
+    }))
   }
 
   const filtered = guides.filter(g => 
@@ -383,10 +415,35 @@ export default function ManageGuidesPage() {
             <div className="grid grid-cols-2 gap-8">
                <div className="space-y-3">
                  <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.languages')}</Label>
-                 <div className="relative">
-                    <Globe className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
-                    <Input value={formData.languages} onChange={e => setFormData({...formData, languages: e.target.value})} className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="English, Japanese..." />
-                 </div>
+                 <DropdownMenu>
+                    <DropdownMenuTrigger render={
+                      <Button variant="outline" className={cn(
+                        "w-full h-14 rounded-2xl px-6 flex justify-between items-center text-lg font-bold border",
+                        isDark ? "bg-zinc-800 border-zinc-700 text-white" : "bg-white border-zinc-200 text-zinc-900"
+                      )}>
+                        <div className="flex items-center gap-2 truncate">
+                          <Globe className="h-5 w-5 text-zinc-500" />
+                          <span className="truncate">{formData.languages.length > 0 ? formData.languages.join(', ') : "Select Languages..."}</span>
+                        </div>
+                        <ChevronDown className="h-4 w-4 text-zinc-500" />
+                      </Button>
+                    } />
+                    <DropdownMenuContent align="start" className={cn(
+                      "w-72 rounded-2xl p-2 shadow-3xl border",
+                      isDark ? "bg-zinc-800 border-zinc-700 text-white" : "bg-white border-zinc-200 text-zinc-900"
+                    )}>
+                      {AVAILABLE_LANGUAGES.map(lang => (
+                        <DropdownMenuCheckboxItem
+                          key={lang}
+                          checked={formData.languages.includes(lang)}
+                          onCheckedChange={() => toggleLanguage(lang)}
+                          className="rounded-xl p-3 cursor-pointer font-bold"
+                        >
+                          {lang}
+                        </DropdownMenuCheckboxItem>
+                      ))}
+                    </DropdownMenuContent>
+                 </DropdownMenu>
                </div>
                <div className="space-y-3">
                  <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('hourlyRate')} (USD)</Label>
@@ -400,7 +457,7 @@ export default function ManageGuidesPage() {
             <div className="space-y-3">
               <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.serviceAreas')}</Label>
               <div className="relative">
-                <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
+                <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
                 <Input value={formData.service_areas} onChange={e => setFormData({...formData, service_areas: e.target.value})} className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="Taipei, Tokyo..." />
               </div>
             </div>
