@@ -389,6 +389,60 @@
     "legal": "規約とポリシー",
     "copyright": "© 2026 {title}. All rights reserved."
   },
+  "Dashboard": {
+    "loading": "ガイドデスクを読み込み中",
+    "badge": "ガイドダッシュボード",
+    "defaultName": "現地ガイド",
+    "noEmail": "メールアドレスなし",
+    "availability": {
+      "accepting": "マッチング受付中",
+      "unavailable": "受付停止中",
+      "successAccepting": "マッチングリクエストの受付を開始しました。",
+      "successHidden": "新しいマッチングリクエストから非表示になりました。",
+      "error": "ステータスの更新に失敗しました。"
+    },
+    "editProfile": "プロフィールを編集",
+    "stats": {
+      "activeTrips": "進行中の行程",
+      "negotiations": "相談中の案件",
+      "revenue": "総累積収益"
+    },
+    "profile": {
+      "title": "ガイドプロフィール",
+      "subtitle": "公開マッチング詳細",
+      "serviceAreas": "対応エリア",
+      "languages": "対応言語",
+      "hourlyRate": "時給",
+      "rateUnit": "/ 時間",
+      "notSet": "未設定",
+      "noBio": "自己紹介を入力して、旅行者があなたに連絡する前にあなたの専門知識を理解できるようにしましょう。"
+    },
+    "requests": {
+      "title": "旅行者からのリクエスト",
+      "subtitle": "あなたがガイドとして選ばれた行程",
+      "refresh": "更新",
+      "noRequests": "リクエストはまだありません",
+      "noRequestsDesc": "ガイドプロフィールを充実させて、マッチングの質を高めましょう。",
+      "defaultTraveler": "旅行者",
+      "quotedValue": "見積もり額",
+      "openChat": "チャットを開く",
+      "datesTBD": "日程未定"
+    },
+    "pipeline": {
+      "title": "進捗管理",
+      "negotiation": "相談中",
+      "active": "予約済み",
+      "completed": "完了"
+    },
+    "nextAction": {
+      "title": "次のアクション",
+      "description": "相談チャットに素早く返信し、対応エリアを常に最新の状態に保ちましょう。旅行者とのマッチングにはプロフィールの項目が参照されます。",
+      "messages": "メッセージを確認"
+    },
+    "errors": {
+      "loadProfile": "プロフィールの読み込みに失敗しました。"
+    }
+  },
   "Profile": {
     "title": "プロフィール設定",
     "description": "アカウント情報と連絡先を管理します",

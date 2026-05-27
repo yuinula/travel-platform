@@ -405,6 +405,60 @@
     "legal": "Legal",
     "copyright": "© 2026 {title}. All rights reserved."
   },
+  "Dashboard": {
+    "loading": "Loading guide desk",
+    "badge": "Guide Dashboard",
+    "defaultName": "Local Guide",
+    "noEmail": "No email",
+    "availability": {
+      "accepting": "Accepting Matches",
+      "unavailable": "Unavailable",
+      "successAccepting": "You are now accepting matches.",
+      "successHidden": "You are now hidden from new matches.",
+      "error": "Failed to update availability."
+    },
+    "editProfile": "Edit Profile",
+    "stats": {
+      "activeTrips": "Active trips",
+      "negotiations": "Negotiations",
+      "revenue": "Total Revenue"
+    },
+    "profile": {
+      "title": "Guide Profile",
+      "subtitle": "Public matching details",
+      "serviceAreas": "Service areas",
+      "languages": "Languages",
+      "hourlyRate": "Hourly rate",
+      "rateUnit": "/ hr",
+      "notSet": "Not set",
+      "noBio": "Add a guide bio so travelers can understand your local expertise before they contact you."
+    },
+    "requests": {
+      "title": "Traveler Requests",
+      "subtitle": "Trips where travelers selected you as guide",
+      "refresh": "Refresh",
+      "noRequests": "No requests yet",
+      "noRequestsDesc": "Keep your guide profile complete to improve matching quality.",
+      "defaultTraveler": "Traveler",
+      "quotedValue": "quoted value",
+      "openChat": "Open Chat",
+      "datesTBD": "Dates TBD"
+    },
+    "pipeline": {
+      "title": "Pipeline",
+      "negotiation": "Negotiation",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "nextAction": {
+      "title": "Next Action",
+      "description": "Respond to negotiation chats quickly and keep service areas updated. Traveler matching uses your profile fields.",
+      "messages": "Messages"
+    },
+    "errors": {
+      "loadProfile": "Unable to load your profile."
+    }
+  },
   "Profile": {
     "title": "Profile Settings",
     "description": "Manage your account information and contact details",

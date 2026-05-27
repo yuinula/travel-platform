@@ -405,6 +405,60 @@
     "legal": "條款和政策",
     "copyright": "© 2026 {title}. 版權所有。"
   },
+  "Dashboard": {
+    "loading": "正在載入導遊工作台",
+    "badge": "導遊儀表板",
+    "defaultName": "在地導遊",
+    "noEmail": "無電子郵件",
+    "availability": {
+      "accepting": "接受媒合中",
+      "unavailable": "暫不接單",
+      "successAccepting": "您現在可以開始接收媒合請求。",
+      "successHidden": "您現在已對新媒合請求隱藏。",
+      "error": "更新狀態失敗。"
+    },
+    "editProfile": "編輯個人資料",
+    "stats": {
+      "activeTrips": "進行中行程",
+      "negotiations": "洽談中案件",
+      "revenue": "總累計收入"
+    },
+    "profile": {
+      "title": "導遊檔案",
+      "subtitle": "公開媒合詳細資訊",
+      "serviceAreas": "服務區域",
+      "languages": "語言能力",
+      "hourlyRate": "時薪",
+      "rateUnit": "/ 小時",
+      "notSet": "尚未設定",
+      "noBio": "請填寫個人簡介，讓旅客在聯繫您之前了解您的專業背景。"
+    },
+    "requests": {
+      "title": "旅客預約請求",
+      "subtitle": "旅客主動選擇您作為導遊的行程",
+      "refresh": "整理",
+      "noRequests": "目前尚無請求",
+      "noRequestsDesc": "完善您的導遊資料以提升媒合品質。",
+      "defaultTraveler": "旅客",
+      "quotedValue": "預估價值",
+      "openChat": "開啟對話",
+      "datesTBD": "日期未定"
+    },
+    "pipeline": {
+      "title": "進度追蹤",
+      "negotiation": "洽談中",
+      "active": "已預約",
+      "completed": "已完成"
+    },
+    "nextAction": {
+      "title": "後續行動",
+      "description": "儘快回覆洽談訊息並保持服務區域更新。旅客媒合將參考您的個人資料欄位。",
+      "messages": "查看訊息"
+    },
+    "errors": {
+      "loadProfile": "無法載入您的個人資料。"
+    }
+  },
   "Profile": {
     "title": "個人資料設定",
     "description": "管理您的帳號資訊與聯絡方式",

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { format } from "date-fns"
+import { useTranslations } from "next-intl"
 import {
   ArrowRight,
   Briefcase,
@@ -75,6 +76,7 @@ interface TripRow extends Omit<Trip, "traveler"> {
 }
 
 export default function GuideDashboardPage() {
+  const t = useTranslations("Dashboard")
   const router = useRouter()
   const supabase = createClient()
 
@@ -103,7 +105,7 @@ export default function GuideDashboardPage() {
       .maybeSingle()
 
     if (profileError) {
-      toast.error("Unable to load your profile.")
+      toast.error(t("errors.loadProfile"))
       setLoading(false)
       return
     }
@@ -139,7 +141,7 @@ export default function GuideDashboardPage() {
     setGuideProfile(guideData)
     setTrips(normalizedTrips)
     setLoading(false)
-  }, [router, supabase])
+  }, [router, supabase, t])
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -180,13 +182,23 @@ export default function GuideDashboardPage() {
       .eq("user_id", profile.id)
 
     if (error) {
-      toast.error("Failed to update availability.")
+      toast.error(t("availability.error"))
     } else {
       setGuideProfile({ ...guideProfile, is_available: nextValue })
-      toast.success(nextValue ? "You are now accepting matches." : "You are now hidden from new matches.")
+      toast.success(nextValue ? t("availability.successAccepting") : t("availability.successHidden"))
     }
 
     setUpdatingAvailability(false)
+  }
+
+  function formatList(value?: string[] | null) {
+    if (!value || value.length === 0) return t("profile.notSet")
+    return value.join(", ")
+  }
+
+  function formatDateRange(start?: string | null, end?: string | null) {
+    if (!start || !end) return t("requests.datesTBD")
+    return `${format(new Date(start), "MMM d")} - ${format(new Date(end), "MMM d")}`
   }
 
   if (loading) {
@@ -196,7 +208,7 @@ export default function GuideDashboardPage() {
           <div className="h-14 w-14 rounded-2xl ai-gradient flex items-center justify-center animate-spin">
             <Briefcase className="h-7 w-7 text-white" />
           </div>
-          <p className="text-xs font-black tracking-[0.3em] uppercase text-zinc-400">Loading guide desk</p>
+          <p className="text-xs font-black tracking-[0.3em] uppercase text-zinc-400">{t("loading")}</p>
         </div>
       </div>
     )
@@ -217,11 +229,11 @@ export default function GuideDashboardPage() {
                 </Avatar>
                 <div className="space-y-2">
                   <Badge className="rounded-full bg-primary/10 text-primary border border-primary/10 font-black uppercase tracking-widest text-[9px] px-3">
-                    Guide Dashboard
+                    {t("badge")}
                   </Badge>
                   <div>
                     <h1 className="text-3xl md:text-4xl font-black tracking-tight text-zinc-900 font-rounded">
-                      {profile?.name || "Local Guide"}
+                      {profile?.name || t("defaultName")}
                     </h1>
                     <p className="text-zinc-500 font-medium">{profile?.email}</p>
                   </div>
@@ -229,13 +241,14 @@ export default function GuideDashboardPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button
+                <button
                   onClick={toggleAvailability}
                   disabled={!guideProfile || updatingAvailability}
-                  variant={guideProfile?.is_available ? "default" : "outline"}
                   className={cn(
-                    "h-12 rounded-2xl px-5 font-black",
-                    guideProfile?.is_available && "bg-emerald-600 hover:bg-emerald-700"
+                    "h-12 rounded-2xl px-6 flex items-center gap-2 font-black transition-all border shadow-md",
+                    guideProfile?.is_available 
+                      ? "bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700" 
+                      : "bg-white text-zinc-400 border-zinc-200 hover:bg-zinc-50"
                   )}
                 >
                   {updatingAvailability ? (
@@ -243,29 +256,29 @@ export default function GuideDashboardPage() {
                   ) : (
                     <CheckCircle2 className="h-5 w-5" />
                   )}
-                  {guideProfile?.is_available ? "Accepting Matches" : "Unavailable"}
-                </Button>
+                  {guideProfile?.is_available ? t("availability.accepting") : t("availability.unavailable")}
+                </button>
                 <Button variant="outline" className="h-12 rounded-2xl px-5 font-black" render={
                   <Link href="/profile" className="flex items-center">
                     <Settings className="h-5 w-5 mr-2" />
-                    Edit Profile
+                    {t("editProfile")}
                   </Link>
                 } />
               </div>
             </div>
 
             <div className="mt-8 grid gap-4 md:grid-cols-3">
-              <Stat title="Active trips" value={activeTrips.length.toString()} icon={<Briefcase className="h-5 w-5" />} tone="blue" />
-              <Stat title="Negotiations" value={negotiationTrips.length.toString()} icon={<MessageSquare className="h-5 w-5" />} tone="amber" />
-              <Stat title="Revenue" value={`$${totalRevenue}`} icon={<DollarSign className="h-5 w-5" />} tone="emerald" />
+              <Stat title={t("stats.activeTrips")} value={activeTrips.length.toString()} icon={<Briefcase className="h-5 w-5" />} tone="blue" />
+              <Stat title={t("stats.negotiations")} value={negotiationTrips.length.toString()} icon={<MessageSquare className="h-5 w-5" />} tone="amber" />
+              <Stat title={t("stats.revenue")} value={`$${totalRevenue}`} icon={<DollarSign className="h-5 w-5" />} tone="emerald" />
             </div>
           </div>
 
           <div className="bg-white border border-zinc-100 rounded-[2rem] shadow-xl shadow-zinc-200/50 p-6 md:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="font-black text-xl text-zinc-900 font-rounded">Guide Profile</h2>
-                <p className="text-sm text-zinc-500 font-medium">Public matching details</p>
+                <h2 className="font-black text-xl text-zinc-900 font-rounded">{t("profile.title")}</h2>
+                <p className="text-sm text-zinc-500 font-medium">{t("profile.subtitle")}</p>
               </div>
               <div className="flex items-center gap-1 text-amber-500 font-black">
                 <Star className="h-5 w-5 fill-current" />
@@ -274,14 +287,14 @@ export default function GuideDashboardPage() {
             </div>
 
             <div className="space-y-4">
-              <InfoRow icon={<MapPin className="h-4 w-4" />} label="Service areas" value={formatList(guideProfile?.service_areas)} />
-              <InfoRow icon={<UserRound className="h-4 w-4" />} label="Languages" value={formatList(guideProfile?.languages)} />
-              <InfoRow icon={<Clock className="h-4 w-4" />} label="Hourly rate" value={guideProfile?.hourly_rate ? `$${guideProfile.hourly_rate} / hr` : "Not set"} />
+              <InfoRow icon={<MapPin className="h-4 w-4" />} label={t("profile.serviceAreas")} value={formatList(guideProfile?.service_areas)} />
+              <InfoRow icon={<UserRound className="h-4 w-4" />} label={t("profile.languages")} value={formatList(guideProfile?.languages)} />
+              <InfoRow icon={<Clock className="h-4 w-4" />} label={t("profile.hourlyRate")} value={guideProfile?.hourly_rate ? `$${guideProfile.hourly_rate} ${t("profile.rateUnit")}` : t("profile.notSet")} />
             </div>
 
             <div className="rounded-2xl bg-zinc-50 border border-zinc-100 p-5">
               <p className="text-sm text-zinc-600 font-medium leading-relaxed line-clamp-5">
-                {guideProfile?.bio || "Add a guide bio so travelers can understand your local expertise before they contact you."}
+                {guideProfile?.bio || t("profile.noBio")}
               </p>
             </div>
           </div>
@@ -291,11 +304,11 @@ export default function GuideDashboardPage() {
           <div className="bg-white border border-zinc-100 rounded-[2rem] shadow-xl shadow-zinc-200/50 overflow-hidden">
             <div className="p-6 border-b border-zinc-100 flex items-center justify-between gap-4">
               <div>
-                <h2 className="font-black text-xl text-zinc-900 font-rounded">Traveler Requests</h2>
-                <p className="text-sm text-zinc-500 font-medium">Trips where travelers selected you as guide</p>
+                <h2 className="font-black text-xl text-zinc-900 font-rounded">{t("requests.title")}</h2>
+                <p className="text-sm text-zinc-500 font-medium">{t("requests.subtitle")}</p>
               </div>
               <Button variant="outline" className="hidden sm:inline-flex rounded-xl font-black" onClick={fetchDashboard}>
-                Refresh
+                {t("requests.refresh")}
               </Button>
             </div>
 
@@ -305,8 +318,8 @@ export default function GuideDashboardPage() {
                   <Calendar className="h-10 w-10 text-zinc-300" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-zinc-900">No requests yet</h3>
-                  <p className="text-zinc-500 font-medium mt-2">Keep your guide profile complete to improve matching quality.</p>
+                  <h3 className="text-2xl font-black text-zinc-900">{t("requests.noRequests")}</h3>
+                  <p className="text-zinc-500 font-medium mt-2">{t("requests.noRequestsDesc")}</p>
                 </div>
               </div>
             ) : (
@@ -322,12 +335,12 @@ export default function GuideDashboardPage() {
                       </Avatar>
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
-                          <h3 className="font-black text-zinc-900 truncate">{trip.traveler?.name || "Traveler"}</h3>
+                          <h3 className="font-black text-zinc-900 truncate">{trip.traveler?.name || t("requests.defaultTraveler")}</h3>
                           <Badge className={cn("rounded-full border px-2.5 text-[9px] font-black uppercase tracking-widest", statusTone(trip.status))}>
                             {trip.status}
                           </Badge>
                         </div>
-                        <p className="text-xs text-zinc-500 font-medium truncate">{trip.traveler?.email || "No email"}</p>
+                        <p className="text-xs text-zinc-500 font-medium truncate">{trip.traveler?.email || t("defaultName")}</p>
                         <p className="text-xs text-zinc-400 font-black uppercase tracking-widest mt-1">
                           {formatDateRange(trip.start_date, trip.end_date)} · #{trip.id.split("-")[0]}
                         </p>
@@ -337,12 +350,12 @@ export default function GuideDashboardPage() {
                     <div className="flex items-center gap-3 md:justify-end">
                       <div className="text-right hidden sm:block">
                         <p className="text-lg font-black text-zinc-900">${trip.total_price || 0}</p>
-                        <p className="text-[10px] text-zinc-400 font-black uppercase tracking-widest">quoted value</p>
+                        <p className="text-[10px] text-zinc-400 font-black uppercase tracking-widest">{t("requests.quotedValue")}</p>
                       </div>
                       <Button className="h-11 rounded-xl font-black" render={
                         <Link href={`/messages?tripId=${trip.id}`} className="flex items-center">
                           <MessageSquare className="h-4 w-4 mr-2" />
-                          Open Chat
+                          {t("requests.openChat")}
                         </Link>
                       } />
                     </div>
@@ -354,20 +367,20 @@ export default function GuideDashboardPage() {
 
           <aside className="space-y-6">
             <div className="bg-white border border-zinc-100 rounded-[2rem] shadow-xl shadow-zinc-200/50 p-6 space-y-4">
-              <h2 className="font-black text-xl text-zinc-900 font-rounded">Pipeline</h2>
-              <PipelineRow label="Negotiation" count={negotiationTrips.length} tone="amber" />
-              <PipelineRow label="Active" count={activeTrips.length} tone="blue" />
-              <PipelineRow label="Completed" count={completedTrips.length} tone="emerald" />
+              <h2 className="font-black text-xl text-zinc-900 font-rounded">{t("pipeline.title")}</h2>
+              <PipelineRow label={t("pipeline.negotiation")} count={negotiationTrips.length} tone="amber" />
+              <PipelineRow label={t("pipeline.active")} count={activeTrips.length} tone="blue" />
+              <PipelineRow label={t("pipeline.completed")} count={completedTrips.length} tone="emerald" />
             </div>
 
             <div className="bg-zinc-900 text-white rounded-[2rem] shadow-xl p-6 space-y-4">
-              <h2 className="font-black text-xl font-rounded">Next Action</h2>
+              <h2 className="font-black text-xl font-rounded">{t("nextAction.title")}</h2>
               <p className="text-sm text-zinc-300 font-medium leading-relaxed">
-                Respond to negotiation chats quickly and keep service areas updated. Traveler matching uses your profile fields.
+                {t("nextAction.description")}
               </p>
               <Button variant="secondary" className="w-full h-11 rounded-xl font-black" render={
                 <Link href="/messages" className="flex items-center justify-center">
-                  Messages
+                  {t("nextAction.messages")}
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Link>
               } />
@@ -429,16 +442,6 @@ function PipelineRow({ label, count, tone }: { label: string; count: number; ton
       <span className="text-lg font-black text-zinc-900">{count}</span>
     </div>
   )
-}
-
-function formatList(value?: string[] | null) {
-  if (!value || value.length === 0) return "Not set"
-  return value.join(", ")
-}
-
-function formatDateRange(start?: string | null, end?: string | null) {
-  if (!start || !end) return "Dates TBD"
-  return `${format(new Date(start), "MMM d")} - ${format(new Date(end), "MMM d")}`
 }
 
 function statusTone(status: string) {
