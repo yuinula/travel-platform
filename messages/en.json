@@ -2,7 +2,7 @@
   "Backoffice": {
     "sidebar": {
       "dashboard": "Dashboard",
-      "adminPortal": "Admin Portal",
+      "manageOrders": "Order Management",
       "manageLandmarks": "Manage Landmarks",
       "manageGuides": "Manage Guides",
       "manageAdmins": "Manage Admins",
@@ -30,6 +30,26 @@
         "permissions": "Permissions",
         "createdAt": "Created At",
         "actions": "Actions"
+      }
+    },
+    "orders": {
+      "title": "Platform Booking Management",
+      "subtitle": "Monitor booking status, transaction amounts, and trip progress between global travelers and guides.",
+      "searchPlaceholder": "Search by Order ID, Traveler or Guide name...",
+      "table": {
+        "orderId": "Order ID",
+        "traveler": "Traveler",
+        "guide": "Guide",
+        "period": "Period",
+        "status": "Status",
+        "amount": "Amount",
+        "actions": "Actions"
+      },
+      "status": {
+        "Negotiation": "Negotiation",
+        "Confirmed": "Confirmed",
+        "Completed": "Completed",
+        "Cancelled": "Cancelled"
       }
     },
     "landmarks": {

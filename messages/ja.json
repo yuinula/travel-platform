@@ -2,7 +2,7 @@
   "Backoffice": {
     "sidebar": {
       "dashboard": "ダッシュボード",
-      "adminPortal": "管理ポータル",
+      "manageOrders": "予約注文管理",
       "manageLandmarks": "景點管理",
       "manageGuides": "ガイド管理",
       "manageAdmins": "管理者設定",
@@ -30,6 +30,26 @@
         "permissions": "権限",
         "createdAt": "作成日",
         "actions": "操作"
+      }
+    },
+    "orders": {
+      "title": "プラットフォーム予約注文管理",
+      "subtitle": "世界中の旅行者とガイド間の予約ステータス、成約金額、および行程の進捗を監視します。",
+      "searchPlaceholder": "注文 ID、旅行者、またはガイド名で検索...",
+      "table": {
+        "orderId": "注文 ID",
+        "traveler": "旅行者",
+        "guide": "ガイド",
+        "period": "予約期間",
+        "status": "ステータス",
+        "amount": "成約金額",
+        "actions": "操作"
+      },
+      "status": {
+        "Negotiation": "交渉中",
+        "Confirmed": "確定済み",
+        "Completed": "完了",
+        "Cancelled": "キャンセル済み"
       }
     },
     "landmarks": {

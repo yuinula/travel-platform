@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell, ShieldCheck, KeyRound, ArrowRight, MapPin, Briefcase, Sun, Moon } from "lucide-react"
+import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell, ShieldCheck, KeyRound, ArrowRight, MapPin, Briefcase, Sun, Moon, Receipt } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -130,7 +130,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
 
   const sidebarLinks = [
     { name: t('sidebar.dashboard'), href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-6 w-6" />, permId: 'dashboard' },
-    { name: t('sidebar.adminPortal'), href: "/backoffice/admin", icon: <ShieldAlert className="h-6 w-6" />, permId: 'admin-portal' },
+    { name: t('sidebar.manageOrders'), href: "/backoffice/orders", icon: <Receipt className="h-6 w-6" />, permId: 'admin-portal' },
     { name: t('sidebar.manageLandmarks'), href: "/backoffice/landmarks", icon: <MapPin className="h-6 w-6" />, permId: 'manage-admins' },
     { name: t('sidebar.manageGuides'), href: "/backoffice/guides", icon: <Briefcase className="h-6 w-6" />, permId: 'manage-admins' },
     { name: t('sidebar.manageAdmins'), href: "/backoffice/admins", icon: <ShieldCheck className="h-6 w-6" />, permId: 'manage-admins' },

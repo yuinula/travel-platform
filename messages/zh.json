@@ -2,7 +2,7 @@
   "Backoffice": {
     "sidebar": {
       "dashboard": "儀表板",
-      "adminPortal": "管理入口",
+      "manageOrders": "訂單管理",
       "manageLandmarks": "景點管理",
       "manageGuides": "導遊管理",
       "manageAdmins": "管理員設置",
@@ -30,6 +30,26 @@
         "permissions": "功能權限",
         "createdAt": "建立時間",
         "actions": "操作"
+      }
+    },
+    "orders": {
+      "title": "平台預約訂單管理",
+      "subtitle": "監控全球旅客與導遊之間的預約狀態、成交金額與行程進度。",
+      "searchPlaceholder": "搜尋訂單 ID、旅客或導遊名稱...",
+      "table": {
+        "orderId": "訂單編號",
+        "traveler": "旅客",
+        "guide": "導遊",
+        "period": "預約區間",
+        "status": "狀態",
+        "amount": "成交金額",
+        "actions": "操作"
+      },
+      "status": {
+        "Negotiation": "洽談中",
+        "Confirmed": "已確認",
+        "Completed": "已完成",
+        "Cancelled": "已取消"
       }
     },
     "landmarks": {
