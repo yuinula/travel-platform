@@ -16,6 +16,7 @@ import {
   Edit2,
   Plus
 } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase"
 import { useTranslations } from "next-intl"
