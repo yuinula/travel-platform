@@ -19,7 +19,8 @@ import {
   Compass, 
   Calendar,
   Settings,
-  ChevronDown
+  ChevronDown,
+  Globe
 } from "lucide-react"
 import { createClient } from "@/lib/supabase"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -123,58 +124,72 @@ export default function Navbar() {
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Menu</span>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] p-0 overflow-y-auto">
+            <SheetContent side="left" className="w-[300px] p-0 overflow-y-auto flex flex-col">
               <SheetHeader className="p-6 text-left border-b bg-zinc-50/50">
-                <SheetTitle className="font-bold text-xl tracking-widest flex items-center gap-2 font-rounded ai-text-gradient">
+                <SheetTitle className="font-bold text-xl tracking-widest flex items-center gap-2 font-rounded ai-text-gradient uppercase">
                   <Image src="/logo.svg" alt="Logo" width={24} height={24} className="dark:invert" />
                   {t('title')}
                 </SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-3 p-6 mt-2">
-                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-2 ml-1">
-                  Menu
-                </p>
-                {renderNavLinks(true)}
-                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-2 ml-1 mt-6">
-                  Account
-                </p>
-                {user ? (
-                  <>
+              <div className="flex-1 overflow-y-auto">
+                <nav className="flex flex-col gap-3 p-6 mt-2">
+                  <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-2 ml-1">
+                    Menu
+                  </p>
+                  {renderNavLinks(true)}
+                  
+                  <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-2 ml-1 mt-6">
+                    Settings
+                  </p>
+                  <div className="p-4 rounded-xl bg-zinc-50 flex items-center justify-between">
+                    <div className="flex items-center text-sm font-medium">
+                      <Globe className="h-4 w-4 mr-3 text-zinc-500" />
+                      Language
+                    </div>
+                    <LocaleSwitcher />
+                  </div>
+
+                  <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-2 ml-1 mt-6">
+                    Account
+                  </p>
+                  {user ? (
+                    <>
+                      <Link
+                        href="/itineraries"
+                        className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Calendar className="h-4 w-4 mr-3 text-zinc-500" />
+                        {t('myItineraries')}
+                      </Link>
+                      <Link
+                        href="/profile"
+                        className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <User className="h-4 w-4 mr-3 text-zinc-500" />
+                        {t('profile')}
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50 text-red-500"
+                      >
+                        <LogOut className="h-4 w-4 mr-3 text-red-500" />
+                        {t('logout')}
+                      </button>
+                    </>
+                  ) : (
                     <Link
-                      href="/itineraries"
+                      href="/login"
                       className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      <Calendar className="h-4 w-4 mr-3 text-zinc-500" />
-                      {t('myItineraries')}
+                      <LogIn className="h-4 w-4 mr-3 text-zinc-500" />
+                      {t('login')}
                     </Link>
-                    <Link
-                      href="/profile"
-                      className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <User className="h-4 w-4 mr-3 text-zinc-500" />
-                      {t('profile')}
-                    </Link>
-                    <button
-                      onClick={handleSignOut}
-                      className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50 text-red-500"
-                    >
-                      <LogOut className="h-4 w-4 mr-3 text-red-500" />
-                      {t('logout')}
-                    </button>
-                  </>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <LogIn className="h-4 w-4 mr-3 text-zinc-500" />
-                    {t('login')}
-                  </Link>
-                )}
-              </nav>
+                  )}
+                </nav>
+              </div>
             </SheetContent>
           </Sheet>
 
@@ -190,9 +205,9 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <div className="hidden sm:flex items-center gap-4">
+          <div className="flex items-center gap-1 sm:gap-4">
             <LocaleSwitcher />
-            <Link href="/messages">
+            <Link href="/messages" className="hidden sm:inline-flex">
               <Button variant="ghost" size="icon" className="rounded-full">
                 <MessageSquare className="h-5 w-5" />
               </Button>
@@ -202,7 +217,7 @@ export default function Navbar() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger render={
-                <button className="flex items-center gap-2 p-1 pr-3 rounded-full border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all focus:outline-none group">
+                <button className="flex items-center gap-2 p-1 pr-3 rounded-full border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-all focus:outline-none group shadow-sm">
                   <Avatar className="h-8 w-8 border border-white">
                     <AvatarImage src={user.user_metadata?.avatar_url} alt={user.user_metadata?.name} />
                     <AvatarFallback className="bg-zinc-50 text-zinc-400 font-bold">{user.user_metadata?.name?.[0] ?? "U"}</AvatarFallback>
