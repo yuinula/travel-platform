@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { Globe, Camera, Share2, Mail } from "lucide-react"
+import { Mail } from "lucide-react"
 
 export default function Footer() {
   const t = useTranslations("Footer")
@@ -26,17 +26,13 @@ export default function Footer() {
               {t("description")}
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <Link href="#" className="text-zinc-400 hover:text-zinc-900 transition-colors">
-                <Globe className="h-5 w-5" />
+              <Link href="https://line.me/R/ti/p/@913yknhc" target="_blank" className="text-zinc-400 hover:text-[#06C755] transition-colors">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+                  <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-5.617 0-12 4.369-12 9.738 0 4.814 4.454 8.841 10.454 9.601.407.088.96.269 1.1.618.117.292.077.75.038 1.045l-.17 1.023c-.053.305-.258 1.194 1.11 0 1.368-1.194 7.394-4.355 10.077-7.458 1.385-1.564 1.391-3.21 1.391-4.831zm-17.754 3.731h-1.341a.343.343 0 0 1-.343-.343v-4.331c0-.189.154-.343.343-.343h1.341a.343.343 0 0 1 .343.343v4.331a.343.343 0 0 1-.343.343zm4.551-4.674v4.331a.343.343 0 0 1-.343.343h-1.341a.343.343 0 0 1-.343-.343V9.361c0-.189.154-.343.343-.343H10.45c.101 0 .193.044.256.12l1.96 2.37V9.361c0-.189.154-.343.343-.343h1.341a.343.343 0 0 1 .343.343v4.331a.343.343 0 0 1-.343.343h-1.341a.343.343 0 0 1-.256-.12l-1.96-2.37zm7.254 3.32h-1.815v-1.117h1.815a.343.343 0 0 1 .343.343v.431a.343.343 0 0 1-.343.343zm.343-3.04a.343.343 0 0 1-.343.343h-1.815v1.117h1.815a.343.343 0 0 1 .343.343v.431a.343.343 0 0 1-.343.343h-2.158a.343.343 0 0 1-.343-.343v-4.331a.343.343 0 0 1 .343-.343h2.158a.343.343 0 0 1 .343.343v.431a.343.343 0 0 1-.343.343h-1.815v1.117h1.815a.343.343 0 0 1 .343.343v.431z" />
+                </svg>
               </Link>
-              <Link href="#" className="text-zinc-400 hover:text-zinc-900 transition-colors">
-                <Camera className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-zinc-400 hover:text-zinc-900 transition-colors">
-                <Share2 className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-zinc-400 hover:text-zinc-900 transition-colors">
-                <Mail className="h-5 w-5" />
+              <Link href="mailto:yuinula@gmail.com" className="text-zinc-400 hover:text-zinc-900 transition-colors">
+                <Mail className="h-6 w-6" />
               </Link>
             </div>
           </div>
