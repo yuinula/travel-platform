@@ -407,7 +407,15 @@
     "otpCancel": "キャンセル",
     "otpError": "コードが正しくないか、期限切れです",
     "successMessage": "プロフィールを更新しました",
-    "errorMessage": "更新に失敗しました"
+    "errorMessage": "更新に失敗しました",
+    "security": {
+      "title": "アカウントセキュリティ",
+      "passwordLabel": "新しいパスワード",
+      "passwordPlaceholder": "6文字以上",
+      "updateButton": "パスワードを更新",
+      "updateSuccess": "パスワードを更新しました",
+      "updateError": "パスワードの更新に失敗しました"
+    }
   },
   "Home": {
     "badge": "AI 智能旅行マッチング",

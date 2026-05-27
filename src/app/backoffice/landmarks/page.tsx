@@ -238,16 +238,16 @@ export default function ManageLandmarksPage() {
           [1,2,3].map(i => <div key={i} className={cn("h-80 rounded-[3rem] animate-pulse", isDark ? "bg-zinc-900" : "bg-zinc-200")} />)
         ) : filtered.map(landmark => (
           <Card key={landmark.id} className={cn(
-            "rounded-[3rem] overflow-hidden group transition-all duration-500 hover:-translate-y-2 border shadow-3xl",
+            "rounded-[3rem] overflow-hidden group transition-all border shadow-3xl",
             isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-zinc-200"
           )}>
             <div className="h-56 relative overflow-hidden">
-               <img src={landmark.image_url || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e'} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={landmark.name} />
+               <img src={landmark.image_url || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e'} className="w-full h-full object-cover" alt={landmark.name} />
                <div className={cn(
                  "absolute inset-0 bg-gradient-to-t via-transparent to-transparent",
                  isDark ? "from-zinc-950/90" : "from-black/60"
                )} />
-               <div className="absolute top-6 right-6 flex gap-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+               <div className="absolute top-6 right-6 flex gap-3 opacity-0 group-hover:opacity-100 transition-all">
                   <Button onClick={() => openEdit(landmark)} size="icon" className="h-12 w-12 rounded-2xl bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/10 shadow-xl">
                     <Edit2 className="h-5 w-5 text-white" />
                   </Button>

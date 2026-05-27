@@ -212,12 +212,12 @@ function StatCard({ title, value, icon, color, isDark }: { title: string, value:
   
   return (
     <Card className={cn(
-      "p-8 rounded-[2.5rem] border transition-all shadow-2xl group",
+      "p-8 rounded-[2.5rem] border shadow-2xl group",
       isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-zinc-200 shadow-xl"
     )}>
       <div className="flex items-center justify-between mb-4">
         <span className="text-xs font-black uppercase tracking-widest text-zinc-500 group-hover:text-primary transition-colors">{title}</span>
-        <div className={cn("p-3 rounded-2xl border transition-all duration-500 group-hover:scale-110 group-hover:rotate-6", colorMap[color])}>
+        <div className={cn("p-3 rounded-2xl border", colorMap[color])}>
           {icon}
         </div>
       </div>

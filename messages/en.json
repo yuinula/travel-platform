@@ -423,7 +423,15 @@
     "otpCancel": "Cancel",
     "otpError": "Invalid or expired code",
     "successMessage": "Profile updated successfully",
-    "errorMessage": "Failed to update profile"
+    "errorMessage": "Failed to update profile",
+    "security": {
+      "title": "Account Security",
+      "passwordLabel": "New Password",
+      "passwordPlaceholder": "Min. 6 characters",
+      "updateButton": "Update Password",
+      "updateSuccess": "Password updated successfully",
+      "updateError": "Failed to update password"
+    }
   },
   "Home": {
     "badge": "AI Travel Matching",

@@ -150,18 +150,18 @@ export default function SystemLogsPage() {
                   </tr>
                 ) : (
                   filteredLogs.map(log => (
-                    <tr key={log.id} className="hover:bg-primary/[0.01] transition-colors group">
+                    <tr key={log.id} className="hover:bg-primary/[0.01] group">
                       <td className="p-10">
                         <div className="flex flex-col space-y-1">
-                          <span className={cn("font-black text-lg transition-colors", isDark ? "text-white" : "text-zinc-900")}>{format(new Date(log.created_at), "yyyy/MM/dd")}</span>
+                          <span className={cn("font-black text-lg", isDark ? "text-white" : "text-zinc-900")}>{format(new Date(log.created_at), "yyyy/MM/dd")}</span>
                           <span className="text-zinc-500 font-bold text-xs tracking-widest">{format(new Date(log.created_at), "HH:mm:ss")}</span>
                         </div>
                       </td>
                       <td className="p-10">
                         <div className="flex items-center gap-4">
                           <div className={cn(
-                            "h-12 w-12 rounded-xl flex items-center justify-center border transition-all duration-500 group-hover:border-primary/50",
-                            isDark ? "bg-zinc-800 border-zinc-700 text-zinc-500 group-hover:text-white" : "bg-zinc-50 border-zinc-200 text-zinc-400 group-hover:text-primary"
+                            "h-12 w-12 rounded-xl flex items-center justify-center border",
+                            isDark ? "bg-zinc-800 border-zinc-700 text-zinc-500" : "bg-zinc-50 border-zinc-200 text-zinc-400 group-hover:text-primary"
                           )}>
                             <User className="h-6 w-6" />
                           </div>

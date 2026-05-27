@@ -61,7 +61,7 @@ export default function BackofficeLoginPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 flex flex-col items-center justify-center p-4">
-      <div className="mb-8 flex flex-col items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-1000">
+      <div className="mb-8 flex flex-col items-center gap-4">
         <div className="flex items-center gap-3">
           <Image src="/logo.svg" alt="Logo" width={40} height={40} className="" />
           <span className="text-2xl font-black tracking-[0.2em] text-zinc-900 font-rounded uppercase">

@@ -423,7 +423,15 @@
     "otpCancel": "取消",
     "otpError": "驗證碼錯誤或已過期",
     "successMessage": "個人資料已成功更新",
-    "errorMessage": "更新失敗，請稍後再試"
+    "errorMessage": "更新失敗，請稍後再試",
+    "security": {
+      "title": "帳號安全",
+      "passwordLabel": "新密碼",
+      "passwordPlaceholder": "至少 6 位數",
+      "updateButton": "更新密碼",
+      "updateSuccess": "密碼已成功更新",
+      "updateError": "密碼更新失敗"
+    }
   },
   "Home": {
     "badge": "AI 智能旅遊媒合",

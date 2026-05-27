@@ -146,12 +146,12 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
   return (
     <BackofficeThemeContext.Provider value={{ theme, toggleTheme: handleToggleTheme }}>
       <div className={cn(
-        "min-h-screen flex flex-col font-sans transition-colors duration-300",
+        "min-h-screen flex flex-col font-sans overscroll-none",
         isDark ? "bg-zinc-950 text-white" : "bg-zinc-50 text-zinc-900"
       )}>
-        {/* Top Header */}
+        {/* Top Header - Specialized for Backoffice */}
         <header className={cn(
-          "h-24 border-b sticky top-0 z-50 flex items-center px-12 justify-between transition-colors",
+          "h-24 border-b sticky top-0 z-50 flex items-center px-12 justify-between",
           isDark ? "border-zinc-900 bg-zinc-950/50 backdrop-blur-xl" : "border-zinc-200 bg-white/80 backdrop-blur-xl"
         )}>
           <div className="flex items-center gap-6">
@@ -240,7 +240,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
         <div className="flex flex-1 overflow-hidden">
           {/* Admin Sidebar */}
           <aside className={cn(
-            "w-80 border-r flex flex-col p-8 space-y-8 transition-colors",
+            "w-80 border-r flex flex-col p-8 space-y-8",
             isDark ? "border-zinc-900 bg-zinc-950" : "border-zinc-200 bg-white"
           )}>
             <nav className="flex-1 space-y-3">
@@ -249,7 +249,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
                   key={link.href} 
                   href={link.href}
                   className={cn(
-                    "flex items-center justify-between p-5 rounded-[1.5rem] font-black text-base transition-all group",
+                    "flex items-center justify-between p-5 rounded-[1.5rem] font-black text-base transition-colors group",
                     pathname === link.href 
                       ? (isDark ? "bg-white text-zinc-950 shadow-white/5" : "bg-zinc-900 text-white shadow-xl") 
                       : (isDark ? "text-zinc-500 hover:text-white hover:bg-zinc-900" : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100")
@@ -269,7 +269,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
               isDark ? "bg-zinc-900 border-zinc-800" : "bg-zinc-50 border-zinc-100"
             )}>
                <div className="flex items-center gap-3">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                   <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">{t('sidebar.nodeSecure')}</span>
                </div>
                <p className="text-[11px] text-zinc-500 font-bold leading-relaxed">
@@ -277,9 +277,8 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
                </p>
             </div>
           </aside>
-
           {/* Main Backoffice Content */}
-          <main className={cn("flex-1 overflow-y-auto transition-colors", isDark ? "bg-zinc-950" : "bg-zinc-50")}>
+          <main className={cn("flex-1 overflow-y-auto", isDark ? "bg-zinc-950" : "bg-zinc-50")}>
             <div className="p-10 md:p-16 max-w-7xl mx-auto">
               {children}
             </div>

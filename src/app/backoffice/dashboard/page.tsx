@@ -88,7 +88,7 @@ export default function BackofficeDashboardPage() {
                 <div key={tx.id} className="p-8 flex items-center justify-between hover:bg-primary/[0.02] transition-colors group">
                   <div className="flex items-center gap-6">
                     <div className={cn(
-                      "h-14 w-14 rounded-2xl flex items-center justify-center border transition-all duration-500",
+                      "h-14 w-14 rounded-2xl flex items-center justify-center border",
                       isDark ? "bg-zinc-800 border-zinc-700 text-zinc-500" : "bg-zinc-50 border-zinc-100 text-zinc-400"
                     )}>
                       <Receipt className="h-7 w-7" />
@@ -175,7 +175,7 @@ function MetricCard({ title, value, sub, icon, color, isDark }: { title: string,
     )} style={{ borderLeftColor: `var(--${color}-500)` }}>
       <div className="flex flex-row items-center justify-between pb-6">
         <span className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500 group-hover:text-primary transition-colors">{title}</span>
-        <div className={cn("p-3 rounded-2xl border transition-all duration-500 group-hover:scale-110 group-hover:rotate-6", colorMap[color])}>
+        <div className={cn("p-3 rounded-2xl border", colorMap[color])}>
           {icon}
         </div>
       </div>

@@ -288,11 +288,11 @@ export default function AdminManagementPage() {
                 </thead>
                 <tbody className={cn("divide-y transition-colors", isDark ? "divide-zinc-800" : "divide-zinc-100")}>
                   {admins.map(admin => (
-                    <tr key={admin.id} className="hover:bg-primary/[0.01] transition-colors group">
+                    <tr key={admin.id} className="hover:bg-primary/[0.01] group">
                       <td className="p-10">
                         <div className="flex items-center gap-6">
                           <div className={cn(
-                            "h-16 w-16 rounded-[1.5rem] flex items-center justify-center border transition-all duration-500 group-hover:rotate-12 group-hover:scale-110",
+                            "h-16 w-16 rounded-[1.5rem] flex items-center justify-center border",
                             isDark ? "bg-zinc-800 border-zinc-700 text-zinc-400" : "bg-zinc-50 border-zinc-200 text-zinc-400 group-hover:text-primary"
                           )}>
                             <Shield className="h-8 w-8" />
