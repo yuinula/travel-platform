@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell, ShieldCheck, KeyRound, ArrowRight, MapPin, Briefcase, Sun, Moon, Receipt } from "lucide-react"
+import { ShieldAlert, LayoutDashboard, Settings, LogOut, ChevronRight, User, Bell, ShieldCheck, KeyRound, ArrowRight, MapPin, Briefcase, Sun, Moon, Receipt, PanelLeftClose, PanelLeftOpen } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -48,9 +48,13 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
   const [newPassword, setNewPassword] = useState("")
   const [isUpdating, setIsUpdating] = useState(false)
   const [theme, setTheme] = useState<"light" | "dark">("dark")
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const supabase = createClient()
 
   useEffect(() => {
+    const savedCollapsed = localStorage.getItem("backoffice-sidebar-collapsed")
+    if (savedCollapsed === "true") setIsSidebarCollapsed(true)
+
     const savedTheme = localStorage.getItem("backoffice-theme") as "light" | "dark"
     if (savedTheme) setTheme(savedTheme)
 
@@ -73,6 +77,12 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
   const handleToggleTheme = (newTheme: "light" | "dark") => {
     setTheme(newTheme)
     localStorage.setItem("backoffice-theme", newTheme)
+  }
+
+  const toggleSidebar = () => {
+    const newState = !isSidebarCollapsed
+    setIsSidebarCollapsed(newState)
+    localStorage.setItem("backoffice-sidebar-collapsed", newState.toString())
   }
 
   if (pathname === "/backoffice/login") {
@@ -129,12 +139,12 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
   }
 
   const sidebarLinks = [
-    { name: t('sidebar.dashboard'), href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-6 w-6" />, permId: 'dashboard' },
-    { name: t('sidebar.manageOrders'), href: "/backoffice/orders", icon: <Receipt className="h-6 w-6" />, permId: 'admin-portal' },
-    { name: t('sidebar.manageLandmarks'), href: "/backoffice/landmarks", icon: <MapPin className="h-6 w-6" />, permId: 'manage-admins' },
-    { name: t('sidebar.manageGuides'), href: "/backoffice/guides", icon: <Briefcase className="h-6 w-6" />, permId: 'manage-admins' },
-    { name: t('sidebar.manageAdmins'), href: "/backoffice/admins", icon: <ShieldCheck className="h-6 w-6" />, permId: 'manage-admins' },
-    { name: t('sidebar.systemLogs'), href: "/backoffice/logs", icon: <Settings className="h-6 w-6" />, permId: 'manage-admins' },
+    { name: t('sidebar.dashboard'), href: "/backoffice/dashboard", icon: <LayoutDashboard className="h-5 w-5" />, permId: 'dashboard' },
+    { name: t('sidebar.manageOrders'), href: "/backoffice/orders", icon: <Receipt className="h-5 w-5" />, permId: 'admin-portal' },
+    { name: t('sidebar.manageLandmarks'), href: "/backoffice/landmarks", icon: <MapPin className="h-5 w-5" />, permId: 'manage-admins' },
+    { name: t('sidebar.manageGuides'), href: "/backoffice/guides", icon: <Briefcase className="h-5 w-5" />, permId: 'manage-admins' },
+    { name: t('sidebar.manageAdmins'), href: "/backoffice/admins", icon: <ShieldCheck className="h-5 w-5" />, permId: 'manage-admins' },
+    { name: t('sidebar.systemLogs'), href: "/backoffice/logs", icon: <Settings className="h-5 w-5" />, permId: 'manage-admins' },
   ]
 
   const filteredLinks = sidebarLinks.filter(link => 
@@ -151,85 +161,96 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
       )}>
         {/* Top Header - Specialized for Backoffice */}
         <header className={cn(
-          "h-24 border-b sticky top-0 z-50 flex items-center px-12 justify-between",
+          "h-16 border-b sticky top-0 z-50 flex items-center px-6 justify-between",
           isDark ? "border-zinc-900 bg-zinc-950/50 backdrop-blur-xl" : "border-zinc-200 bg-white/80 backdrop-blur-xl"
         )}>
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-3 group mr-8">
-              <Image src="/logo.svg" alt="Logo" width={32} height={32} className={cn(isDark && "invert")} />
-              <span className="font-black text-xl tracking-[0.2em] font-rounded ai-text-gradient uppercase">
-                Trip Butler
-              </span>
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={toggleSidebar}
+              className={cn("h-10 w-10 text-zinc-500 hover:text-zinc-900 transition-colors", isDark && "hover:text-white")}
+            >
+              {isSidebarCollapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
+            </Button>
+            <Link href="/" className="flex items-center gap-2 mr-4">
+              <Image src="/logo.svg" alt="Logo" width={24} height={24} className={cn(isDark && "invert")} />
+              {!isSidebarCollapsed && (
+                <span className="font-black text-lg tracking-[0.1em] font-rounded ai-text-gradient uppercase whitespace-nowrap">
+                  Trip Butler
+                </span>
+              )}
             </Link>
-            <div className={cn("h-10 w-px hidden md:block", isDark ? "bg-zinc-800" : "bg-zinc-200")} />
-            <div className="hidden md:flex items-center gap-3 ml-4">
-              <span className={cn("text-xs font-black uppercase tracking-[0.3em]", isDark ? "text-zinc-500" : "text-zinc-400")}>{t('header.systemMode')}</span>
-              <span className="text-xs font-black uppercase tracking-[0.3em] text-primary font-rounded">
-                {adminUser?.role === 'Super Admin' ? t('header.fullAuthority') : t('header.restrictedAccess')}
-              </span>
-            </div>
+            <div className={cn("h-6 w-px hidden md:block", isDark ? "bg-zinc-800" : "bg-zinc-200")} />
+            {!isSidebarCollapsed && (
+              <div className="hidden md:flex items-center gap-3 ml-4">
+                <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", isDark ? "text-zinc-500" : "text-zinc-400")}>{t('header.systemMode')}</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary font-rounded">
+                  {adminUser?.role === 'Super Admin' ? t('header.fullAuthority') : t('header.restrictedAccess')}
+                </span>
+              </div>
+            )}
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             {/* Theme Toggle */}
-            <div className={cn("flex items-center p-1.5 rounded-full border shadow-inner", isDark ? "bg-zinc-900 border-zinc-800" : "bg-zinc-100 border-zinc-200")}>
+            <div className={cn("flex items-center p-1 rounded-full border shadow-inner", isDark ? "bg-zinc-900 border-zinc-800" : "bg-zinc-100 border-zinc-200")}>
                <button 
                 onClick={() => handleToggleTheme("light")}
-                className={cn("p-2 rounded-full transition-all", theme === "light" ? "bg-white text-primary shadow-md" : "text-zinc-500 hover:text-zinc-400")}
+                className={cn("p-1.5 rounded-full transition-all", theme === "light" ? "bg-white text-primary shadow-md" : "text-zinc-500 hover:text-zinc-400")}
                >
-                  <Sun className="h-5 w-5" />
+                  <Sun className="h-4 w-4" />
                </button>
                <button 
                 onClick={() => handleToggleTheme("dark")}
-                className={cn("p-2 rounded-full transition-all", theme === "dark" ? "bg-zinc-800 text-primary shadow-md" : "text-zinc-500 hover:text-zinc-700")}
+                className={cn("p-1.5 rounded-full transition-all", theme === "dark" ? "bg-zinc-800 text-primary shadow-md" : "text-zinc-500 hover:text-zinc-700")}
                >
-                  <Moon className="h-5 w-5" />
+                  <Moon className="h-4 w-4" />
                </button>
             </div>
 
-            <Button variant="ghost" size="icon" className={cn("rounded-full h-12 w-12", isDark ? "text-zinc-500 hover:text-white" : "text-zinc-400 hover:text-zinc-900")}>
-              <Bell className="h-6 w-6" />
+            <Button variant="ghost" size="icon" className={cn("rounded-full h-10 w-10", isDark ? "text-zinc-500 hover:text-white" : "text-zinc-400 hover:text-zinc-900")}>
+              <Bell className="h-5 w-5" />
             </Button>
             
             <DropdownMenu>
               <DropdownMenuTrigger render={
                 <button className={cn(
-                  "flex items-center gap-4 pl-3 pr-6 py-2 rounded-full border transition-all focus:outline-none group shadow-lg",
+                  "flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full border transition-all focus:outline-none group shadow-md",
                   isDark ? "border-zinc-800 bg-zinc-900 hover:bg-zinc-800" : "border-zinc-200 bg-white hover:bg-zinc-50"
                 )}>
-                  <Avatar className="h-10 w-10 border border-zinc-700">
-                    <AvatarFallback className="bg-primary text-white text-sm font-black uppercase">
+                  <Avatar className="h-8 w-8 border border-zinc-700">
+                    <AvatarFallback className="bg-primary text-white text-[10px] font-black uppercase">
                       {adminUser?.username?.[0] ?? "A"}
                     </AvatarFallback>
                   </Avatar>
                   <div className="text-left hidden sm:block">
-                    <p className={cn("text-sm font-black leading-none", isDark ? "text-white" : "text-zinc-900")}>{adminUser?.username || "administrator"}</p>
-                    <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-tighter mt-1.5">{adminUser?.role || "Admin"}</p>
+                    <p className={cn("text-xs font-black leading-none", isDark ? "text-white" : "text-zinc-900")}>{adminUser?.username || "admin"}</p>
                   </div>
-                  <ChevronRight className="h-4 w-4 text-zinc-400 rotate-90 group-data-[state=open]:-rotate-90 transition-transform" />
+                  <ChevronRight className="h-3 w-3 text-zinc-400 rotate-90 group-data-[state=open]:-rotate-90 transition-transform" />
                 </button>
               } />
               <DropdownMenuContent align="end" className={cn(
-                "w-64 rounded-[2rem] shadow-2xl p-3 border",
+                "w-56 rounded-2xl shadow-2xl p-2 border",
                 isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
               )}>
                 <DropdownMenuGroup>
-                  <DropdownMenuLabel className="px-5 py-4">
-                    <p className="text-xs font-black text-zinc-500 uppercase tracking-widest">{t('header.accountSettings')}</p>
+                  <DropdownMenuLabel className="px-4 py-3">
+                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">{t('header.accountSettings')}</p>
                   </DropdownMenuLabel>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator className={isDark ? "bg-zinc-800" : "bg-zinc-100"} />
-                <DropdownMenuItem onClick={() => router.push("/backoffice/dashboard")} className="rounded-2xl p-4 focus:bg-primary/10 focus:text-primary cursor-pointer font-bold text-base transition-colors">
-                  <LayoutDashboard className="mr-4 h-5 w-5" />
+                <DropdownMenuItem onClick={() => router.push("/backoffice/dashboard")} className="rounded-xl p-3 focus:bg-primary/10 focus:text-primary cursor-pointer font-bold text-sm transition-colors">
+                  <LayoutDashboard className="mr-3 h-4 w-4" />
                   {t('header.controlCenter')}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setIsPasswordOpen(true)} className="rounded-2xl p-4 focus:bg-primary/10 focus:text-primary cursor-pointer font-bold text-base transition-colors">
-                  <KeyRound className="mr-4 h-5 w-5" />
+                <DropdownMenuItem onClick={() => setIsPasswordOpen(true)} className="rounded-xl p-3 focus:bg-primary/10 focus:text-primary cursor-pointer font-bold text-sm transition-colors">
+                  <KeyRound className="mr-3 h-4 w-4" />
                   {t('header.changePassword')}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className={isDark ? "bg-zinc-800" : "bg-zinc-100"} />
-                <DropdownMenuItem onClick={handleLogout} className="rounded-2xl p-4 focus:bg-red-500/10 focus:text-red-500 text-red-500 cursor-pointer font-bold mt-1 text-base transition-colors">
-                  <LogOut className="mr-4 h-5 w-5" />
+                <DropdownMenuItem onClick={handleLogout} className="rounded-xl p-3 focus:bg-red-500/10 focus:text-red-500 text-red-500 cursor-pointer font-bold mt-1 text-sm transition-colors">
+                  <LogOut className="mr-3 h-4 w-4" />
                   {t('header.signOut')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -240,46 +261,53 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
         <div className="flex flex-1 overflow-hidden">
           {/* Admin Sidebar */}
           <aside className={cn(
-            "w-80 border-r flex flex-col p-8 space-y-8",
+            "border-r flex flex-col transition-all duration-300 ease-in-out",
+            isSidebarCollapsed ? "w-20" : "w-72",
             isDark ? "border-zinc-900 bg-zinc-950" : "border-zinc-200 bg-white"
           )}>
-            <nav className="flex-1 space-y-3">
+            <nav className="flex-1 p-4 space-y-2">
               {filteredLinks.map((link) => (
                 <Link 
                   key={link.href} 
                   href={link.href}
+                  title={isSidebarCollapsed ? link.name : ""}
                   className={cn(
-                    "flex items-center justify-between p-5 rounded-[1.5rem] font-black text-base transition-colors group",
+                    "flex items-center rounded-xl font-black text-sm transition-colors group",
+                    isSidebarCollapsed ? "justify-center h-12 w-12 mx-auto" : "p-4 space-x-4",
                     pathname === link.href 
-                      ? (isDark ? "bg-white text-zinc-950 shadow-white/5" : "bg-zinc-900 text-white shadow-xl") 
+                      ? (isDark ? "bg-white text-zinc-950 shadow-white/5" : "bg-zinc-900 text-white shadow-lg") 
                       : (isDark ? "text-zinc-500 hover:text-white hover:bg-zinc-900" : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100")
                   )}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className={cn("shrink-0", isSidebarCollapsed ? "h-6 w-6" : "h-5 w-5")}>
                     {link.icon}
-                    {link.name}
                   </div>
-                  <ChevronRight className={cn("h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity", pathname === link.href && "opacity-100")} />
+                  {!isSidebarCollapsed && <span className="truncate">{link.name}</span>}
                 </Link>
               ))}
             </nav>
 
-            <div className={cn(
-              "p-6 rounded-[2rem] border space-y-4 shadow-inner",
-              isDark ? "bg-zinc-900 border-zinc-800" : "bg-zinc-50 border-zinc-100"
-            )}>
-               <div className="flex items-center gap-3">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                  <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">{t('sidebar.nodeSecure')}</span>
-               </div>
-               <p className="text-[11px] text-zinc-500 font-bold leading-relaxed">
-                 {t('sidebar.securityAudit')}
-               </p>
-            </div>
+            {!isSidebarCollapsed && (
+              <div className="p-6">
+                <div className={cn(
+                  "p-4 rounded-2xl border space-y-2",
+                  isDark ? "bg-white/5 border-white/5" : "bg-zinc-50 border-zinc-100"
+                )}>
+                   <div className="flex items-center gap-2">
+                      <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{t('sidebar.nodeSecure')}</span>
+                   </div>
+                   <p className="text-[10px] text-zinc-500 font-bold leading-tight">
+                     {t('sidebar.securityAudit')}
+                   </p>
+                </div>
+              </div>
+            )}
           </aside>
+
           {/* Main Backoffice Content */}
           <main className={cn("flex-1 overflow-y-auto", isDark ? "bg-zinc-950" : "bg-zinc-50")}>
-            <div className="p-10 md:p-16 max-w-7xl mx-auto">
+            <div className="p-6 md:p-10 max-w-7xl mx-auto">
               {children}
             </div>
           </main>
@@ -288,29 +316,29 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
         {/* Change Password Dialog */}
         <Dialog open={isPasswordOpen} onOpenChange={setIsPasswordOpen}>
           <DialogContent className={cn(
-            "max-w-lg p-12 rounded-[3.5rem] shadow-2xl backdrop-blur-xl border",
+            "max-w-lg p-10 rounded-[3rem] shadow-2xl backdrop-blur-xl border",
             isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
           )}>
-            <DialogHeader className="space-y-6">
-              <div className="h-16 w-16 rounded-[2rem] bg-zinc-800 flex items-center justify-center mb-2">
-                <KeyRound className="h-8 w-8 text-primary" />
+            <DialogHeader className="space-y-4">
+              <div className="h-12 w-12 rounded-2xl bg-zinc-800 flex items-center justify-center mb-2">
+                <KeyRound className="h-6 w-6 text-primary" />
               </div>
-              <DialogTitle className="text-3xl font-black uppercase text-white font-rounded tracking-widest">{t('header.changePassword')}</DialogTitle>
-              <DialogDescription className="text-zinc-500 font-medium text-lg">
+              <DialogTitle className="text-2xl font-black uppercase text-white font-rounded tracking-widest">{t('header.changePassword')}</DialogTitle>
+              <DialogDescription className="text-zinc-500 font-medium text-base">
                 {t('header.accountSettings')} - <span className="text-primary font-bold">{adminUser?.username}</span>
               </DialogDescription>
             </DialogHeader>
             
-            <div className="mt-10 space-y-8">
-              <div className="space-y-3">
-                <Label className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 ml-1">New Password</Label>
+            <div className="mt-8 space-y-6">
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">New Password</Label>
                 <Input 
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   className={cn(
-                    "h-16 px-8 rounded-2xl focus-visible:ring-primary/20 text-lg font-bold border",
-                    isDark ? "bg-zinc-800 border-zinc-700 text-white" : "bg-zinc-50 border-zinc-200 text-zinc-900"
+                    "h-14 px-6 rounded-xl focus-visible:ring-primary/20 text-lg font-bold border",
+                    isDark ? "bg-zinc-800 border-zinc-700 text-white" : "bg-white border-zinc-200 text-zinc-900"
                   )}
                   placeholder="••••••••"
                 />
@@ -318,10 +346,10 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
               <Button 
                 onClick={handleUpdatePassword} 
                 disabled={isUpdating}
-                className="w-full h-20 rounded-[1.5rem] font-black text-2xl shadow-xl shadow-primary/20 scale-100 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="w-full h-16 rounded-xl font-black text-xl shadow-xl shadow-primary/20 transition-all active:scale-95"
               >
                 {isUpdating ? "Updating..." : t('header.changePassword')}
-                <ArrowRight className="ml-3 h-8 w-8" />
+                <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
             </div>
           </DialogContent>

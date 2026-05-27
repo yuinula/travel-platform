@@ -84,110 +84,110 @@ export default function OrderManagementPage() {
   }
 
   return (
-    <div className="space-y-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-        <div className="space-y-2">
+    <div className="space-y-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1">
           <h1 className={cn(
-            "text-5xl font-black tracking-tight uppercase tracking-widest font-rounded transition-colors",
+            "text-2xl font-black tracking-tight uppercase tracking-widest font-rounded transition-colors",
             isDark ? "text-white" : "text-zinc-900"
           )}>{t('title')}</h1>
-          <p className="text-zinc-500 font-bold text-xl">{t('subtitle')}</p>
+          <p className="text-zinc-500 font-bold text-sm">{t('subtitle')}</p>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="relative w-64 md:w-96">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
+        <div className="flex items-center gap-2">
+          <div className="relative w-48 md:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <Input 
               placeholder={t('searchPlaceholder')} 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={cn(
-                "border h-16 rounded-2xl pl-14 text-lg font-medium transition-all focus-visible:ring-primary/20",
+                "border h-10 rounded-xl pl-10 text-sm font-medium transition-all focus-visible:ring-primary/20",
                 isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
               )} 
             />
           </div>
           <Button onClick={fetchOrders} variant="outline" className={cn(
-            "h-16 w-16 rounded-2xl p-0 shadow-xl transition-all border",
+            "h-10 w-10 rounded-xl p-0 shadow-sm transition-all border",
             isDark ? "bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-white" : "bg-white border-zinc-200 text-zinc-400 hover:text-zinc-900"
           )}>
-            <Receipt className={cn("h-7 w-7", loading && "animate-spin")} />
+            <Receipt className={cn("h-5 w-5", loading && "animate-spin")} />
           </Button>
         </div>
       </div>
 
-      <div className="grid gap-8 grid-cols-1 md:grid-cols-3">
-         <StatCard title="Active Bookings" value={orders.filter(o => o.status === 'Confirmed').length.toString()} icon={<CheckCircle2 />} color="emerald" isDark={isDark} />
-         <StatCard title="Negotiations" value={orders.filter(o => o.status === 'Negotiation').length.toString()} icon={<Clock />} color="amber" isDark={isDark} />
-         <StatCard title="Total Revenue" value={`$${orders.reduce((acc, o) => acc + (o.total_price || 0), 0)}`} icon={<DollarSign />} color="blue" isDark={isDark} />
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+         <StatCard title="Active Bookings" value={orders.filter(o => o.status === 'Confirmed').length.toString()} icon={<CheckCircle2 className="h-5 w-5" />} color="emerald" isDark={isDark} />
+         <StatCard title="Negotiations" value={orders.filter(o => o.status === 'Negotiation').length.toString()} icon={<Clock className="h-5 w-5" />} color="amber" isDark={isDark} />
+         <StatCard title="Total Revenue" value={`$${orders.reduce((acc, o) => acc + (o.total_price || 0), 0)}`} icon={<DollarSign className="h-5 w-5" />} color="blue" isDark={isDark} />
       </div>
 
       <Card className={cn(
-        "shadow-3xl rounded-[3rem] overflow-hidden border transition-colors",
-        isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-zinc-200 shadow-xl"
+        "shadow-xl rounded-[2rem] overflow-hidden border transition-colors",
+        isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-zinc-200 shadow-lg"
       )}>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-base">
+            <table className="w-full text-sm">
               <thead className={cn(
-                "uppercase tracking-[0.3em] text-[11px] font-black border-b transition-colors",
+                "uppercase tracking-[0.2em] text-[10px] font-black border-b transition-colors",
                 isDark ? "bg-zinc-950/50 text-zinc-500 border-zinc-800" : "bg-zinc-50 text-zinc-400 border-zinc-100"
               )}>
                 <tr>
-                  <th className="text-left p-10">{t('table.orderId')}</th>
-                  <th className="text-left p-10">{t('table.traveler')}</th>
-                  <th className="text-left p-10">{t('table.guide')}</th>
-                  <th className="text-left p-10">{t('table.period')}</th>
-                  <th className="text-left p-10">{t('table.status')}</th>
-                  <th className="text-right p-10">{t('table.amount')}</th>
+                  <th className="text-left p-6">{t('table.orderId')}</th>
+                  <th className="text-left p-6">{t('table.traveler')}</th>
+                  <th className="text-left p-6">{t('table.guide')}</th>
+                  <th className="text-left p-6">{t('table.period')}</th>
+                  <th className="text-left p-6">{t('table.status')}</th>
+                  <th className="text-right p-6">{t('table.amount')}</th>
                 </tr>
               </thead>
               <tbody className={cn("divide-y transition-colors", isDark ? "divide-zinc-800" : "divide-zinc-100")}>
                 {loading && orders.length === 0 ? (
                   Array.from({ length: 5 }).map((_, i) => (
                     <tr key={i} className="animate-pulse">
-                      <td colSpan={6} className="p-10 h-24" />
+                      <td colSpan={6} className="p-6 h-16" />
                     </tr>
                   ))
                 ) : filteredOrders.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-32 text-center text-zinc-500 font-black text-2xl uppercase tracking-widest italic">No orders found.</td>
+                    <td colSpan={6} className="p-20 text-center text-zinc-500 font-black text-xl uppercase tracking-widest italic">No orders found.</td>
                   </tr>
                 ) : (
                   filteredOrders.map(order => (
                     <tr key={order.id} className="hover:bg-primary/[0.01] transition-colors group">
-                      <td className="p-10">
-                        <span className={cn("font-black text-xs uppercase tracking-widest px-3 py-1 rounded-lg border", isDark ? "bg-zinc-950 border-zinc-800 text-zinc-500" : "bg-zinc-50 border-zinc-100 text-zinc-400")}>
+                      <td className="p-6">
+                        <span className={cn("font-black text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-lg border", isDark ? "bg-zinc-950 border-zinc-800 text-zinc-500" : "bg-zinc-50 border-zinc-100 text-zinc-400")}>
                           #{order.id.split('-')[0]}
                         </span>
                       </td>
-                      <td className="p-10">
+                      <td className="p-6">
                         <div className="flex flex-col">
-                          <span className={cn("font-black text-lg font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{order.traveler?.name || 'Unknown'}</span>
-                          <span className="text-zinc-500 text-xs font-medium">{order.traveler?.email}</span>
+                          <span className={cn("font-black text-sm font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{order.traveler?.name || 'Unknown'}</span>
+                          <span className="text-zinc-500 text-[10px] font-medium">{order.traveler?.email}</span>
                         </div>
                       </td>
-                      <td className="p-10">
+                      <td className="p-6">
                         <div className="flex flex-col">
-                          <span className={cn("font-black text-lg font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{order.guide?.name || 'Unknown'}</span>
-                          <span className="text-zinc-500 text-xs font-medium">{order.guide?.email}</span>
+                          <span className={cn("font-black text-sm font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{order.guide?.name || 'Unknown'}</span>
+                          <span className="text-zinc-500 text-[10px] font-medium">{order.guide?.email}</span>
                         </div>
                       </td>
-                      <td className="p-10">
-                        <div className="flex items-center gap-2 text-zinc-500 font-bold text-sm">
-                           <Calendar className="h-4 w-4 text-primary" />
+                      <td className="p-6">
+                        <div className="flex items-center gap-2 text-zinc-500 font-bold text-xs">
+                           <Calendar className="h-3.5 w-3.5 text-primary" />
                            {order.start_date ? format(new Date(order.start_date), "MM/dd") : 'TBD'} - {order.end_date ? format(new Date(order.end_date), "MM/dd") : 'TBD'}
                         </div>
                       </td>
-                      <td className="p-10">
+                      <td className="p-6">
                         <Badge className={cn(
-                          "px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all shadow-md",
+                          "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all shadow-sm",
                           getStatusStyle(order.status)
                         )}>
                           {t(`status.${order.status}`)}
                         </Badge>
                       </td>
-                      <td className="p-10 text-right">
-                        <span className={cn("text-2xl font-black font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>
+                      <td className="p-6 text-right">
+                        <span className={cn("text-lg font-black font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>
                           ${order.total_price || 0}
                         </span>
                       </td>
@@ -212,16 +212,16 @@ function StatCard({ title, value, icon, color, isDark }: { title: string, value:
   
   return (
     <Card className={cn(
-      "p-8 rounded-[2.5rem] border shadow-2xl group",
-      isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-zinc-200 shadow-xl"
+      "p-6 rounded-[1.5rem] border transition-all shadow-lg group",
+      isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-zinc-200 shadow-md"
     )}>
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-xs font-black uppercase tracking-widest text-zinc-500 group-hover:text-primary transition-colors">{title}</span>
-        <div className={cn("p-3 rounded-2xl border", colorMap[color])}>
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-primary transition-colors">{title}</span>
+        <div className={cn("p-2 rounded-lg border", colorMap[color])}>
           {icon}
         </div>
       </div>
-      <div className={cn("text-4xl font-black font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{value}</div>
+      <div className={cn("text-2xl font-black font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{value}</div>
     </Card>
   )
 }

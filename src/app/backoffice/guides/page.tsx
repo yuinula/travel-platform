@@ -282,92 +282,92 @@ export default function ManageGuidesPage() {
   )
 
   return (
-    <div className="space-y-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-        <div className="space-y-2">
+    <div className="space-y-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1">
           <h1 className={cn(
-            "text-5xl font-black tracking-tight uppercase tracking-widest font-rounded transition-colors",
+            "text-2xl font-black tracking-tight uppercase tracking-widest font-rounded transition-colors",
             isDark ? "text-white" : "text-zinc-900"
           )}>{t('title')}</h1>
-          <p className="text-zinc-500 font-bold text-xl">{t('subtitle')}</p>
+          <p className="text-zinc-500 font-bold text-sm">{t('subtitle')}</p>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="relative w-64 md:w-96">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
+        <div className="flex items-center gap-2">
+          <div className="relative w-48 md:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <Input 
               placeholder={t('searchPlaceholder')} 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={cn(
-                "border h-16 rounded-2xl pl-14 text-lg font-medium transition-all focus-visible:ring-primary/20",
+                "border h-10 rounded-xl pl-10 text-sm font-medium transition-all focus-visible:ring-primary/20",
                 isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
               )} 
             />
           </div>
-          <Button onClick={() => { resetForm(); setIsAddOpen(true); }} className="h-16 rounded-2xl ai-gradient px-8 font-black uppercase tracking-widest gap-3 shadow-2xl shadow-primary/20 hover:scale-[1.02] transition-all active:scale-[0.98]">
-            <Plus className="h-6 w-6" />
+          <Button onClick={() => { resetForm(); setIsAddOpen(true); }} className="h-10 rounded-xl ai-gradient px-4 font-black uppercase tracking-widest text-[10px] gap-2 shadow-lg shadow-primary/20">
+            <Plus className="h-4 w-4" />
             {t('addNew')}
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-4">
         {loading && guides.length === 0 ? (
-          [1,2,3].map(i => <div key={i} className={cn("h-32 rounded-[2.5rem] animate-pulse", isDark ? "bg-zinc-900" : "bg-zinc-200")} />)
+          [1,2,3].map(i => <div key={i} className={cn("h-24 rounded-[1.5rem] animate-pulse", isDark ? "bg-zinc-900" : "bg-zinc-200")} />)
         ) : filtered.length === 0 ? (
           <div className={cn(
-            "text-center py-32 rounded-[4rem] border-2 border-dashed transition-colors",
+            "text-center py-20 rounded-[3rem] border-2 border-dashed transition-colors",
             isDark ? "bg-zinc-900/50 border-zinc-800" : "bg-white border-zinc-200"
           )}>
-             <Briefcase className="h-16 w-16 text-zinc-300 mx-auto mb-6" />
-             <p className="text-zinc-400 font-black text-2xl uppercase tracking-widest">No guides found.</p>
+             <Briefcase className="h-12 w-12 text-zinc-300 mx-auto mb-4" />
+             <p className="text-zinc-400 font-black text-xl uppercase tracking-widest">No guides found.</p>
           </div>
         ) : (
           filtered.map(guide => (
             <Card key={guide.id} className={cn(
-              "rounded-[2.5rem] overflow-hidden group border",
+              "rounded-[2rem] overflow-hidden group border",
               isDark ? "bg-zinc-900 border-zinc-800 hover:bg-zinc-800/50" : "bg-white border-zinc-200 hover:bg-zinc-50"
             )}>
-              <CardContent className="p-10 flex flex-col lg:flex-row lg:items-center gap-12">
-                <div className="flex items-center gap-8 min-w-[320px]">
-                  <Avatar className="h-24 w-20 rounded-2xl border-4 shadow-2xl" style={{ borderColor: isDark ? '#27272a' : '#f4f4f5' }}>
+              <CardContent className="p-6 flex flex-col lg:flex-row lg:items-center gap-8">
+                <div className="flex items-center gap-6 min-w-[280px]">
+                  <Avatar className="h-16 w-14 rounded-xl border-2 shadow-xl" style={{ borderColor: isDark ? '#27272a' : '#f4f4f5' }}>
                     <AvatarImage src={guide.avatar_url} className="object-cover" />
-                    <AvatarFallback className={isDark ? "bg-zinc-800 text-zinc-500" : "bg-zinc-100 text-zinc-400"}>
+                    <AvatarFallback className={isDark ? "bg-zinc-800 text-zinc-500" : "bg-zinc-100 text-zinc-400 text-xs font-black"}>
                       {guide.name?.[0]}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="space-y-2">
-                    <h3 className={cn("text-3xl font-black font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{guide.name}</h3>
-                    <p className="text-zinc-500 text-base font-bold truncate max-w-[220px]">{guide.email}</p>
+                  <div className="space-y-1">
+                    <h3 className={cn("text-xl font-black font-rounded transition-colors", isDark ? "text-white" : "text-zinc-900")}>{guide.name}</h3>
+                    <p className="text-zinc-500 text-xs font-bold truncate max-w-[180px]">{guide.email}</p>
                   </div>
                 </div>
 
                 <div className={cn(
-                  "flex-1 grid grid-cols-2 md:grid-cols-4 gap-10 lg:border-x lg:px-12 transition-colors",
+                  "flex-1 grid grid-cols-2 md:grid-cols-4 gap-6 lg:border-x lg:px-8 transition-colors",
                   isDark ? "border-zinc-800" : "border-zinc-100"
                 )}>
-                  <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.rating')}</p>
-                    <div className="flex items-center gap-2 text-amber-500 font-black text-xl">
-                       <Star className="h-6 w-6 fill-current" />
-                       {guide.guide_profiles?.rating_avg || 0} <span className="text-xs text-zinc-400 font-bold">({guide.guide_profiles?.review_count || 0})</span>
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">{t('table.rating')}</p>
+                    <div className="flex items-center gap-1.5 text-amber-500 font-black text-lg">
+                       <Star className="h-4 w-4 fill-current" />
+                       {guide.guide_profiles?.rating_avg || 0} <span className="text-[10px] text-zinc-400 font-bold">({guide.guide_profiles?.review_count || 0})</span>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.hourlyRate')}</p>
-                    <p className={cn("font-black text-xl transition-colors", isDark ? "text-white" : "text-zinc-900")}>${guide.guide_profiles?.hourly_rate || 0}<span className="text-xs text-zinc-400 font-bold ml-1">/hr</span></p>
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">{t('table.hourlyRate')}</p>
+                    <p className={cn("font-black text-lg transition-colors", isDark ? "text-white" : "text-zinc-900")}>${guide.guide_profiles?.hourly_rate || 0}<span className="text-[10px] text-zinc-400 font-bold ml-1">/hr</span></p>
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.areas')}</p>
-                    <div className="flex items-center gap-2 text-zinc-400">
-                       <MapPin className="h-5 w-5 text-primary" />
-                       <p className="text-base font-bold truncate max-w-[180px]">{guide.guide_profiles?.service_areas?.join(', ') || 'N/A'}</p>
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">{t('table.areas')}</p>
+                    <div className="flex items-center gap-1.5 text-zinc-400">
+                       <MapPin className="h-4 w-4 text-primary" />
+                       <p className="text-sm font-bold truncate max-w-[140px]">{guide.guide_profiles?.service_areas?.join(', ') || 'N/A'}</p>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">{t('table.status')}</p>
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">{t('table.status')}</p>
                     <Badge className={cn(
-                      "rounded-full px-5 py-1.5 text-[10px] font-black uppercase tracking-widest border-none transition-all shadow-md",
+                      "rounded-full px-4 py-0.5 text-[8px] font-black uppercase tracking-widest border-none shadow-sm",
                       guide.guide_profiles?.is_available 
                         ? "bg-emerald-500/10 text-emerald-500" 
                         : (isDark ? "bg-zinc-800 text-zinc-500" : "bg-zinc-100 text-zinc-400")
@@ -377,12 +377,12 @@ export default function ManageGuidesPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
                   <Button onClick={() => openEdit(guide)} variant="outline" className={cn(
-                    "h-16 w-16 rounded-2xl border transition-all shadow-xl",
+                    "h-12 w-12 rounded-xl border transition-all shadow-md",
                     isDark ? "border-zinc-800 bg-zinc-950 hover:bg-zinc-800" : "border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-900"
                   )}>
-                    <Edit2 className="h-7 w-7" />
+                    <Edit2 className="h-5 w-5" />
                   </Button>
                 </div>
               </CardContent>
@@ -393,80 +393,76 @@ export default function ManageGuidesPage() {
 
       <Dialog open={isEditOpen || isAddOpen} onOpenChange={(val) => { if(!val) { setIsEditOpen(false); setIsAddOpen(false); resetForm(); }}}>
         <DialogContent className={cn(
-          "max-w-3xl p-12 rounded-[4rem] shadow-3xl overflow-hidden backdrop-blur-2xl border transition-colors",
+          "max-w-2xl p-8 rounded-[3rem] shadow-2xl overflow-hidden backdrop-blur-2xl border transition-colors",
           isDark ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
         )}>
-          <DialogHeader className="space-y-6">
-            <DialogTitle className="text-4xl font-black uppercase font-rounded tracking-widest ai-text-gradient">
+          <DialogHeader className="space-y-4">
+            <DialogTitle className="text-2xl font-black uppercase font-rounded tracking-widest ai-text-gradient">
               {isAddOpen ? t('addNew') : t('editGuide')}
             </DialogTitle>
-            <DialogDescription className="text-zinc-500 text-xl font-bold">
-              {isAddOpen ? "Setup a new professional partner account." : `Modifying profile for: ${editingGuide?.name}`}
-            </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-10 mt-10 overflow-y-auto max-h-[60vh] pr-6 custom-scrollbar">
+          <div className="space-y-8 mt-6 overflow-y-auto max-h-[60vh] pr-4 custom-scrollbar">
             {isAddOpen && (
               <div className={cn(
-                "grid grid-cols-2 gap-8 p-10 rounded-[3rem] border mb-8 transition-colors",
+                "grid grid-cols-2 gap-4 p-6 rounded-[2rem] border mb-6 transition-colors",
                 isDark ? "bg-white/5 border-white/5" : "bg-zinc-50 border-zinc-100"
               )}>
                  <div className="col-span-2">
-                    <div className="flex items-center gap-3">
-                       <ShieldCheck className="h-5 w-5 text-primary" />
-                       <p className="text-[11px] font-black uppercase tracking-[0.3em] text-primary">{t('form.accountCredentials')}</p>
+                    <div className="flex items-center gap-2">
+                       <ShieldCheck className="h-4 w-4 text-primary" />
+                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">{t('form.accountCredentials')}</p>
                     </div>
                  </div>
-                 <div className="space-y-3">
-                    <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.fullName')}</Label>
-                    <Input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className={cn("rounded-2xl h-14 px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="e.g. Kyoto Expert" />
+                 <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{t('form.fullName')}</Label>
+                    <Input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className={cn("rounded-xl h-11 px-4 text-sm font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} />
                  </div>
-                 <div className="space-y-3">
-                    <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">Email</Label>
-                    <Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className={cn("rounded-2xl h-14 px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="guide@tripbutler.com" />
+                 <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Email</Label>
+                    <Input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className={cn("rounded-xl h-11 px-4 text-sm font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} />
                  </div>
-                 <div className="col-span-2 space-y-3">
-                    <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.initialPassword')}</Label>
-                    <Input type="password" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} className={cn("rounded-2xl h-14 px-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="••••••••" />
+                 <div className="col-span-2 space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{t('form.initialPassword')}</Label>
+                    <Input type="password" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} className={cn("rounded-xl h-11 px-4 text-sm font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} />
                  </div>
               </div>
             )}
 
-            <div className="space-y-3">
-              <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.bio')}</Label>
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{t('form.bio')}</Label>
               <textarea 
                 value={formData.bio} 
                 onChange={e => setFormData({...formData, bio: e.target.value})}
                 className={cn(
-                  "w-full rounded-[1.5rem] p-8 text-lg font-medium min-h-[160px] focus:outline-none focus:ring-2 focus:ring-primary/20 leading-relaxed border transition-colors",
+                  "w-full rounded-xl p-6 text-sm font-medium min-h-[120px] focus:outline-none focus:ring-1 focus:ring-primary/20 leading-relaxed border",
                   isDark ? "bg-zinc-800 border-zinc-700" : "bg-zinc-50 border-zinc-200"
                 )}
-                placeholder="..."
               />
             </div>
             
-            <div className="grid grid-cols-2 gap-8">
-               <div className="space-y-3">
-                 <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.languages')}</Label>
+            <div className="grid grid-cols-2 gap-4">
+               <div className="space-y-2">
+                 <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{t('form.languages')}</Label>
                  <DropdownMenu>
                     <DropdownMenuTrigger render={
                       <Button variant="outline" className={cn(
-                        "w-full h-14 rounded-2xl px-6 flex justify-between items-center text-lg font-bold border",
+                        "w-full h-11 rounded-xl px-4 flex justify-between items-center text-sm font-bold border",
                         isDark ? "bg-zinc-800 border-zinc-700 text-white" : "bg-white border-zinc-200 text-zinc-900"
                       )}>
                         <div className="flex items-center gap-2 truncate">
-                          <Globe className="h-5 w-5 text-zinc-500" />
+                          <Globe className="h-4 w-4 text-zinc-500" />
                           <span className="truncate">
                             {formData.languages.length > 0 
                               ? formData.languages.map(val => AVAILABLE_LANGUAGES.find(l => l.value === val)?.label || val).join(', ') 
-                              : "Select Languages..."}
+                              : "Select..."}
                           </span>
                         </div>
-                        <ChevronDown className="h-4 w-4 text-zinc-500" />
+                        <ChevronDown className="h-3 w-3 text-zinc-500" />
                       </Button>
                     } />
                     <DropdownMenuContent align="start" className={cn(
-                      "w-72 rounded-2xl p-2 shadow-3xl border",
+                      "w-64 rounded-xl p-2 shadow-2xl border",
                       isDark ? "bg-zinc-800 border-zinc-700 text-white" : "bg-white border-zinc-200 text-zinc-900"
                     )}>
                       {AVAILABLE_LANGUAGES.map(lang => (
@@ -474,7 +470,7 @@ export default function ManageGuidesPage() {
                           key={lang.value}
                           checked={formData.languages.includes(lang.value)}
                           onCheckedChange={() => toggleLanguage(lang.value)}
-                          className="rounded-xl p-3 cursor-pointer font-bold"
+                          className="rounded-lg p-2.5 cursor-pointer font-bold text-xs"
                         >
                           {lang.label}
                         </DropdownMenuCheckboxItem>
@@ -482,80 +478,80 @@ export default function ManageGuidesPage() {
                     </DropdownMenuContent>
                  </DropdownMenu>
                </div>
-               <div className="space-y-3">
-                 <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('hourlyRate')} (USD)</Label>
+               <div className="space-y-2">
+                 <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{t('hourlyRate')} (USD)</Label>
                  <div className="relative">
-                    <DollarSign className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-zinc-500" />
-                    <Input type="number" value={formData.hourly_rate} onChange={e => setFormData({...formData, hourly_rate: parseInt(e.target.value) || 0})} className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} />
+                    <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                    <Input type="number" value={formData.hourly_rate} onChange={e => setFormData({...formData, hourly_rate: parseInt(e.target.value) || 0})} className={cn("rounded-xl h-11 pl-10 pr-4 text-sm font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} />
                  </div>
                </div>
             </div>
 
-            <div className="space-y-3">
-              <Label className="text-[11px] font-black uppercase tracking-widest text-zinc-500">{t('form.serviceAreas')}</Label>
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{t('form.serviceAreas')}</Label>
               <div className="relative">
-                <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
-                <Input value={formData.service_areas} onChange={e => setFormData({...formData, service_areas: e.target.value})} className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="Taipei, Tokyo..." />
+                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                <Input value={formData.service_areas} onChange={e => setFormData({...formData, service_areas: e.target.value})} className={cn("rounded-xl h-11 pl-10 pr-4 text-sm font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")} placeholder="Taipei, Tokyo..." />
               </div>
             </div>
 
             <div className={cn(
-              "flex items-center gap-6 py-6 rounded-[2.5rem] px-10 border transition-colors",
+              "flex items-center gap-4 py-4 rounded-[2rem] px-8 border transition-colors",
               isDark ? "bg-white/5 border-white/5" : "bg-zinc-50 border-zinc-100"
             )}>
                <Button 
                 onClick={() => setFormData({...formData, is_available: !formData.is_available})}
                 variant="outline" 
                 className={cn(
-                  "rounded-2xl border-2 h-16 px-10 font-black text-sm uppercase tracking-widest gap-4 transition-all",
-                  formData.is_available ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-xl shadow-emerald-500/5" : (isDark ? "bg-zinc-800 text-zinc-500 border-zinc-700" : "bg-zinc-100 text-zinc-400 border-zinc-200")
+                  "rounded-xl border h-11 px-8 font-black text-[10px] uppercase tracking-widest gap-2 transition-all",
+                  formData.is_available ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-md" : (isDark ? "bg-zinc-800 text-zinc-500 border-zinc-700" : "bg-zinc-100 text-zinc-400 border-zinc-200")
                 )}
                >
-                 {formData.is_available ? <Check className="h-6 w-6" /> : <X className="h-6 w-6" />}
+                 {formData.is_available ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
                  {t('form.availableForBooking')}
                </Button>
             </div>
 
             {isEditOpen && (
               <div className={cn(
-                "p-10 rounded-[3rem] border border-red-500/20 bg-red-500/5 space-y-6 mt-8",
+                "p-8 rounded-[2rem] border border-red-500/20 bg-red-500/5 space-y-4 mt-6",
                 isDark ? "bg-red-500/5 border-red-500/20" : "bg-red-50/50 border-red-100"
               )}>
-                <div className="flex items-center gap-3 text-red-500">
-                  <ShieldCheck className="h-5 w-5" />
-                  <p className="text-[11px] font-black uppercase tracking-[0.3em]">{t('form.resetPassword')}</p>
+                <div className="flex items-center gap-2 text-red-500">
+                  <ShieldCheck className="h-4 w-4" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em]">{t('form.resetPassword')}</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                     <Input 
                       type="password"
                       value={resetPassword}
                       onChange={e => setResetPassword(e.target.value)}
                       placeholder={t('form.resetPasswordPlaceholder')}
-                      className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")}
+                      className={cn("rounded-xl h-11 pl-10 pr-4 text-sm font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")}
                     />
                   </div>
                   <Button 
                     onClick={handleForceResetPassword}
                     disabled={isResetting || !resetPassword}
-                    className="h-14 px-8 rounded-2xl bg-zinc-900 text-white font-black uppercase tracking-widest text-xs"
+                    className="h-11 px-6 rounded-xl bg-zinc-900 text-white font-black uppercase tracking-widest text-[9px]"
                   >
-                    {isResetting ? <Loader2 className="h-5 w-5 animate-spin" /> : t('form.resetPassword')}
+                    {isResetting ? <Loader2 className="h-4 w-4 animate-spin" /> : t('form.resetPassword')}
                   </Button>
                 </div>
               </div>
             )}
           </div>
 
-          <DialogFooter className="mt-12">
+          <DialogFooter className="mt-8">
             <Button 
               onClick={isAddOpen ? handleCreateGuide : handleUpdateGuide} 
               disabled={loading}
-              className="w-full h-24 rounded-[1.5rem] ai-gradient font-black text-3xl shadow-3xl shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="w-full h-16 rounded-2xl ai-gradient font-black text-2xl shadow-xl shadow-primary/30 transition-all active:scale-95"
             >
-              {loading && isAddOpen ? <Loader2 className="animate-spin h-10 w-10" /> : (isAddOpen ? "Confirm Creation" : "Update Profile")}
-              <ChevronRight className="ml-4 h-10 w-10" />
+              {loading && isAddOpen ? <Loader2 className="animate-spin h-6 w-6" /> : (isAddOpen ? "Confirm Creation" : "Update Profile")}
+              <ChevronRight className="ml-2 h-6 w-6" />
             </Button>
           </DialogFooter>
         </DialogContent>
