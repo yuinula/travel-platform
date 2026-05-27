@@ -296,7 +296,7 @@ export default function ManageLandmarksPage() {
                </div>
                <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{t('form.type')}</Label>
-                  <Select value={formData.type} onValueChange={v => setFormData({...formData, type: v})}>
+                  <Select value={formData.type} onValueChange={v => v && setFormData({...formData, type: v})}>
                     <SelectTrigger className={cn("rounded-xl h-11 px-4 text-sm font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")}>
                       <SelectValue />
                     </SelectTrigger>
