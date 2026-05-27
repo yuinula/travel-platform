@@ -94,11 +94,14 @@
       "form": {
         "accountCredentials": "帳號憑證",
         "fullName": "真實姓名",
-        "initialPassword": "初始密碼",
+        "initialPassword": "初始密碼 (預設：welcome888)",
         "bio": "個人簡介",
-        "languages": "語言能力 (以逗號分隔)",
+        "languages": "語言能力",
         "serviceAreas": "服務城市 (以逗號分隔)",
-        "availableForBooking": "目前開放預約"
+        "availableForBooking": "目前開放預約",
+        "resetPassword": "重設帳號密碼",
+        "resetPasswordPlaceholder": "輸入新密碼以強制重設",
+        "resetSuccess": "密碼已成功重設"
       }
     },
     "logs": {

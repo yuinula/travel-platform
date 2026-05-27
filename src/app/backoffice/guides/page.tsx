@@ -29,7 +29,8 @@ import {
   X,
   Globe,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Lock
 } from "lucide-react"
 import {
   Dialog,
@@ -99,11 +100,13 @@ export default function ManageGuidesPage() {
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isAddOpen, setIsAddOpen] = useState(false)
   const [editingGuide, setEditingGuide] = useState<Guide | null>(null)
+  const [resetPassword, setResetPassword] = useState("")
+  const [isResetting, setIsResetting] = useState(false)
   
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "",
+    password: "welcome888",
     bio: "",
     languages: [] as string[],
     service_areas: "",
@@ -204,6 +207,35 @@ export default function ManageGuidesPage() {
     }
   }
 
+  const handleForceResetPassword = async () => {
+    if (!editingGuide || !resetPassword) return
+    if (resetPassword.length < 6) {
+      toast.error("Password must be at least 6 characters")
+      return
+    }
+
+    setIsResetting(true)
+    try {
+      const response = await fetch('/api/backoffice/update-guide-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: editingGuide.id, newPassword: resetPassword })
+      })
+      const res = await response.json()
+      if (res.success) {
+        toast.success(t('form.resetSuccess'))
+        setResetPassword("")
+        await logAction('RESET_PASSWORD', `Force reset password for guide: ${editingGuide.name}`, { guide_id: editingGuide.id })
+      } else {
+        throw new Error(res.error)
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to reset password")
+    } finally {
+      setIsResetting(false)
+    }
+  }
+
   const openEdit = (g: Guide) => {
     setEditingGuide(g)
     setFormData({
@@ -223,7 +255,7 @@ export default function ManageGuidesPage() {
     setFormData({
       name: "",
       email: "",
-      password: "",
+      password: "welcome888",
       bio: "",
       languages: [],
       service_areas: "",
@@ -231,6 +263,7 @@ export default function ManageGuidesPage() {
       is_available: true
     })
     setEditingGuide(null)
+    setResetPassword("")
   }
 
   const toggleLanguage = (langValue: string) => {
@@ -482,6 +515,37 @@ export default function ManageGuidesPage() {
                  {t('form.availableForBooking')}
                </Button>
             </div>
+
+            {isEditOpen && (
+              <div className={cn(
+                "p-10 rounded-[3rem] border border-red-500/20 bg-red-500/5 space-y-6 mt-8",
+                isDark ? "bg-red-500/5 border-red-500/20" : "bg-red-50/50 border-red-100"
+              )}>
+                <div className="flex items-center gap-3 text-red-500">
+                  <ShieldCheck className="h-5 w-5" />
+                  <p className="text-[11px] font-black uppercase tracking-[0.3em]">{t('form.resetPassword')}</p>
+                </div>
+                <div className="flex gap-4">
+                  <div className="relative flex-1">
+                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
+                    <Input 
+                      type="password"
+                      value={resetPassword}
+                      onChange={e => setResetPassword(e.target.value)}
+                      placeholder={t('form.resetPasswordPlaceholder')}
+                      className={cn("rounded-2xl h-14 pl-14 pr-6 text-lg font-bold border", isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200")}
+                    />
+                  </div>
+                  <Button 
+                    onClick={handleForceResetPassword}
+                    disabled={isResetting || !resetPassword}
+                    className="h-14 px-8 rounded-2xl bg-zinc-900 text-white font-black uppercase tracking-widest text-xs"
+                  >
+                    {isResetting ? <Loader2 className="h-5 w-5 animate-spin" /> : t('form.resetPassword')}
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
 
           <DialogFooter className="mt-12">

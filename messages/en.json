@@ -94,11 +94,14 @@
       "form": {
         "accountCredentials": "Account Credentials",
         "fullName": "Full Name",
-        "initialPassword": "Initial Password",
+        "initialPassword": "Initial Password (Default: welcome888)",
         "bio": "Biography",
-        "languages": "Languages (comma separated)",
+        "languages": "Languages",
         "serviceAreas": "Service Areas (comma separated)",
-        "availableForBooking": "Currently Available for Booking"
+        "availableForBooking": "Currently Available for Booking",
+        "resetPassword": "Reset Password",
+        "resetPasswordPlaceholder": "Enter new password to force reset",
+        "resetSuccess": "Password reset successfully"
       }
     },
     "logs": {

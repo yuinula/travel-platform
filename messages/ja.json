@@ -94,11 +94,14 @@
       "form": {
         "accountCredentials": "アカウント資格情報",
         "fullName": "氏名",
-        "initialPassword": "初期パスワード",
+        "initialPassword": "初期パスワード (デフォルト: welcome888)",
         "bio": "自己紹介",
-        "languages": "言語能力（カンマ区切り）",
+        "languages": "対応言語",
         "serviceAreas": "対応都市（カンマ区切り）",
-        "availableForBooking": "現在予約を受け付け中"
+        "availableForBooking": "現在予約を受け付け中",
+        "resetPassword": "パスワードをリセット",
+        "resetPasswordPlaceholder": "強制リセットするには新しいパスワードを入力してください",
+        "resetSuccess": "パスワードを正常にリセットしました"
       }
     },
     "logs": {
