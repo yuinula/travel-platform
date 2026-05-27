@@ -59,6 +59,21 @@ interface Trip {
   } | null
 }
 
+interface TripRow extends Omit<Trip, "traveler"> {
+  traveler?:
+    | {
+        name: string | null
+        email: string | null
+        avatar_url: string | null
+      }
+    | {
+        name: string | null
+        email: string | null
+        avatar_url: string | null
+      }[]
+    | null
+}
+
 export default function GuideDashboardPage() {
   const router = useRouter()
   const supabase = createClient()
@@ -116,8 +131,13 @@ export default function GuideDashboardPage() {
         .order("created_at", { ascending: false }),
     ])
 
+    const normalizedTrips = ((tripData || []) as TripRow[]).map((trip) => ({
+      ...trip,
+      traveler: Array.isArray(trip.traveler) ? trip.traveler[0] ?? null : trip.traveler ?? null,
+    }))
+
     setGuideProfile(guideData)
-    setTrips((tripData || []) as Trip[])
+    setTrips(normalizedTrips)
     setLoading(false)
   }, [router, supabase])
 
