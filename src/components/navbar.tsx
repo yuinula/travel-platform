@@ -211,9 +211,11 @@ export default function Navbar() {
                 </button>
               } />
               <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2 shadow-2xl border-zinc-100">
-                <DropdownMenuLabel className="px-3 py-2">
-                  <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">{t('profile')}</p>
-                </DropdownMenuLabel>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="px-3 py-2">
+                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">{t('profile')}</p>
+                  </DropdownMenuLabel>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem onClick={() => router.push("/itineraries")} className="rounded-xl p-3 cursor-pointer font-bold">
