@@ -275,9 +275,20 @@
     "hourlyRate": "hr",
     "matchedNeeds": "Matches your needs",
     "experience": "yrs exp",
-    "rating": "rating"
-  },
-  "Explore": {    "title": "Explore Landmarks",
+    "rating": "rating",
+    "fallbackBios": [
+      "Dedicated local expert ready to provide an unforgettable authentic experience tailored to your unique interests.",
+      "Passionate about sharing the hidden stories and local secrets of my city with curious travelers.",
+      "Committed to crafting seamless and enriching journeys that connect you with the heart of local culture.",
+      "Your professional companion for exploring off-the-beaten-path gems and iconic landmarks alike.",
+      "Specializing in creating personalized travel moments that go beyond the guidebooks.",
+      "Friendly local host eager to show you the best food, views, and vibes our city has to offer.",
+      "Reliable expert with deep roots in this area, ensuring a safe and insightful exploration for all.",
+      "I believe every trip should be an adventure; let me help you discover the soul of this destination.",
+      "From historical insights to modern trends, I provide a comprehensive and engaging look at my hometown.",
+      "Focused on quality service and authentic connections, making your travel dreams a reality."
+    ]
+  },  "Explore": {    "title": "Explore Landmarks",
     "description": "Discover iconic sites, local markets, and featured restaurants around the world.",
     "searchPlaceholder": "Search landmarks, cities...",
     "filterCountry": "Country",

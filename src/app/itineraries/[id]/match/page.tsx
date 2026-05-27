@@ -60,6 +60,9 @@ export default function GuideMatchPage() {
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
 
+  // Get fallback bios from translations
+  const fallbackBios = t.raw('fallbackBios')
+
   const fetchData = async () => {
     setLoading(true)
     const { data: tripData } = await supabase
@@ -282,7 +285,7 @@ export default function GuideMatchPage() {
                         </div>
 
                         <p className="text-zinc-500 text-sm font-medium leading-relaxed italic line-clamp-4 text-center px-2">
-                          &ldquo;{guide.bio || "Dedicated local expert ready to provide an unforgettable authentic experience tailored to your unique interests."}&rdquo;
+                          &ldquo;{guide.bio || (Array.isArray(fallbackBios) ? fallbackBios[Math.abs(guide.id.split('-').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % fallbackBios.length] : "Dedicated local expert.")}&rdquo;
                         </p>
                       </div>
 
