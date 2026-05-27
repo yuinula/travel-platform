@@ -74,16 +74,16 @@ interface Guide {
 }
 
 const AVAILABLE_LANGUAGES = [
-  "English",
-  "Mandarin (中文)",
-  "Japanese (日本語)",
-  "French (Français)",
-  "German (Deutsch)",
-  "Spanish (Español)",
-  "Korean (한국어)",
-  "Cantonese (廣東話)",
-  "Thai (ไทย)",
-  "Vietnamese (Tiếng Việt)"
+  { value: "English", label: "English" },
+  { value: "Mandarin", label: "Mandarin (中文)" },
+  { value: "Japanese", label: "Japanese (日本語)" },
+  { value: "French", label: "French (Français)" },
+  { value: "German", label: "German (Deutsch)" },
+  { value: "Spanish", label: "Spanish (Español)" },
+  { value: "Korean", label: "Korean (한국어)" },
+  { value: "Cantonese", label: "Cantonese (廣東話)" },
+  { value: "Thai", label: "Thai (ไทย)" },
+  { value: "Vietnamese", label: "Vietnamese (Tiếng Việt)" }
 ]
 
 export default function ManageGuidesPage() {
@@ -211,7 +211,7 @@ export default function ManageGuidesPage() {
       email: g.email,
       password: "",
       bio: g.guide_profiles?.bio || "",
-      languages: g.guide_profiles?.languages || [],
+      languages: g.guide_profiles?.languages?.map(l => l.split(' (')[0]) || [],
       service_areas: g.guide_profiles?.service_areas?.join(', ') || "",
       hourly_rate: g.guide_profiles?.hourly_rate || 0,
       is_available: g.guide_profiles?.is_available ?? true
@@ -233,12 +233,12 @@ export default function ManageGuidesPage() {
     setEditingGuide(null)
   }
 
-  const toggleLanguage = (lang: string) => {
+  const toggleLanguage = (langValue: string) => {
     setFormData(prev => ({
       ...prev,
-      languages: prev.languages.includes(lang)
-        ? prev.languages.filter(l => l !== lang)
-        : [...prev.languages, lang]
+      languages: prev.languages.includes(langValue)
+        ? prev.languages.filter(l => l !== langValue)
+        : [...prev.languages, langValue]
     }))
   }
 
@@ -292,12 +292,12 @@ export default function ManageGuidesPage() {
         ) : (
           filtered.map(guide => (
             <Card key={guide.id} className={cn(
-              "rounded-[2.5rem] overflow-hidden group transition-all duration-500 hover:shadow-2xl border",
+              "rounded-[2.5rem] overflow-hidden group border",
               isDark ? "bg-zinc-900 border-zinc-800 hover:bg-zinc-800/50" : "bg-white border-zinc-200 hover:bg-zinc-50"
             )}>
               <CardContent className="p-10 flex flex-col lg:flex-row lg:items-center gap-12">
                 <div className="flex items-center gap-8 min-w-[320px]">
-                  <Avatar className="h-24 w-20 rounded-2xl border-4 shadow-2xl transition-colors" style={{ borderColor: isDark ? '#27272a' : '#f4f4f5' }}>
+                  <Avatar className="h-24 w-20 rounded-2xl border-4 shadow-2xl" style={{ borderColor: isDark ? '#27272a' : '#f4f4f5' }}>
                     <AvatarImage src={guide.avatar_url} className="object-cover" />
                     <AvatarFallback className={isDark ? "bg-zinc-800 text-zinc-500" : "bg-zinc-100 text-zinc-400"}>
                       {guide.name?.[0]}
@@ -423,7 +423,11 @@ export default function ManageGuidesPage() {
                       )}>
                         <div className="flex items-center gap-2 truncate">
                           <Globe className="h-5 w-5 text-zinc-500" />
-                          <span className="truncate">{formData.languages.length > 0 ? formData.languages.join(', ') : "Select Languages..."}</span>
+                          <span className="truncate">
+                            {formData.languages.length > 0 
+                              ? formData.languages.map(val => AVAILABLE_LANGUAGES.find(l => l.value === val)?.label || val).join(', ') 
+                              : "Select Languages..."}
+                          </span>
                         </div>
                         <ChevronDown className="h-4 w-4 text-zinc-500" />
                       </Button>
@@ -434,12 +438,12 @@ export default function ManageGuidesPage() {
                     )}>
                       {AVAILABLE_LANGUAGES.map(lang => (
                         <DropdownMenuCheckboxItem
-                          key={lang}
-                          checked={formData.languages.includes(lang)}
-                          onCheckedChange={() => toggleLanguage(lang)}
+                          key={lang.value}
+                          checked={formData.languages.includes(lang.value)}
+                          onCheckedChange={() => toggleLanguage(lang.value)}
                           className="rounded-xl p-3 cursor-pointer font-bold"
                         >
-                          {lang}
+                          {lang.label}
                         </DropdownMenuCheckboxItem>
                       ))}
                     </DropdownMenuContent>
