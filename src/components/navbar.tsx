@@ -20,7 +20,8 @@ import {
   Calendar,
   Settings,
   ChevronDown,
-  Globe
+  Globe,
+  LayoutDashboard
 } from "lucide-react"
 import { createClient } from "@/lib/supabase"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -44,16 +45,19 @@ import LocaleSwitcher from "./locale-switcher"
 import { cn } from "@/lib/utils"
 
 interface UserProfile {
+  id: string;
   email?: string;
   user_metadata: {
     name?: string;
     avatar_url?: string;
+    role?: string;
   }
 }
 
 export default function Navbar() {
   const t = useTranslations('Navbar');
   const [user, setUser] = useState<UserProfile | null>(null)
+  const [role, setRole] = useState<string | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const supabase = createClient()
   const router = useRouter()
@@ -61,13 +65,34 @@ export default function Navbar() {
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      setUser(user as UserProfile | null)
+      if (user) {
+        setUser(user as any)
+        // Check profiles table for the most accurate role
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle()
+        
+        setRole(profile?.role || user.user_metadata?.role || 'traveler')
+      }
     }
     getUser()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user as UserProfile | null)
+      async (_event, session) => {
+        if (session?.user) {
+          setUser(session.user as any)
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', session.user.id)
+            .maybeSingle()
+          setRole(profile?.role || session.user.user_metadata?.role || 'traveler')
+        } else {
+          setUser(null)
+          setRole(null)
+        }
       }
     )
 
@@ -79,6 +104,8 @@ export default function Navbar() {
     router.push("/")
     router.refresh()
   }
+
+  const isGuide = role === 'guide'
 
   const renderNavLinks = (mobile = false) => (
     <>
@@ -95,23 +122,63 @@ export default function Navbar() {
         {mobile && <Compass className="h-4 w-4 mr-3 text-zinc-500" />}
         {t('explore')}
       </Link>
-      <Link
-        href="/ai-planner"
-        className={cn(
-          "flex items-center text-sm font-medium transition-colors hover:text-primary",
-          mobile 
-            ? "p-4 rounded-xl bg-zinc-50 border border-transparent active:border-zinc-900" 
-            : "text-muted-foreground"
-        )}
-        onClick={() => setIsMobileMenuOpen(false)}
-      >
-        {mobile ? (
-          <Sparkles className="h-4 w-4 mr-3 text-zinc-500" />
-        ) : (
-          <Sparkles className="h-3 w-3 mr-1 text-zinc-500" />
-        )}
-        {t('aiPlanner')}
-      </Link>
+      
+      {!isGuide ? (
+        <Link
+          href="/ai-planner"
+          className={cn(
+            "flex items-center text-sm font-medium transition-colors hover:text-primary",
+            mobile 
+              ? "p-4 rounded-xl bg-zinc-50 border border-transparent active:border-zinc-900" 
+              : "text-muted-foreground"
+          )}
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          {mobile ? (
+            <Sparkles className="h-4 w-4 mr-3 text-zinc-500" />
+          ) : (
+            <Sparkles className="h-3 w-3 mr-1 text-zinc-500" />
+          )}
+          {t('aiPlanner')}
+        </Link>
+      ) : (
+        <>
+          <Link
+            href="/dashboard"
+            className={cn(
+              "flex items-center text-sm font-medium transition-colors hover:text-primary",
+              mobile 
+                ? "p-4 rounded-xl bg-zinc-50 border border-transparent active:border-zinc-900" 
+                : "text-muted-foreground"
+            )}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {mobile ? (
+              <LayoutDashboard className="h-4 w-4 mr-3 text-zinc-500" />
+            ) : (
+              <LayoutDashboard className="h-3 w-3 mr-1 text-zinc-500" />
+            )}
+            {t('dashboard')}
+          </Link>
+          <Link
+            href="/messages"
+            className={cn(
+              "flex items-center text-sm font-medium transition-colors hover:text-primary",
+              mobile 
+                ? "p-4 rounded-xl bg-zinc-50 border border-transparent active:border-zinc-900" 
+                : "text-muted-foreground"
+            )}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {mobile ? (
+              <MessageSquare className="h-4 w-4 mr-3 text-zinc-500" />
+            ) : (
+              <MessageSquare className="h-3 w-3 mr-1 text-zinc-500" />
+            )}
+            {t('messages')}
+          </Link>
+        </>
+      )}
     </>
   )
 
@@ -154,14 +221,16 @@ export default function Navbar() {
                   </p>
                   {user ? (
                     <>
-                      <Link
-                        href="/itineraries"
-                        className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <Calendar className="h-4 w-4 mr-3 text-zinc-500" />
-                        {t('myItineraries')}
-                      </Link>
+                      {!isGuide && (
+                        <Link
+                          href="/itineraries"
+                          className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <Calendar className="h-4 w-4 mr-3 text-zinc-500" />
+                          {t('myItineraries')}
+                        </Link>
+                      )}
                       <Link
                         href="/profile"
                         className="flex items-center text-sm font-medium transition-colors p-4 rounded-xl bg-zinc-50"
@@ -233,10 +302,17 @@ export default function Navbar() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem onClick={() => router.push("/itineraries")} className="rounded-xl p-3 cursor-pointer font-bold">
-                    <Calendar className="mr-3 h-4 w-4 text-zinc-500" />
-                    {t('myItineraries')}
-                  </DropdownMenuItem>
+                  {isGuide ? (
+                    <DropdownMenuItem onClick={() => router.push("/dashboard")} className="rounded-xl p-3 cursor-pointer font-bold">
+                      <LayoutDashboard className="mr-3 h-4 w-4 text-zinc-500" />
+                      {t('dashboard')}
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem onClick={() => router.push("/itineraries")} className="rounded-xl p-3 cursor-pointer font-bold">
+                      <Calendar className="mr-3 h-4 w-4 text-zinc-500" />
+                      {t('myItineraries')}
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={() => router.push("/profile")} className="rounded-xl p-3 cursor-pointer font-bold">
                     <User className="mr-3 h-4 w-4 text-zinc-500" />
                     {t('profile')}
