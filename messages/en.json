@@ -182,6 +182,11 @@
         "date": "2026/05/25",
         "title": "Smart Matching & UX Refinement",
         "content": "Implemented automated guide matching and quotation flow. Redesigned itinerary cards to 'Timeline Style' and improved global accessibility."
+      },
+      {
+        "date": "2026/05/27",
+        "title": "Role-Based Architecture & System Optimization",
+        "content": "Implemented distinct functional flows for guides and travelers. Enhanced the backoffice with order tracking, collapsible sidebar, and high-density UI. Optimized site-wide multilingual support and established secure password management protocols."
       }
     ]
   },
